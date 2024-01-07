@@ -1,3 +1,4 @@
+// inputbox.tsx
 'use client'
 
 import React, { useState } from 'react';
@@ -40,7 +41,7 @@ const InputBox = () => {
         <option value="Google">Google</option>
         <option value="Google Scholar">Google Scholar</option>
         <option value="Bing">Bing</option>
-        // Add more options as needed
+        {/* Add more options as needed */}
       </select>
       <button
         className="flex items-center justify-center absolute right-2 top-2 px-4 h-10 border border-gray-200 text-gray-900 rounded-md w-14 focus:outline-none focus:ring focus:ring-blue-300 focus:bg-gray-100"
