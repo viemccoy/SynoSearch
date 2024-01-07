@@ -1,20 +1,20 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 const InputBox = () => {
   const [question, setQuestion] = useState('');
   const [engine, setEngine] = useState('Google');
 
-  const handleQuestionChange = (event) => {
+  const handleQuestionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuestion(event.target.value);
   };
 
-  const handleEngineChange = (event) => {
+  const handleEngineChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setEngine(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Here you would add the logic to generate the search using the question and engine
   };
