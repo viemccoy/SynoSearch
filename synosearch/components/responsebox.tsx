@@ -6,8 +6,8 @@ type ResponseBoxProps = {
 
 const ResponseBox: React.FC<ResponseBoxProps> = ({ response }) => {
   return (
-    <div className="response-box">
-      {response ? <p>{response}</p> : <p>No response yet...</p>}
+    <div className="w-full p-4 mt-4 bg-white border border-gray-200 rounded-md">
+      <p className="text-black">{response}</p>
     </div>
   );
 };
