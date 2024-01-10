@@ -1,15 +1,21 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import InputBox from '../components/inputbox';
 import AIResponse from '../components/airesponse';
+import ResponseBox from '../components/responsebox'; // Import the new component
 import '../styles/styles.css';
 
 const Page = () => {
-  const [prompt, setPrompt] = React.useState('');
-
+  const [prompt, setPrompt] = useState('');
+  const [response, setResponse] = useState<string | null>(null);
+  
   const handlePromptChange = (newPrompt: string) => {
     setPrompt(newPrompt);
+  };
+
+  const handleResponseChange = (newResponse: string) => {
+    setResponse(newResponse); // New handler for the response
   };
 
   return (
@@ -19,7 +25,8 @@ const Page = () => {
         <p className="text-md sm:text-xl mx-4">Enter your question and select a search engine</p>
         <div className="flex flex-wrap items-center justify-around max-w-4xl my-8 sm:w-full bg-white rounded-md shadow-xl h-full border border-gray-100">
           <InputBox onPromptChange={handlePromptChange} />
-          <AIResponse prompt={prompt} />
+          <AIResponse prompt={prompt} onResponseChange={handleResponseChange} /> {/* Pass the new handler to AIResponse */}
+          <ResponseBox response={response} /> {/* New component to display the response */}
         </div>
       </main>
     </div>
