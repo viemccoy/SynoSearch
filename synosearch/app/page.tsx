@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import InputBox from '../components/inputbox';
 import AIResponse from '../components/airesponse';
