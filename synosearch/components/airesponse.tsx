@@ -13,16 +13,20 @@ const AIResponse: React.FC<AIResponseProps> = ({ prompt, onResponseChange }) => 
 
   useEffect(() => {
     const fetchAIResponse = async () => {
-      // If you're not using any specific context, you can pass an empty object as ctx
-      const ctx = {};
-      const ai = new Ai("AI", { sessionOptions: { ctx }});
-      const answer = await ai.run('@cf/meta/llama-2-7b-chat-int8', {
-        prompt,
-        stream: true
-      });
-      setResponse(answer);
-      onResponseChange(answer); // Call the handler here
-    };
+        // If you're not using any specific context, you can pass an empty object as ctx
+        const ctx = {};
+        const ai = new Ai("AI", { sessionOptions: { ctx }});
+      
+        // Check if window object is defined
+        if (typeof window !== 'undefined') {
+          const answer = await ai.run('@cf/meta/llama-2-7b-chat-int8', {
+            prompt,
+            stream: true
+          });
+          setResponse(answer);
+          onResponseChange(answer); // Call the handler here
+        }
+      };
 
     fetchAIResponse();
   }, [prompt, onResponseChange]); // Add onResponseChange to the dependency array
