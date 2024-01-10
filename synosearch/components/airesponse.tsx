@@ -16,15 +16,15 @@ interface AIResponseProps {
 const AIResponse: React.FC<AIResponseProps> = ({ prompt, onResponseChange }) => {
   useEffect(() => {
     const fetchAIResponse = async () => {
-      const context = { env: { AI: env.AI } }; // Replace env.AI with your actual AI binding
-      const ai = new Ai(context.env.AI);
-
-      const input = { prompt };
-
-      const answer = await ai.run('@cf/meta/llama-2-7b-chat-int8', input);
-
-      onResponseChange(JSON.stringify(answer));
-    };
+        const context = { env: { AI: Ai } }; // Replace Ai with your actual AI binding
+        const ai = new Ai(context.env.AI);
+      
+        const input = { prompt };
+      
+        const answer = await ai.run('@cf/meta/llama-2-7b-chat-int8', input);
+      
+        onResponseChange(JSON.stringify(answer));
+      };
 
     fetchAIResponse();
   }, [prompt, onResponseChange]);
