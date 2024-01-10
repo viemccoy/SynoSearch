@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { Ai } from '@cloudflare/ai';
 
-const AIResponse = ({ prompt }) => {
+type AIResponseProps = {
+  prompt: string;
+};
+
+const AIResponse: React.FC<AIResponseProps> = ({ prompt }) => {
   const [response, setResponse] = useState(null);
 
   useEffect(() => {
