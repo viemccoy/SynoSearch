@@ -5,9 +5,10 @@ import { Ai } from '@cloudflare/ai';
 
 type AIResponseProps = {
   prompt: string;
+  onResponseChange: (newResponse: string) => void; // Add this line
 };
 
-const AIResponse: React.FC<AIResponseProps> = ({ prompt }) => {
+const AIResponse: React.FC<AIResponseProps> = ({ prompt, onResponseChange }) => { // Add onResponseChange here
   const [response, setResponse] = useState(null);
 
   useEffect(() => {
@@ -20,10 +21,11 @@ const AIResponse: React.FC<AIResponseProps> = ({ prompt }) => {
         stream: true
       });
       setResponse(answer);
+      onResponseChange(answer); // Call the handler here
     };
 
     fetchAIResponse();
-  }, [prompt]);
+  }, [prompt, onResponseChange]); // Add onResponseChange to the dependency array
 
   return (
     <div>
