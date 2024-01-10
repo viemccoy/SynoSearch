@@ -4,22 +4,26 @@ import React, { useEffect, useState } from 'react';
 
 import { Ai } from '@cloudflare/ai'
 
-type AIResponseProps = {
+interface Env {
+  AI: any;
+}
+
+interface AIResponseProps {
   prompt: string;
   onResponseChange: (newResponse: string) => void;
-};
+}
 
 const AIResponse: React.FC<AIResponseProps> = ({ prompt, onResponseChange }) => {
-  const ai = new Ai(env.AI);
-
   useEffect(() => {
     const fetchAIResponse = async () => {
-      const answer = await ai.run('@cf/meta/llama-2-7b-chat-int8', {
-        prompt,
-        stream: true
-      });
+      const context = { env: { AI: env.AI } }; // Replace env.AI with your actual AI binding
+      const ai = new Ai(context.env.AI);
 
-      onResponseChange(answer);
+      const input = { prompt };
+
+      const answer = await ai.run('@cf/meta/llama-2-7b-chat-int8', input);
+
+      onResponseChange(JSON.stringify(answer));
     };
 
     fetchAIResponse();
