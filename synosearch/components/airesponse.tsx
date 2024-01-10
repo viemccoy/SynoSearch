@@ -7,33 +7,35 @@ interface AIResponseProps {
   onResponseChange: (newResponse: string) => void;
 }
 
+async function run(model: string, input: any) {
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/259d9cff4d0f27bf78eb3a6300b4f676/ai/run/${model}`,
+    {
+      headers: { Authorization: `Bearer ${process.env.CF_API_KEY}` },
+      method: "POST",
+      body: JSON.stringify(input),
+    }
+  );
+  const result = await response.json();
+  return result;
+}
+
 const AIResponse: React.FC<AIResponseProps> = ({ prompt, onResponseChange }) => {
   useEffect(() => {
-    const fetchAIResponse = async () => {
-      const response = await fetch(
-        `https://api.cloudflare.com/client/v4/accounts/259d9cff4d0f27bf78eb3a6300b4f676/ai/run/@cf/meta/llama-2-7b-chat-int8`,
+    run("@cf/meta/llama-2-7b-chat-int8", {
+      messages: [
         {
-          headers: { Authorization: `Bearer ${process.env.CF_API_KEY}` },
-          method: "POST",
-          body: JSON.stringify({
-            messages: [
-              {
-                role: "system",
-                content: "You are a friendly assistant that helps write stories",
-              },
-              {
-                role: "user",
-                content: prompt,
-              },
-            ],
-          }),
-        }
-      );
-      const result = await response.json();
-      onResponseChange(JSON.stringify(result));
-    };
-
-    fetchAIResponse();
+          role: "system",
+          content: "You are a friendly assistant that helps write stories",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    }).then((response) => {
+      onResponseChange(JSON.stringify(response));
+    });
   }, [prompt, onResponseChange]);
 
   return null;
