@@ -1,4 +1,5 @@
 // src/vendor/@cloudflare/ai.js
+
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -3338,7 +3339,16 @@ var src_default = {
     };
     response = await ai.run("@cf/meta/llama-2-7b-chat-int8", chat);
     tasks.push({ inputs: chat, response });
-    return Response.json(tasks);
+
+    // Create a new response
+    const newResponse = new Response(JSON.stringify(tasks));
+
+    // Set CORS headers
+    newResponse.headers.set('Access-Control-Allow-Origin', '*');
+    newResponse.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    newResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type');
+
+    return newResponse;
   }
 };
 export {
