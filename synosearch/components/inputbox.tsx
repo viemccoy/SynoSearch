@@ -2,7 +2,11 @@
 
 import React, { useState, ChangeEvent } from 'react';
 
-const InputBox = () => {
+type InputBoxProps = {
+  onPromptChange: (newPrompt: string, newEngine: string) => void;
+};
+
+const InputBox: React.FC<InputBoxProps> = ({ onPromptChange }) => {
   const [question, setQuestion] = useState('');
   const [engine, setEngine] = useState('Google');
 
@@ -16,7 +20,7 @@ const InputBox = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Here you would add the logic to generate the search using the question and engine
+    onPromptChange(question, engine); // Call the onPromptChange function when the form is submitted
   };
 
   return (

@@ -6,7 +6,7 @@ import '../styles/styles.css';
 const Page = () => {
   const [prompt, setPrompt] = React.useState('');
 
-  const handlePromptChange = (newPrompt) => {
+  const handlePromptChange = (newPrompt: string) => {
     setPrompt(newPrompt);
   };
 
