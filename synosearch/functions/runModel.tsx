@@ -4,8 +4,14 @@ interface RequestContext {
     request: {
       json: () => Promise<{ prompt: string }>;
     };
+    functionPath: string;
+    waitUntil: (promise: Promise<any>) => void;
+    passThroughOnException: () => void;
+    next: (input?: any, init?: any) => void;
+    env: any;
+    params: any;
   }
-
+  
   export async function onRequest(context: RequestContext) {
     const { prompt } = await context.request.json();
   
