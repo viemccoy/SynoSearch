@@ -22,7 +22,7 @@ export async function run({ prompt }: { prompt: string }) {
     );
 
     // Fetch the prediction result from the new API route
-    const response = await fetch(`/api/getPrediction?id=${prediction.id}`);
+    const response = await fetch(`/pages/api/getPrediction?id=${prediction.id}`);
     if (!response.ok) {
       // If the response is not OK, throw an error
       const error = await response.json();
