@@ -8,7 +8,7 @@ const replicate = new Replicate({
 });
 
 // Define the run function to use Replicate for predictions
-export async function run(input: { prompt: string }) {
+export async function run({ prompt }: { prompt: string }) {
     try {
       let prediction = await replicate.deployments.predictions.create(
         'viemccoy', // The user who owns the deployment
