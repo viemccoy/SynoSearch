@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import InputBox from '../components/inputbox';
-import AIResponse from '../components/airesponse';
+import { run as AIResponse } from '../components/airesponse';
 import ResponseBox from '../components/responsebox'; // Import the new component
 import '../styles/styles.css';
 
