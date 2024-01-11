@@ -1,6 +1,6 @@
 'use server'
 
-export async function run(model, input) {
+export async function run(model: string, input: any) {
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/259d9cff4d0f27bf78eb3a6300b4f676/ai/run/${model}`,
     {
