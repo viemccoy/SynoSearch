@@ -1,40 +1,40 @@
 'use client'
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 type AIResponseProps = {
   prompt: string;
-  onResponseChange: (response: string) => void;
+  onResponseChange: (response: any) => void;
 };
 
 const AIResponse: React.FC<AIResponseProps> = ({ prompt, onResponseChange }) => {
-  async function run(model: string, input: any) {
-    const response = await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/259d9cff4d0f27bf78eb3a6300b4f676/ai/run/${model}`,
-      {
-        headers: { Authorization: `Bearer ${process.env.CF_API_KEY}` },
-        method: "POST",
-        body: JSON.stringify(input),
+  useEffect(() => {
+    async function run() {
+      if (prompt) {
+        try {
+          const response = await fetch('/api/runModel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const result = await response.json();
+          onResponseChange(result);
+        } catch (error) {
+          console.error("Failed to run the model:", error);
+          onResponseChange({ error: (error as Error).message });
+        }
       }
-    );
-    const result = await response.json();
-    onResponseChange(result); // Use the onResponseChange function to update the response
-  }
+    }
 
-  run("@cf/meta/llama-2-7b-chat-int8", {
-    messages: [
-      {
-        role: "system",
-        content: "You are a friendly assistant that helps write stories",
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-  });
+    run();
+  }, [prompt, onResponseChange]);
 
-  return null; // Return null or some JSX as needed
+  return null;
 };
 
 export default AIResponse;
