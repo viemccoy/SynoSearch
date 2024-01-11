@@ -1,6 +1,12 @@
 'use server'
 
-export async function onRequest(context) {
+interface RequestContext {
+    request: {
+      json: () => Promise<{ prompt: string }>;
+    };
+  }
+
+  export async function onRequest(context: RequestContext) {
     const { prompt } = await context.request.json();
   
     const response = await fetch(
