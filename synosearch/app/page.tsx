@@ -21,7 +21,9 @@ const Page = () => {
   // Call runModel when 'prompt' changes
   useEffect(() => {
     if (prompt) {
-      runModel(prompt, handleResponseChange);
+      runModel(prompt)
+        .then(handleResponseChange)
+        .catch(console.error); // Add error handling
     }
   }, [prompt]); // Only re-run if 'prompt' changes
 
