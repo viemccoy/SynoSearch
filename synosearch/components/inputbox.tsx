@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, ChangeEvent } from 'react';
+import { run as runModel } from '../functions/runModel';
 
 type InputBoxProps = {
   onPromptChange: (newPrompt: string, newEngine: string) => void;
@@ -20,7 +21,10 @@ const InputBox: React.FC<InputBoxProps> = ({ onPromptChange }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onPromptChange(question, engine); // Call the onPromptChange function when the form is submitted
+    runModel('@cf/meta/llama-2-7b-chat-int8', { messages: [{ role: 'user', content: question }] })
+      .then((response) => {
+        onPromptChange(question, engine);
+      });
   };
 
   return (
