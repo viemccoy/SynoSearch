@@ -1,4 +1,4 @@
-'use server';
+'use client';
 
 async function run(model: string, input: any) {
   const response = await fetch(
