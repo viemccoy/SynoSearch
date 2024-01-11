@@ -21,9 +21,13 @@ const InputBox: React.FC<InputBoxProps> = ({ onPromptChange }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    runModel('@cf/meta/llama-2-7b-chat-int8', { messages: [{ role: 'user', content: question }] })
+    runModel({ prompt: question })
       .then((response) => {
+        // Call onPromptChange with both the question and the engine
         onPromptChange(question, engine);
+      })
+      .catch((error) => {
+        console.error('Error running model:', error);
       });
   };
 
