@@ -1,20 +1,35 @@
 'use client';
 
-async function run(model: string, input: any) {
-  const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/259d9cff4d0f27bf78eb3a6300b4f676/ai/run/${model}`,
-    {
-        headers: { 
-          'Authorization': `Bearer ${process.env.CF_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify(input),
-        credentials: 'include' // Include cookies with the request
+import Replicate from 'replicate';
+
+// Initialize the Replicate client with the API token
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
+
+// Define the run function to use Replicate for predictions
+async function run(prompt: string) {
+  try {
+    // Create a new prediction
+    let prediction = await replicate.deployments.predictions.create(
+      'viemccoy', // The user who owns the deployment
+      'nym',      // The name of the deployment
+      {
+        input: {
+          prompt: prompt // Use the prompt passed to the function
+        }
       }
-  );
-  const result = await response.json();
-  return result;
+    );
+
+    // Wait for the prediction to complete
+    prediction = await replicate.wait(prediction);
+
+    // Return the output of the prediction
+    return prediction.output;
+  } catch (error) {
+    console.error('Prediction error:', error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
 }
 
 // Export the run function
