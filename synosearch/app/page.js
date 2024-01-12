@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
@@ -25,6 +27,21 @@ export default function Page() {
       return;
     }
     setPrediction(prediction);
+  
+    while (
+      prediction.status !== "succeeded" &&
+      prediction.status !== "failed"
+    ) {
+      await sleep(1000);
+      const response = await fetch("/api/predictions/" + prediction.id);
+      prediction = await response.json();
+      if (response.status !== 200) {
+        setError(prediction.detail);
+        return;
+      }
+      console.log({prediction})
+      setPrediction(prediction);
+    }
   };
 
   return (
