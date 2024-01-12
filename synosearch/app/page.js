@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react";
+import Replicate from "replicate";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
@@ -13,21 +14,22 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("/api/predictions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: e.target.prompt.value,
-      }),
+    const replicate = new Replicate({
+      auth: process.env.REPLICATE_API_TOKEN,
     });
-    let prediction = await response.json();
-    if (response.status !== 201) {
-      setError(prediction.detail);
-      return;
-    }
+    let prediction = await replicate.deployments.predictions.create(
+      "viemccoy",
+      "nym",
+      {
+        input: {
+          prompt: e.target.prompt.value,
+        },
+      }
+    );
+    prediction = await replicate.wait(prediction);
+    console.log(prediction.output);
     setPrediction(prediction);
+  };
 
     while (
       prediction.status !== "succeeded" &&
