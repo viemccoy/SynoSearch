@@ -29,7 +29,6 @@ export default function Home() {
     prediction = await replicate.wait(prediction);
     console.log(prediction.output);
     setPrediction(prediction);
-  };
 
     while (
       prediction.status !== "succeeded" &&
