@@ -55,7 +55,7 @@ export default function Home() {
       </p>
 
       <form className={styles.form} onSubmit={handleSubmit}>
-        <input type="text" name="prompt" placeholder="Enter a prompt to display an image" />
+        <input type="text" name="prompt" placeholder="Enter a prompt to display a new image" />
         <button type="submit">Go!</button>
       </form>
 
