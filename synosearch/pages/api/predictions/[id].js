@@ -1,4 +1,6 @@
-'use client'
+'use server'
+
+export const runtime = 'edge';
 
 export default async function handler(req, res) {
     const response = await fetch(
@@ -20,5 +22,3 @@ export default async function handler(req, res) {
     const prediction = await response.json();
     res.end(JSON.stringify(prediction));
   }
-
-  export const runtime = 'edge';

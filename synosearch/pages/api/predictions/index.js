@@ -1,4 +1,6 @@
-'use client'
+'use server'
+
+export const runtime = 'edge';
 
 export default async function handler(req, res) {
     const response = await fetch("https://api.replicate.com/v1/predictions", {
@@ -29,4 +31,3 @@ export default async function handler(req, res) {
     res.end(JSON.stringify(prediction));
   }
 
-  export const runtime = 'edge';
