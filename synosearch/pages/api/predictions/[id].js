@@ -20,3 +20,5 @@ export default async function handler(req, res) {
     const prediction = await response.json();
     res.end(JSON.stringify(prediction));
   }
+
+  export const runtime = 'edge';
