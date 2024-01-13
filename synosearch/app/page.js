@@ -21,6 +21,12 @@ export default function Page() {
         prompt: e.target.prompt.value,
       }),
     });
+  
+    if (!response.ok) {
+      setError('Error making prediction');
+      return;
+    }
+  
     let prediction = await response.json();
     if (response.status !== 201) {
       setError(prediction.detail);
@@ -49,21 +55,22 @@ export default function Page() {
       <Head>
         <title>SynoSearch</title>
       </Head>
-
+  
       <p>Enter your question:</p>
-
+  
       <form className={styles.form} onSubmit={handleSubmit}>
         <input type="text" name="prompt" placeholder="Enter a question" />
         <button type="submit">Search</button>
       </form>
-
+  
       {error && <div>{error}</div>}
-
+  
       {prediction && (
         <div>
-          <p>Search result: {prediction.output}</p>
+          <h2>Prediction Result:</h2>
+          <p>Status: {prediction.status}</p>
+          <p>Output: {prediction.output}</p>
         </div>
       )}
     </div>
   );
-}
