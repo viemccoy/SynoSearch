@@ -1,58 +1,42 @@
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* Align items towards the start of the container */
   align-items: center;
   height: 100vh;
   text-align: center;
+  padding-top: 25vh; /* Add some padding at the top */
 }
-  
-  .form {
-    display: flex;
-    margin-bottom: 2rem;
-  }
-  
-  .form input {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid #000;
-    border-radius: 0.25rem;
-    font-size: 1.3rem;
-    margin-right: 1rem;
-  }
-  
-  .form button {
-    padding: 1rem;
-    border: none;
-    border-radius: 0.25rem;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-size: 1.3rem;
-  }
-  
-  .imageWrapper {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    position: relative
-  }
 
-  .container h1 {
-    font-size: 2rem;
-    text-align: center;
-  }
-  
-  .container p {
-    font-size: 1rem;
-    text-align: center;
-  }
+.title {
+  font-size: 2rem;
+}
 
-  .container .tagline {
-    margin-top: -1000px; /* Adjust this value to change the space between the title and the tagline */
-  }
+.tagline {
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+}
 
-  .formControls {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form input {
+  width: 50%; /* Make the input box half the width of its container */
+  padding: 1rem;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  margin-left: auto; /* Center the input box */
+  margin-right: auto; /* Center the input box */
+}
+
+.formControls select, .formControls button {
+  padding: 1rem; /* Increase the padding */
+  font-size: 1.3rem; /* Increase the font size */
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+}

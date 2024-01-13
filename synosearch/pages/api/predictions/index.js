@@ -1,31 +1,52 @@
 export default async function handler(req, res) {
-  const response = await fetch("https://api.replicate.com/v1/models/mistralai/mixtral-8x7b-instruct-v0.1/predictions", {
-    method: "POST",
-    headers: {
-      Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      input: {
-        top_p: 0.9,
-        top_k: 50,
-        prompt: "You are a research assistant that is helping the user rephrase their search query. Your job is to utilize your expert knowledge of synonyms and the research/lit review method to provide a better search phrasing for the user. NEVER answer the question. Respond ONLY with a SINGLE, maximally efficient, rephrased query. Utilize advanced search tactics, when contextually relevant (for example, do not suggest academic sources to a travel question), to expand upon the users potentially vague prompt, which are listed here: Use a wildcard '*' with a word to retrieve variant versions (e.g., environment* finds environment, environments etc). Exact phrase is found by putting it in quotes (e.g., 'genetically modified'). Use OR to get results with any given word(s) (e.g., marathon OR race). Exclude a term by using '-' (e.g., web -spiders). Use 'intitle:' to locate words in the title (e.g., intitle:penicillin). Retrieve items from a specific publication by using 'publication:' (e.g., publication:nature). Search specific sites using 'site:' (e.g., site:.edu) and use Any Time option to adjust date range. The query is as follows: " + req.body.prompt,
-        // system_prompt: "You are a research assistant that is helping the user rephrase their search query. Your job is to utilize your expert knowledge of synonyms and the research/lit review method to provide a better search phrasing for the user. NEVER answer the question. Respond ONLY with a SINGLE, maximally efficient, rephrased query. Utilize advanced search tactics, when contextually relevant (for example, do not suggest academic sources to a travel question), to expand upon the users potentially vague prompt, which are listed here: Use a wildcard '*' with a word to retrieve variant versions (e.g., environment* finds environment, environments etc). Exact phrase is found by putting it in quotes (e.g., 'genetically modified'). Use OR to get results with any given word(s) (e.g., marathon OR race). Exclude a term by using '-' (e.g., web -spiders). Use 'intitle:' to locate words in the title (e.g., intitle:penicillin). Retrieve items from a specific publication by using 'publication:' (e.g., publication:nature). Search specific sites using 'site:' (e.g., site:.edu) and use Any Time option to adjust date range.",
-        temperature: 0.6,
-        max_new_tokens: 128,
-        presence_penalty: 0,  
-        frequency_penalty: 0
-      }
-    }),
-  });
-  if (response.status !== 201) {
-    let error = await response.json();
-    res.statusCode = 500;
-    res.end(JSON.stringify({ detail: error.detail }));
-    return;
+    const response = await fetch("https://gateway.ai.cloudflare.com/v1/259d9cff4d0f27bf78eb3a6300b4f676/synosearch", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([
+        {
+          provider: "openai",
+          endpoint: "chat/completions",
+          headers: {
+            Authorization: `Bearer ${process.env.OPENAI_API_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          query: {
+            model: "gpt-3.5-turbo",
+            stream: true,
+            messages: [
+              {
+                role: "Provide a single, more effective query using advanced search techniques where relevant. Never answer the query directly. Do not list. Adjust query based on context. Utilize wildcard '*', exact phrase quotes, OR functions, exclude terms '-', 'intitle:', 'publication:', 'site:', and Any Time option when doing so will deliver more, higher quality results. Only deliver rephrased query ready for search.",
+                content: req.body.prompt,
+              },
+            ],
+          },
+        },
+        {
+          provider: "replicate",
+          endpoint: "predictions",
+          headers: {
+            Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          query: {
+            version: "2796ee9483c3fd7aa2e171d38f4ca12251a30609463dcfd4cd76703f22e96cdf",
+            input: {
+              prompt: req.body.prompt,
+            },
+          },
+        },
+      ]),
+    });
+    if (response.status !== 201) {
+      let error = await response.json();
+      res.statusCode = 500;
+      res.end(JSON.stringify({ detail: error.detail }));
+      return;
+    }
+  
+    const prediction = await response.json();
+    res.statusCode = 201;
+    res.end(JSON.stringify(prediction));
   }
-
-  const prediction = await response.json();
-  res.statusCode = 201;
-  res.end(JSON.stringify(prediction));
-}
