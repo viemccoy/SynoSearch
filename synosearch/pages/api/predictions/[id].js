@@ -1,6 +1,13 @@
 export default async function handler(req, res) {
+  // Check if ID is present
+  if (!req.query.id) {
+    res.statusCode = 400;
+    res.end(JSON.stringify({ detail: "Missing ID in the request" }));
+    return;
+  }
+
   const response = await fetch(
-    "https://api.replicate.com/v1/models/mistralai/mixtral-8x7b-instruct-v0.1/predictions/" + req.query.id,
+    "https://api.replicate.com/v1/predictions/" + req.query.id,
     {
       headers: {
         Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
@@ -8,9 +15,10 @@ export default async function handler(req, res) {
       },
     }
   );
+
   if (response.status !== 200) {
     let error = await response.json();
-    res.statusCode = 500;
+    res.statusCode = response.status; // Use the status code from the response instead of always using 500
     res.end(JSON.stringify({ detail: error.detail }));
     return;
   }
