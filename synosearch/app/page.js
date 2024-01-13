@@ -61,16 +61,23 @@ export default function Page() {
       <Head>
         <title>SynoSearch</title>
       </Head>
-  
-      <p>Enter your question:</p>
-  
+
+      <h1>SynoSearch</h1>
+      <p className="tagline">Better results in less time.</p>
+
       <form className={styles.form} onSubmit={handleSubmit}>
-        <input type="text" name="prompt" placeholder="Enter a question" />
-        <button type="submit">Search</button>
-      </form>
-  
+      <input type="text" name="prompt" placeholder="Enter a question" />
+      <div className={styles.formControls}>
+        <select name="searchEngine">
+          <option value="google">Google</option>
+          <option value="googleScholar">Google Scholar</option>
+          <option value="bing">Bing</option>
+        </select>
+        <button type="submit">Go</button>
+      </div>
+    </form>
+
       {error && <div>{error}</div>}
-  
       {prediction && (
         <div>
           <h2>Prediction Result:</h2>
@@ -80,4 +87,4 @@ export default function Page() {
       )}
     </div>
   );
-} // This is the missing closing brace
+}
