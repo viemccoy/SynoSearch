@@ -74,3 +74,4 @@ export default function Page() {
       )}
     </div>
   );
+} // This is the missing closing brace
