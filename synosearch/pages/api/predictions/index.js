@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const response = await fetch("https://api.replicate.com/v1/deployments/viemccoy/nym2/predictions", {
+  const response = await fetch("https://api.replicate.com/v1/models/mistralai/mixtral-8x7b-instruct-v0.1/predictions", {
     method: "POST",
     headers: {
       Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
