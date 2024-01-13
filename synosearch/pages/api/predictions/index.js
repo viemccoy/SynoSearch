@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   const response = await fetch("https://api.replicate.com/v1/deployments/viemccoy/nym/predictions", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`, // use the token
+      Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
