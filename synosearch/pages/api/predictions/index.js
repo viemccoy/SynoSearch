@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   const response = await fetch("https://api.replicate.com/v1/deployments/viemccoy/nym/predictions", {
     method: "POST",
     headers: {
-      Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+      Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`, // use the token
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -18,7 +18,6 @@ export default async function handler(req, res) {
       }
     }),
   });
-
   if (response.status !== 201) {
     let error = await response.json();
     res.statusCode = 500;

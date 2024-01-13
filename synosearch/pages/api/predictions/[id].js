@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     "https://api.replicate.com/v1/predictions/" + req.query.id,
     {
       headers: {
-        Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+        Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`, // use the token
         "Content-Type": "application/json",
       },
     }

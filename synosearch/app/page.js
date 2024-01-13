@@ -5,6 +5,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const token = process.env.REPLICATE_API_TOKEN; // access the environment variable
 
 export default function Page() {
   const [prediction, setPrediction] = useState(null);
@@ -16,11 +17,13 @@ export default function Page() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` // use the token
       },
       body: JSON.stringify({
         prompt: e.target.prompt.value,
       }),
     });
+    
   
     if (!response.ok) {
       setError('Error making prediction');
@@ -39,7 +42,11 @@ export default function Page() {
       prediction.status !== "failed"
     ) {
       await sleep(1000);
-      const response = await fetch("/api/predictions/" + prediction.id);
+      const response = await fetch("/api/predictions/" + prediction.id, {
+        headers: {
+          "Authorization": `Bearer ${token}` // use the token
+        }
+      });
       prediction = await response.json();
       if (response.status !== 200) {
         setError(prediction.detail);
