@@ -43,7 +43,7 @@ export default function Page() {
       await sleep(1000);
       const response = await fetch("/api/predictions/" + prediction.id, {
         headers: {
-          Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+          Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`
         }
       });
       prediction = await response.json();
