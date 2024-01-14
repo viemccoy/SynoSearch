@@ -66,6 +66,17 @@ export default function Page() {
           selectedEngine,
           searchString
         );
+  
+        // Prompt the user to allow pop-ups
+        if (!localStorage.getItem('popUpPromptShown')) {
+          const allowPopUps = window.confirm("SynoSearch needs to open new tabs to display search results. Please allow pop-ups for this site in your browser settings. Click OK to continue.");
+          if (allowPopUps) {
+            localStorage.setItem('popUpPromptShown', 'true');
+          } else {
+            return;
+          }
+        }
+  
         window.open(searchLink, "_blank");
       }
     }
