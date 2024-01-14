@@ -49,46 +49,25 @@ export default function Page() {
       }),
     });
   
+    const data = await response.json();
+    console.log(data); // Log the response
+  
     if (!response.ok) {
       setError('Error making prediction');
       return;
     }
   
-    let prediction = await response.json();
-    if (response.status !== 201) {
-      setError(prediction.detail);
-      return;
-    }
-    setPrediction(prediction);
-  
-    while (
-      prediction.status !== "succeeded" &&
-      prediction.status !== "failed"
-    ) {
-      await sleep(1000);
-      const response = await fetch("/api/predictions/" + prediction.id, {
-        headers: {
-          Authorization: `Token ${process.env.REPLICATE_API_KEY}`
-        }
-      });
-      prediction = await response.json();
-      if (response.status !== 200) {
-        setError(prediction.detail);
-        return;
+    // Use data directly instead of prediction state
+    if (data && data.choices && data.choices.length > 0) {
+      const outputString = data.choices[0].message.content;
+      if (outputString) {
+        const searchString = Array.isArray(outputString) ? outputString.join("") : outputString;
+        const searchLink = generateSearchLink(
+          selectedEngine,
+          searchString
+        );
+        window.open(searchLink, "_blank");
       }
-      console.log({prediction})
-      setPrediction(prediction);
-    }
-  
-    // Check if prediction status is "succeeded" and open the new tab
-    if (prediction && prediction.status === "succeeded" && prediction.output) {
-      // Join the array of strings into a single string with spaces between each element
-      const outputString = prediction.output.join("");
-      const searchLink = generateSearchLink(
-        selectedEngine,
-        outputString
-      );
-      window.open(searchLink, "_blank");
     }
   };
 

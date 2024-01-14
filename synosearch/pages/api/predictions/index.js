@@ -9,18 +9,22 @@ export default async function handler(req, res) {
           provider: "openai",
           endpoint: "chat/completions",
           headers: {
-            Authorization: `Bearer ${process.env.OPENAI_API_TOKEN}`,
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
             "Content-Type": "application/json",
           },
           query: {
-            model: "gpt-3.5-turbo",
-            stream: true,
+            model: "gpt-3.5-turbo-1106",
             messages: [
               {
-                role: "Provide a single, more effective query using advanced search techniques where relevant. Never answer the query directly. Do not list. Adjust query based on context. Utilize wildcard '*', exact phrase quotes, OR functions, exclude terms '-', 'intitle:', 'publication:', 'site:', and Any Time option when doing so will deliver more, higher quality results. Only deliver rephrased query ready for search.",
-                content: req.body.prompt,
+                role: "system",
+                content: "Provide a single, more effective query using advanced search techniques where relevant. Never answer the query directly. Do not list. Adjust query based on context. Utilize wildcard '*', exact phrase quotes, OR functions, exclude terms '-', 'intitle:', 'publication:', 'site:', and Any Time option when doing so will deliver more, higher quality results. Use AND function only when specified by user, as doing so often leads to limited results. Only deliver rephrased query ready for search. Especially focus on synonyms that the user might be unaware of. Above all else, make sure the new search query will return quality answers to the original query.",
               },
+              {
+                role: "user",
+                content: req.body.prompt,
+              }
             ],
+            max_tokens: 30,
           },
         },
         {
@@ -31,22 +35,40 @@ export default async function handler(req, res) {
             "Content-Type": "application/json",
           },
           query: {
-            version: "2796ee9483c3fd7aa2e171d38f4ca12251a30609463dcfd4cd76703f22e96cdf",
+            version: "fix this, insane pricing",
             input: {
-              prompt: req.body.prompt,
+              prompt: "Provide a single, more effective query using advanced search techniques where relevant. Never answer the query directly. Do not list. Adjust query based on context. Utilize wildcard '*', exact phrase quotes, OR functions, exclude terms '-', 'intitle:', 'publication:', 'site:', and Any Time option when doing so will deliver more, higher quality results. Only deliver rephrased query ready for search. Query follows: " + req.body.prompt,
+              debug: false,
+              top_k: -1,
+              top_p: 0.95,
+              temperature: 0.5,
+              max_new_tokens: 60,
+              min_new_tokens: -1,
+              repetition_penalty: 1.15,
             },
           },
         },
       ]),
     });
-    if (response.status !== 201) {
-      let error = await response.json();
-      res.statusCode = 500;
-      res.end(JSON.stringify({ detail: error.detail }));
+  
+    // Check if the response is ok
+    if (!response.ok) {
+      res.statusCode = response.status;
+      let text = await response.text();
+      try {
+        // Try to parse the response as JSON
+        let error = JSON.parse(text);
+        res.end(JSON.stringify({ detail: error.detail }));
+      } catch {
+        // If it's not JSON, return it as a string
+        res.end(JSON.stringify({ detail: text }));
+      }
       return;
     }
   
+    // If the response is ok, parse it as JSON
     const prediction = await response.json();
-    res.statusCode = 201;
+    console.log(prediction); // Log the response
+    res.statusCode = 200;
     res.end(JSON.stringify(prediction));
-  }
+}
