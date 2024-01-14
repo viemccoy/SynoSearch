@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             messages: [
               {
                 role: "system",
-                content: "Provide a single, more effective query using advanced search techniques where relevant. Never answer the query directly. Do not list. Adjust query based on context. Utilize wildcard '*', exact phrase quotes, OR functions, exclude terms '-', 'intitle:', 'publication:', 'site:', and Any Time option when doing so will deliver more, higher quality results. Use AND function only when specified by user, as doing so often leads to limited results. Only deliver rephrased query ready for search. Especially focus on synonyms that the user might be unaware of. Above all else, make sure the new search query will return quality answers to the original query.",
+                content: "Year=2024, craft efficient, properly spaced and formatted search queries using advanced techniques such as wildcard *, OR, excluding terms -, intitle:, publication:, site:, and Any Time. Avoid answering directly, listing, or creating a new sentence. Modify queries based on context and filter low-quality results. Never use AND or quotes. Always focus on unknown synonyms for depth and breadth of results. Prioritize quality results.",
               },
               {
                 role: "user",
