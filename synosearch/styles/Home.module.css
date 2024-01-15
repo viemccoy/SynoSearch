@@ -79,6 +79,7 @@
 }
 
 .btn {
+  color: #000000; /* Set the font color to black */
   flex-grow: 1;
   display: flex;
   align-items: center;
