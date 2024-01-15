@@ -1,16 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@900&display=swap');
+
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Align items towards the start of the container */
-  align-items: center;
-  height: 100vh;
+  position: fixed;
+  width: 100%;
+  top: 30%;
   text-align: center;
-  padding-top: 25vh; /* Add some padding at the top */
   color: black;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 3rem;
+  font-family: 'Lora', serif;
+  font-weight: 900; /* Make the text even bolder */
 }
 
 .tagline {
@@ -18,47 +19,72 @@
   margin-top: 0.5rem;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
 .form input {
-  width: 50%; /* Make the input box half the width of its container */
-  padding: 1rem;
-  border: 1px solid #000;
-  border-radius: 0.25rem;
+  width: 100%; /* Make the input box half the width of its container */
   font-size: 1.3rem;
-  margin-bottom: 1rem;
-  margin-left: auto; /* Center the input box */
-  margin-right: auto; /* Center the input box */
 }
 
 .formControls select, .formControls button {
-  padding: 1rem; /* Increase the padding */
   font-size: 1.3rem; /* Increase the font size */
   border: 1px solid #000;
   border-radius: 0.25rem;
 }
 
 .fullscreen {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
+  overflow: hidden; /* Prevent the particles from causing the page to scroll */
 }
+
 .body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden; /* Disable scrolling */
 }
 
 .particles {
-  position: absolute;
+  position: fixed;
   z-index: -1;
   width: 100%;
   height: 100%;
+}
+
+.inputGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Make the children fill the container vertically */
+  border: 1.3px solid #000;
+  border-radius: 0.1rem;
+  width: 60%; /* Adjust this to your preference */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem; /* Add a margin at the bottom */
+}
+
+.btnContainer {
+  display: flex;
+  align-items: stretch;
+  border-left: 1px solid #000;
+}
+
+.btn {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: #ffffff;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.customSelector:hover {
+  cursor: pointer;
 }

@@ -147,21 +147,22 @@ export default function Page() {
       <Head>
         <title>SynoSearch</title>
       </Head>
-
+  
       <h1 className={styles.title}>SynoSearch</h1>
-      <p className={styles.tagline}>Better results in less time.</p>
-      <p>Enter your question:</p>
-
       <form className={styles.form} onSubmit={handleSubmit}>
-        <input type="text" name="prompt" placeholder="Enter a question" />
-        <div className={styles.formControls}>
-          <select name="searchEngine">
-            <option value="google">Google</option>
-            <option value="googleScholar">Google Scholar</option>
-            <option value="bing">Bing</option>
-          </select>
-          <button type="submit">Go</button>
+      <div className={styles.inputGroup}>
+        <input type="text" name="prompt" placeholder="Enter a question" className={styles.promptInput} />
+        <div className={styles.btnContainer}>
+          <button type="submit" className={styles.btn}>Go</button>
         </div>
+      </div>
+      <div className={styles.formControls}>
+      <select name="searchEngine" className={styles.customSelector}>
+        <option value="google">Google</option>
+        <option value="googleScholar">Google Scholar</option>
+        <option value="bing">Bing</option>
+      </select>
+      </div>
       </form>
     </div>
   );
