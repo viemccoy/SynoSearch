@@ -84,7 +84,7 @@
   align-items: center;
   font-family: 'Lora', serif;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.7rem;
   font-size: 1.2rem;
   z-index: 10; /* Adjust this value as needed */
   background: #ffffff;
