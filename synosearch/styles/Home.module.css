@@ -22,7 +22,7 @@
 
 .form input {
   width: 100%; /* Make the input box half the width of its container */
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-family: 'Lora', serif;
 }
 
@@ -73,7 +73,6 @@
   display: flex;
   font-family: 'Lora', serif;
   align-items: stretch;
-  font-size: 3rem;
 
   border-left: 1px solid #000;
 }
