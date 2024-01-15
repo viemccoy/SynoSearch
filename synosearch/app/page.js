@@ -1,16 +1,45 @@
 'use client'
 
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadLinksPreset } from "@tsparticles/preset-links";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default function Page() {
+  const [init, setInit] = useState(false);
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
   const [selectedSearchEngine, setSelectedSearchEngine] = useState("google");
 
+  const calculateParticleDensity = () => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth <= 480) {
+      return 800; // More particles for small screens
+    } else if (windowWidth <= 768) {
+      return 1200; // Fewer particles for medium screens
+    } else {
+      return 1500; // Even fewer particles for large screens
+    }
+  };
+
+  useEffect(() => {
+    if (init) {
+      return;
+    }
+    initParticlesEngine(async (engine) => {
+      await loadLinksPreset(engine);
+    }).then(() => {
+      setInit(true);
+    });
+
+    // Add event listener for window resize
+    window.addEventListener('resize', () => {
+      setInit(false); // Reset particles
+    });
+  }, [init]);
 
   const generateSearchLink = (engine, query) => {
     let base_url;
@@ -84,13 +113,43 @@ export default function Page() {
 
   return (
     <div className={styles.container}>
+      {init && (
+        <Particles
+          className={styles.particles}
+          id="tsparticles"
+          options={{
+            background: {
+              color: {
+                value: "#ffffff", // Set the background color to white
+              },
+            },
+            particles: {
+              number: {
+                density: {
+                  enable: true,
+                  value_area: calculateParticleDensity(), // Adjust this value to increase or decrease the particle density
+                },
+              },
+              color: {
+                value: "#000000", // Set the particles color to black
+              },
+              links: {
+                color: "#000000", // Set the links color to black
+              },
+              shape: {
+                type: "circle",
+              },
+            },
+            preset: "links",
+          }}
+        />
+      )}
       <Head>
         <title>SynoSearch</title>
       </Head>
 
       <h1 className={styles.title}>SynoSearch</h1>
       <p className={styles.tagline}>Better results in less time.</p>
-
       <p>Enter your question:</p>
 
       <form className={styles.form} onSubmit={handleSubmit}>

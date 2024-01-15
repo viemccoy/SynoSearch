@@ -6,6 +6,7 @@
   height: 100vh;
   text-align: center;
   padding-top: 25vh; /* Add some padding at the top */
+  color: black;
 }
 
 .title {
@@ -39,4 +40,25 @@
   font-size: 1.3rem; /* Increase the font size */
   border: 1px solid #000;
   border-radius: 0.25rem;
+}
+
+.fullscreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.particles {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
 }

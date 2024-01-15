@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             messages: [
               {
                 role: "system",
-                content: "Year=2024, craft efficient, properly spaced and formatted search queries using advanced techniques such as wildcard *, OR, excluding terms -, intitle:, publication:, site:, and Any Time. Avoid answering directly, listing, or creating a new sentence. Modify queries based on context and filter low-quality results. Never use AND or quotes. Always focus on unknown synonyms for depth and breadth of results. Prioritize quality results.",
+                content: "Year=2024. Craft efficient, properly spaced and formatted search queries using advanced techniques such as wildcard *, OR, excluding terms -, and Any Time. Avoid answering directly, listing, or creating a new sentence. Include each detail from the original query in the improved one. Modify queries based on context and filter low-quality results.  Never use AND or quotes. Only filter by location if specified. Identify all key terms in the search, and utilize wildcards and synonyms for each one. Focus on unknown synonyms for depth and breadth of results. Prioritize quality results.",
               },
               {
                 role: "user",
