@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             messages: [
               {
                 role: "system",
-                content: "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques such as wildcard attached to the key term (formatted as keyterm*), OR to allow greater search breadth, and excluding terms with -. You MUST intelligently identify all key terms in the search, and utilize both wildcards and at minimum one synonym with OR for each key term. Modify queries based on context and filter low-quality results. Only filter by location if specified. Focus on rare or unknown synonyms for depth and breadth of results.",
+                content: "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.",
               },
               {
                 role: "user",
