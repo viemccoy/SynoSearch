@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             messages: [
               {
                 role: "system",
-                content: "Year=2024. Craft efficient, properly spaced and formatted search queries using advanced techniques such as wildcard attached to the key term (formatted as keyterm*), OR to allow greater search breadth, excluding terms -, and Any Time. Avoid answering directly, listing, or creating a new full sentence. Include each detail from the original query in the improved one. Modify queries based on context and filter low-quality results. Never use AND or quotes. Only filter by location if specified. You MUST identify all key terms in the search, and utilize both wildcards and at minimum one synonym with OR for each key term. Focus on unknown synonyms for depth and breadth of results. Prioritize quality results.",
+                content: "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques such as wildcard attached to the key term (formatted as keyterm*), OR to allow greater search breadth, and excluding terms with -. You MUST intelligently identify all key terms in the search, and utilize both wildcards and at minimum one synonym with OR for each key term. Modify queries based on context and filter low-quality results. Only filter by location if specified. Focus on rare or unknown synonyms for depth and breadth of results.",
               },
               {
                 role: "user",
