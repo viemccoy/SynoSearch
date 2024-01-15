@@ -78,6 +78,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  z-index: 10; /* Adjust this value as needed */
   background: #ffffff;
 }
 
