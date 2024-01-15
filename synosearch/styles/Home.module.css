@@ -22,12 +22,14 @@
 .form input {
   width: 100%; /* Make the input box half the width of its container */
   font-size: 1.3rem;
+  font-family: 'Lora', serif;
 }
 
 .formControls select, .formControls button {
   font-size: 1.3rem; /* Increase the font size */
   border: 1px solid #000;
   border-radius: 0.25rem;
+  
 }
 
 .fullscreen {
@@ -68,6 +70,7 @@
 
 .btnContainer {
   display: flex;
+  font-family: 'Lora', serif;
   align-items: stretch;
   border-left: 1px solid #000;
 }
@@ -76,6 +79,7 @@
   flex-grow: 1;
   display: flex;
   align-items: center;
+  font-family: 'Lora', serif;
   justify-content: center;
   padding: 1rem;
   z-index: 10; /* Adjust this value as needed */
