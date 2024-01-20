@@ -149,7 +149,7 @@ export default function Page() {
       </Head>
   
       <h1 className={styles.title}>SynoSearch</h1>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={`${styles.form} ${styles.formContainer}`} onSubmit={handleSubmit}>      
       <div className={styles.inputGroup}>
         <input type="text" name="prompt" placeholder="Enter a question" className={styles.promptInput} />
         <div className={styles.btnContainer}>
