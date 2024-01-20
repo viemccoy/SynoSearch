@@ -13,7 +13,7 @@ export default async function handler(req, res) {
             "Content-Type": "application/json",
           },
           query: {
-            model: "gpt-3.5-turbo-1106",
+            model: "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef",
             messages: [
               {
                 role: "system",
@@ -28,25 +28,15 @@ export default async function handler(req, res) {
           },
         },
         {
-          provider: "replicate",
-          endpoint: "/models/mistralai/mistral-7b-instruct-v0.2/predictions",
-          headers: {
-            Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          query: {
-            // version: "fix this, insane pricing",
-            input: {
-              prompt: "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified. Query follows: " + req.body.prompt,
-              debug: false,
-              top_k: -1,
-              top_p: 0.95,
-              temperature: 0.5,
-              max_new_tokens: 60,
-              min_new_tokens: -1,
-              repetition_penalty: 1.15,
-            },
-          },
+          "provider": "huggingface",
+          "endpoint": "meta-llama/Llama-2-70b-chat-hf",
+          "headers": {
+            "Authorization": `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+            "Content-Type": "application/json"
+           },
+          "query": {
+            "input": "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified. Query follows:" + req.body.prompt,
+          }
         },
       ]),
     });
