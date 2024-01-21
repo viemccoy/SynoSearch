@@ -5,6 +5,8 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import RootLayout from './RootLayout'; // Adjust the path according to your project structure
 import Cookies from 'js-cookie';
+import InfoModal from './InfoModal';
+
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -15,8 +17,9 @@ export default function Page() {
   const [error, setError] = useState(null);
   const [selectedSearchEngine, setSelectedSearchEngine] = useState("google");
   const [synoSearchStatus, setSynoSearchStatus] = useState('idle');
-  const [synoSearchOpen, setSynoSearchOpen] = useState(false);
+  const [synoSearchOpen , setSynoSearchOpen] = useState(false);
   const [searchString, setSearchString] = useState("");
+  const [isInfoOpen, setInfoOpen] = useState(false);
 
   // This useEffect hook runs when the component mounts
   useEffect(() => {
@@ -158,12 +161,13 @@ export default function Page() {
         <div className={styles.toolsForm}>
           <label className={styles.autoOpenSearchLabel} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
               Auto-Open Search:
-            <input 
-              type="checkbox" 
-              checked={autoOpenSearch} 
-              onChange={() => setAutoOpenSearch(prevState => !prevState)}
-              style={{ marginRight: '10px', marginLeft: '10px' }}
-            />
+              <input 
+                type="checkbox" 
+                checked={autoOpenSearch} 
+                onChange={() => setAutoOpenSearch(prevState => !prevState)}
+                style={{ marginRight: '10px', marginLeft: '10px' }}
+                className={styles.checkboxHover}
+              />
             </label>
             <select name="searchEngine" className={styles.customSelector} onChange={handleSearchEngineChange}>
               <option value="google">Google</option>
@@ -182,8 +186,18 @@ export default function Page() {
               </a>
             )}
           </div>
+          <button 
+            className={styles.infoSettingsButton} 
+            onClick={(e) => {
+              e.preventDefault();
+              setInfoOpen(true);
+            }}
+          >
+            <img src="/infosettings.png" alt="Info Settings" className={styles.infoSettingsImage} />
+          </button>
       </form>
     </div>
+    <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
   </RootLayout>
   );
 }

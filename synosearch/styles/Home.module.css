@@ -146,6 +146,7 @@
   justify-content: center; /* Horizontally center the elements */
   align-items: center; /* Vertically center the elements */
   font-family: 'Lora', serif;
+  margin-bottom: 1.5rem;
 }
 
 
@@ -161,4 +162,60 @@
   margin-Left: 10px;
   text-decoration: underline;
   color: #000;
+}
+
+.infoSettingsButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  /* Add other styles as needed */
+}
+
+.infoSettingsButton:hover {
+  cursor: pointer;
+}
+
+.infoSettingsImage {
+  width: 30px; /* Adjust as needed */
+  height: 30px; /* Adjust as needed */
+}
+
+.checkboxHover {
+  cursor: pointer;
+}
+
+.infoModal {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabButton {
+  flex: 1;
+  cursor: pointer;
+}
+
+.tabContent {
+  /* Add styles for the tab content */
 }
