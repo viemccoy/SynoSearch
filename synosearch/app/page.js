@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import RootLayout from './RootLayout'; // Adjust the path according to your project structure
-
+import Cookies from 'js-cookie';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -17,6 +17,19 @@ export default function Page() {
   const [synoSearchStatus, setSynoSearchStatus] = useState('idle');
   const [synoSearchOpen, setSynoSearchOpen] = useState(false);
   const [searchString, setSearchString] = useState("");
+
+  // This useEffect hook runs when the component mounts
+  useEffect(() => {
+    const autoOpen = Cookies.get('autoOpenSearch');
+    if (autoOpen !== undefined) {
+      setAutoOpenSearch(autoOpen === 'true');
+    }
+  }, []);
+
+  // This useEffect hook runs when autoOpenSearch state changes
+  useEffect(() => {
+    Cookies.set('autoOpenSearch', autoOpenSearch.toString(), { expires: 365 }); // Cookie will expire after 1 year
+  }, [autoOpenSearch]);
 
   const generateSearchLink = (engine, query) => {
     let base_url;
@@ -145,12 +158,12 @@ export default function Page() {
         <div className={styles.toolsForm}>
           <label className={styles.autoOpenSearchLabel} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
               Auto-Open Search:
-              <input 
-                type="checkbox" 
-                checked={autoOpenSearch} 
-                onChange={() => setAutoOpenSearch(prevState => !prevState)}
-                style={{ marginRight: '10px', marginLeft: '10px' }}
-              />
+            <input 
+              type="checkbox" 
+              checked={autoOpenSearch} 
+              onChange={() => setAutoOpenSearch(prevState => !prevState)}
+              style={{ marginRight: '10px', marginLeft: '10px' }}
+            />
             </label>
             <select name="searchEngine" className={styles.customSelector} onChange={handleSearchEngineChange}>
               <option value="google">Google</option>
