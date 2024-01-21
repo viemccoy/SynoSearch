@@ -40,9 +40,10 @@
   font-size: 1.3rem; /* Increase the font size */
   border: 1px solid #000;
   border-radius: 0.25rem;
-  align-items: center;
-  justify-content: center;
-
+  font-family: 'Lora', serif;
+  display: flex;
+  align-items: center; /* Vertically align the elements */
+  justify-content: space-between; /* Distribute the space evenly between the elements */
 }
 
 .fullscreen {
@@ -89,7 +90,7 @@
   width: 60%; /* Adjust this to your preference */
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 2rem; /* Add a margin at the bottom */
+  margin-bottom: 1.5rem; /* Add a margin at the bottom */
   
   
 }
@@ -121,4 +122,43 @@
 
 .customSelector:hover {
   cursor: pointer;
+}
+
+.synoSearchBox {
+  margin-bottom: 1.5rem;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  text-align: left;
+  background: #ffffff;
+  font-size: 1rem;
+  font-family: 'Lora', serif;
+}
+
+.synoSearchBox:hover {
+  cursor: pointer;
+}
+
+
+
+.toolsForm {
+  display: flex;
+  justify-content: center; /* Horizontally center the elements */
+  align-items: center; /* Vertically center the elements */
+  font-family: 'Lora', serif;
+}
+
+
+.autoOpenSearchLabel {
+  white-space: nowrap;
+  font-family: 'Lora', serif;
+  margin-Right: 20px;
+  
+}
+
+.openInNewTabLink {
+  font-family: 'Lora', serif;
+  margin-Left: 10px;
+  text-decoration: underline;
+  color: #000;
 }
