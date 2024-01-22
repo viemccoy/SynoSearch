@@ -129,8 +129,6 @@ export default function Page() {
     <RootLayout>
       <div className={styles.container}>
         <Head>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2666453314779407"
-     crossorigin="anonymous"></script>
           <title>SynoSearch</title>
         </Head>
     
