@@ -130,7 +130,6 @@ export default function Page() {
       <div className={styles.container}>
         <Head>
           <title>SynoSearch</title>
-          <meta name="google-adsense-account" content="ca-pub-2666453314779407"></meta>
         </Head>
     
         <h1 className={styles.title}>SynoSearch</h1>
