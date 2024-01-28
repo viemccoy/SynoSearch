@@ -7,7 +7,6 @@ import RootLayout from './RootLayout'; // Adjust the path according to your proj
 import Cookies from 'js-cookie';
 import InfoModal from './InfoModal';
 import ThemeSwitch from './ThemeSwitch';
-import { useRouter } from 'next/router';
 
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -17,7 +16,6 @@ export default function Page() {
   const [autoOpenSearch, setAutoOpenSearch] = useState(false);
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
-  const router = useRouter();
   const [selectedSearchEngine, setSelectedSearchEngine] = useState("SynoSearch");
   const [synoSearchStatus, setSynoSearchStatus] = useState('idle');
   const [synoSearchOpen , setSynoSearchOpen] = useState(false);
