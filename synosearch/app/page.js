@@ -7,6 +7,7 @@ import RootLayout from './RootLayout'; // Adjust the path according to your proj
 import Cookies from 'js-cookie';
 import InfoModal from './InfoModal';
 import ThemeSwitch from './ThemeSwitch';
+import { ResponsiveAdUnit } from "nextjs-google-adsense";
 
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -120,10 +121,17 @@ export default function Page() {
         setSearchString(newSearchString);
         const searchLink = generateSearchLink(selectedEngine, newSearchString);
   
-        // Set isWideView state here, after the API call and search results generation
-        setIsWideView(selectedEngine === "SynoSearch");
+        // Set SynoSearch status to 'generated' after the search is completed
+        setSynoSearchStatus('generated');
   
-        if (isWideView) {
+        // Set isWideView state here, after the SynoSearch generation is complete
+        if (selectedEngine === "SynoSearch") {
+          setIsWideView(true);
+        } else {
+          setIsWideView(false);
+        }
+  
+        if (selectedEngine === "SynoSearch") {
           // Load SynoSearch in an <object> tag
           const objectElement = document.getElementById('synoSearchObject');
           if (objectElement) {
@@ -142,9 +150,6 @@ export default function Page() {
   
           window.open(searchLink, "_blank");
         }
-  
-        // Set SynoSearch status to 'generated' after the search is completed
-        setSynoSearchStatus('generated');
       }
     }
   };
@@ -156,7 +161,9 @@ export default function Page() {
           <title>SynoSearch</title>
         </Head>
   
-        <h1 className={isWideView ? styles.wideViewTitle : styles.title}>SynoSearch</h1>
+        <h1 className={isWideView ? styles.wideViewTitle : styles.title}>
+          <a href="/" className={styles.titleLink}>SynoSearch</a>
+        </h1>
         <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer}`} onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
             <input 
@@ -179,7 +186,7 @@ export default function Page() {
               </div>
             )}
             {synoSearchStatus === 'generated' && synoSearchOpen && (
-              <div>{searchString}</div>
+              <div className={isWideView ? styles.wideViewSynoSearchBox : ''}>{searchString}</div>
             )}
           </div>
           <div className={isWideView ? styles.wideViewToolsForm : styles.toolsForm}>
@@ -227,6 +234,7 @@ export default function Page() {
       </div>
       {isWideView && <object id="synoSearchObject" type="text/html" className={styles.synoSearchObject}></object>}
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
+
     </RootLayout>
   );
 }
