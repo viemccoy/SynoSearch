@@ -21,6 +21,7 @@ export default function Page() {
   const [synoSearchOpen , setSynoSearchOpen] = useState(false);
   const [searchString, setSearchString] = useState("");
   const [isInfoOpen, setInfoOpen] = useState(false);
+  const [isWideView, setIsWideView] = useState(false);
 
   // This useEffect hook runs when the component mounts
   useEffect(() => {
@@ -34,6 +35,10 @@ export default function Page() {
   useEffect(() => {
     Cookies.set('autoOpenSearch', autoOpenSearch.toString(), { expires: 365 }); // Cookie will expire after 1 year
   }, [autoOpenSearch]);
+
+  const handleViewChange = (e) => {
+    setIsWideView(e.target.searchEngine.value === "SynoSearch");
+  };
 
   const generateSearchLink = (engine, query) => {
     let base_url;
@@ -103,18 +108,23 @@ export default function Page() {
       if (outputString) {
         const newSearchString = Array.isArray(outputString) ? outputString.join("") : outputString;
         setSearchString(newSearchString);
-        const searchLink = generateSearchLink(
-          selectedEngine,
-          newSearchString
-        );
+        const searchLink = generateSearchLink(selectedEngine, newSearchString);
   
-        // Only open the popup if autoOpenSearch is true
-        if (autoOpenSearch) {
+        // Set isWideView state here, after the API call and search results generation
+        setIsWideView(selectedEngine === "SynoSearch");
+  
+        if (isWideView) {
+          // Load SynoSearch in an <object> tag
+          const objectElement = document.getElementById('synoSearchObject');
+          if (objectElement) {
+            objectElement.data = searchLink;
+          }
+        } else if (autoOpenSearch) {
           // Prompt the user to allow pop-ups
           if (!localStorage.getItem('popUpPromptShown')) {
             const allowPopUps = window.confirm("SynoSearch needs to open new tabs to display search results. Please allow pop-ups for this site in your browser settings. Click OK to continue.");
             if (allowPopUps) {
-              localStorage.setItem('popUpPromptShown', 'true');
+              localStorage.setItem('popUpPromptShow n', 'true');
             } else {
               return;
             }
@@ -131,50 +141,52 @@ export default function Page() {
 
   return (
     <RootLayout>
-      <div className={styles.container}>
+      <div className={isWideView ? styles.wideViewContainer : styles.container}>
         <Head>
           <title>SynoSearch</title>
         </Head>
-    
-        <h1 className={styles.title}>SynoSearch</h1>
-        <form className={`${styles.form} ${styles.formContainer}`} onSubmit={handleSubmit}>      
-        <div className={styles.inputGroup}>
-        <input 
-          type="text" 
-          name="prompt" 
-          placeholder="Enter a question" 
-          className={styles.promptInput} 
-          maxLength="200"
-        />
-          <div className={styles.btnContainer}>
-            <button type="submit" className={styles.btn}>Go</button>
-          </div>
-        </div>
-        <div className={styles.synoSearchBox}>
-          {synoSearchStatus === 'idle' && 'Input query above'}
-          {synoSearchStatus === 'generating' && 'Generating SynoSearch...'}
-          {synoSearchStatus === 'generated' && (
-            <div onClick={() => setSynoSearchOpen(prevState => !prevState)}>
-              {synoSearchOpen ? '▼' : '►'} Show SynoSearch
+  
+        <h1 className={isWideView ? styles.wideViewTitle : styles.title}>SynoSearch</h1>
+        <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer}`} onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <input 
+              type="text" 
+              name="prompt" 
+              placeholder="Enter a question" 
+              className={styles.promptInput} 
+              maxLength="200"
+            />
+            <div className={styles.btnContainer}>
+              <button type="submit" className={styles.btn}>Go</button>
             </div>
-          )}
-          {synoSearchStatus === 'generated' && synoSearchOpen && (
-            <div>{searchString}</div>
-          )}
-        </div>
-        <div className={styles.toolsForm}>
-          <label className={styles.autoOpenSearchLabel} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
-              Auto-Open Search:
-              <input 
-                type="checkbox" 
-                checked={autoOpenSearch} 
-                onChange={() => setAutoOpenSearch(prevState => !prevState)}
-                style={{ marginRight: '10px', marginLeft: '10px' }}
-                className={styles.checkboxHover}
-              />
-            </label>
+          </div>
+          <div className={styles.synoSearchBox}>
+            {synoSearchStatus === 'idle' && 'Input query above'}
+            {synoSearchStatus === 'generating' && 'Generating SynoSearch...'}
+            {synoSearchStatus === 'generated' && (
+              <div onClick={() => setSynoSearchOpen(prevState => !prevState)}>
+                {synoSearchOpen ? '▼' : '►'} Show SynoSearch
+              </div>
+            )}
+            {synoSearchStatus === 'generated' && synoSearchOpen && (
+              <div>{searchString}</div>
+            )}
+          </div>
+          <div className={isWideView ? styles.wideViewToolsForm : styles.toolsForm}>
+            {selectedSearchEngine !== "SynoSearch" && (
+              <label className={styles.autoOpenSearchLabel} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
+                Auto-Open Search:
+                <input 
+                  type="checkbox" 
+                  checked={autoOpenSearch} 
+                  onChange={() => setAutoOpenSearch(prevState => !prevState)}
+                  style={{ marginRight: '10px', marginLeft: '10px' }}
+                  className={styles.checkboxHover}
+                />
+              </label>
+            )}
             <select name="searchEngine" className={styles.customSelector} onChange={handleSearchEngineChange}>
-            <option value="SynoSearch">SynoSearch:Wide</option>
+              <option value="SynoSearch">SynoSearch:Wide</option>
               <option value="google">Google</option>
               <option value="googleScholar">Google Scholar</option>
               <option value="bing">Bing</option>
@@ -192,17 +204,18 @@ export default function Page() {
             )}
           </div>
           <button 
-          className={styles.infoSettingsButton} 
-          onClick={(e) => {
-            e.preventDefault();
-            setInfoOpen(true);
-          }}
+            className={styles.infoSettingsButton} 
+            onClick={(e) => {
+              e.preventDefault();
+              setInfoOpen(true);
+            }}
           >
             <img src="/infosettings.png" alt="Info Settings" className={styles.infoSettingsImage} />
           </button>
         </form>
         <ThemeSwitch />
       </div>
+      {isWideView && <object id="synoSearchObject" type="text/html" className={styles.synoSearchObject}></object>}
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
     </RootLayout>
   );

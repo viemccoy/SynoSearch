@@ -219,3 +219,41 @@
 .tabContent {
   /* Add styles for the tab content */
 }
+
+.wideViewContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 10%;
+}
+
+.wideViewTitle {
+  margin-top: 0.3rem;
+  font-size: 2rem;
+  font-family: 'Lora', serif; /* Bring back the 'Lora' font */
+}
+
+.wideViewForm {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.wideViewToolsForm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1rem;
+  
+}
+
+.synoSearchObject {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: 90%;
+}
