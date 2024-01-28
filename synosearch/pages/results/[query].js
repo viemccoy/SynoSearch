@@ -8,8 +8,9 @@ export default function Results() {
   return (
     <div>
       <h1>Results for {query}</h1>
-      <Script src="https://cse.google.com/cse.js?cx=b784b1ad1184941ab" strategy="afterInteractive" />
-      <div className="gcse-searchresults-only"></div>
+      <script async src="https://cse.google.com/cse.js?cx=b784b1ad1184941ab">
+      </script>
+      <div class="gcse-searchresults-only"></div>
     </div>
   )
 }
