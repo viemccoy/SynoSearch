@@ -16,7 +16,7 @@ export default function Page() {
   const [autoOpenSearch, setAutoOpenSearch] = useState(false);
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
-  const [selectedSearchEngine, setSelectedSearchEngine] = useState("google");
+  const [selectedSearchEngine, setSelectedSearchEngine] = useState("SynoSearch");
   const [synoSearchStatus, setSynoSearchStatus] = useState('idle');
   const [synoSearchOpen , setSynoSearchOpen] = useState(false);
   const [searchString, setSearchString] = useState("");
@@ -42,6 +42,9 @@ export default function Page() {
     query = typeof query === 'string' ? query.replaceAll(" ", "+") : "";
   
     switch (engine) {
+      case "SynoSearch":
+        base_url = "https://SynoSearch.com/?q=";
+        break;
       case "google":
         base_url = "https://www.google.com/search?q=";
         break;
@@ -197,6 +200,9 @@ export default function Page() {
             <img src="/infosettings.png" alt="Info Settings" className={styles.infoSettingsImage} />
           </button>
         </form>
+        <script async src="https://cse.google.com/cse.js?cx=b784b1ad1184941ab">
+        </script>
+        <div class="gcse-searchresults-only"></div>
         <ThemeSwitch />
       </div>
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
