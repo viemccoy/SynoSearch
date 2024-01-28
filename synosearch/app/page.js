@@ -174,6 +174,7 @@ export default function Page() {
               />
             </label>
             <select name="searchEngine" className={styles.customSelector} onChange={handleSearchEngineChange}>
+            <option value="SynoSearch">SynoSearch:Wide</option>
               <option value="google">Google</option>
               <option value="googleScholar">Google Scholar</option>
               <option value="bing">Bing</option>
