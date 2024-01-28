@@ -43,7 +43,7 @@ export default function Page() {
   
     switch (engine) {
       case "SynoSearch":
-        base_url = "https://SynoSearch.com/?q=";
+        base_url = "https://SynoSearch.com/results/?q=";
         break;
       case "google":
         base_url = "https://www.google.com/search?q=";
@@ -201,9 +201,6 @@ export default function Page() {
             <img src="/infosettings.png" alt="Info Settings" className={styles.infoSettingsImage} />
           </button>
         </form>
-        <script async src="https://cse.google.com/cse.js?cx=b784b1ad1184941ab">
-        </script>
-        <div class="gcse-searchresults-only"></div>
         <ThemeSwitch />
       </div>
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
