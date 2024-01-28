@@ -6,6 +6,7 @@ import styles from "../styles/Home.module.css";
 import RootLayout from './RootLayout'; // Adjust the path according to your project structure
 import Cookies from 'js-cookie';
 import InfoModal from './InfoModal';
+import ThemeSwitch from './ThemeSwitch';
 
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -187,17 +188,18 @@ export default function Page() {
             )}
           </div>
           <button 
-            className={styles.infoSettingsButton} 
-            onClick={(e) => {
-              e.preventDefault();
-              setInfoOpen(true);
-            }}
+          className={styles.infoSettingsButton} 
+          onClick={(e) => {
+            e.preventDefault();
+            setInfoOpen(true);
+          }}
           >
             <img src="/infosettings.png" alt="Info Settings" className={styles.infoSettingsImage} />
           </button>
-      </form>
-    </div>
-    <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
-  </RootLayout>
+        </form>
+        <ThemeSwitch />
+      </div>
+      <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
+    </RootLayout>
   );
 }
