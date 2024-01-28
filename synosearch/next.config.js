@@ -12,7 +12,8 @@ const nextConfig = {
         hostname: "*.replicate.delivery",
       }
     ]
-  }
+  },
+  trailingSlash: true,
 }
 
 module.exports = nextConfig
