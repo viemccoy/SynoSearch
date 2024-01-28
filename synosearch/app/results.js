@@ -3,12 +3,16 @@ import Script from 'next/script'
 
 export default function Results() {
   const router = useRouter()
+
+  // Wait until router is ready before accessing query
+  if (!router.isReady) return null;
+
   const { q } = router.query
 
   return (
     <div>
       <h1>Results for {q}</h1>
-      <Script src="https://cse.google.com/cse.js?cx=b784b1ad1184941ab" strategy="afterInteractive" />
+      <Script src={`https://cse.google.com/cse.js?cx=b784b1ad1184941ab`} strategy="afterInteractive" />
       <div className="gcse-searchresults-only"></div>
     </div>
   )
