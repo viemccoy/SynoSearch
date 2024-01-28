@@ -31,6 +31,16 @@ export default function Page() {
     }
   }, []);
 
+  useEffect(() => {
+    if (isWideView) {
+      // Load SynoSearch in an <object> tag
+      const objectElement = document.getElementById('synoSearchObject');
+      if (objectElement) {
+        objectElement.data = generateSearchLink(selectedSearchEngine, searchString);
+      }
+    }
+  }, [isWideView, selectedSearchEngine, searchString]);
+
   // This useEffect hook runs when autoOpenSearch state changes
   useEffect(() => {
     Cookies.set('autoOpenSearch', autoOpenSearch.toString(), { expires: 365 }); // Cookie will expire after 1 year
