@@ -43,7 +43,7 @@ export default function Page() {
   
     switch (engine) {
       case "SynoSearch":
-        base_url = "https://SynoSearch.com/results/?q=";
+        base_url = "/results/";
         break;
       case "google":
         base_url = "https://www.google.com/search?q=";
