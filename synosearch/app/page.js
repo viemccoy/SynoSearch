@@ -7,7 +7,6 @@ import RootLayout from './RootLayout'; // Adjust the path according to your proj
 import Cookies from 'js-cookie';
 import InfoModal from './InfoModal';
 import ThemeSwitch from './ThemeSwitch';
-import { ResponsiveAdUnit } from "nextjs-google-adsense";
 
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -234,7 +233,6 @@ export default function Page() {
       </div>
       {isWideView && <object id="synoSearchObject" type="text/html" className={styles.synoSearchObject}></object>}
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
-
     </RootLayout>
   );
 }
