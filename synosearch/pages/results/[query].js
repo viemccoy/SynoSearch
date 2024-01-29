@@ -8,7 +8,7 @@ export default function Results() {
   return (
     <div>
       <h1>Results for {q}</h1>
-      <Script strategy="beforeInteractive">
+      <Script id="gcse-settings" strategy="beforeInteractive">
         {`
           window.__gcse = {
             linkTarget: '_blank'
