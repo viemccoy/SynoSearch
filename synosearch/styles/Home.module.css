@@ -96,9 +96,11 @@
 }
 
 .btnContainer {
+  position: relative; /* Add this line */
   display: flex;
   font-family: 'Lora', serif;
-  align-items: stretch;
+  flex-direction: column; /* Stack the elements vertically */
+  align-items: center; /* Center the elements horizontally */
 
   border-left: 1px solid #000;
 }
@@ -107,6 +109,7 @@
   color: #000000; /* Set the font color to black */
   flex-grow: 1;
   display: flex;
+  flex-direction: column; /* Stack the elements vertically */
   align-items: center;
   font-family: 'Lora', serif;
   justify-content: center;
@@ -271,10 +274,28 @@
   overflow: hidden; /* This will hide any text that overflows the box */
 }
 
-.adContainer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 7%;
-  z-index: 1000; /* Ensure the ad is displayed above other elements */
+.remixIconContainer {
+  position: absolute; /* Add this line */
+  top: 82%; /* Add this line */
+  left: 53.5%; /* Add this line */
+  transform: translate(-50%, -50%); /* Add this line */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.remixIcon {
+  font-size: 2rem;
+}
+
+.remixCount {
+  margin-right: 1rem;
+}
+
+.remixIcon {
+  width: 20px; /* Adjust as needed */
+  height: 20px; /* Adjust as needed */
 }

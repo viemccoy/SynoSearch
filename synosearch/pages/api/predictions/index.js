@@ -33,7 +33,6 @@ export default async function handler(req, res) {
               content: req.body.prompt,
             }
           ],
-          max_tokens: 30,
         },
       },
       {

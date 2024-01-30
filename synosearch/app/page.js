@@ -23,6 +23,8 @@ export default function Page() {
   const [searchString, setSearchString] = useState("");
   const [isInfoOpen, setInfoOpen] = useState(false);
   const [isWideView, setIsWideView] = useState(false);
+  const [lastSearchQuery, setLastSearchQuery] = useState("");
+  const [sameSearchCount, setSameSearchCount] = useState(0);
 
   // This useEffect hook runs when the component mounts
   useEffect(() => {
@@ -49,6 +51,12 @@ export default function Page() {
 
   const handleViewChange = (e) => {
     setIsWideView(e.target.searchEngine.value === "SynoSearch");
+  };
+
+  const handleInputChange = (e) => {
+    if (e.target.value !== lastSearchQuery) {
+      setSameSearchCount(0);
+    }
   };
 
   const generateSearchLink = (engine, query) => {
@@ -93,15 +101,26 @@ export default function Page() {
     setSelectedSearchEngine(selectedEngine); // Store the selected engine in state
   
     // Set SynoSearch status to 'generating'
+    // Set SynoSearch status to 'generating'
     setSynoSearchStatus('generating');
   
+    const currentSearchQuery = e.target.prompt.value;
+    if (currentSearchQuery === lastSearchQuery) {
+      setSameSearchCount(prevCount => prevCount < 5 ? prevCount + 1 : prevCount);
+    } else {
+      setSameSearchCount(1); // Set to 1 for a new search
+      setLastSearchQuery(currentSearchQuery);
+    }
+
     const response = await fetch("/api/predictions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt: e.target.prompt.value,
+        prompt: currentSearchQuery,
+        temperature: 0.7 + 0.1 * Math.min(sameSearchCount, 5), // Adjust temperature based on sameSearchCount, capped at 5
+        max_tokens: 30,
       }),
     });
   
@@ -172,9 +191,18 @@ export default function Page() {
               placeholder="Enter a question" 
               className={styles.promptInput} 
               maxLength="200"
+              onChange={handleInputChange} // Reset sameSearchCount when user starts editing
             />
             <div className={styles.btnContainer}>
-              <button type="submit" className={styles.btn}>Go</button>
+              <button type="submit" className={styles.btn}>
+                Go
+              </button>
+              {sameSearchCount >= 1 && (
+                <div className={styles.remixIconContainer}>
+                  {sameSearchCount > 1 && <span className={styles.remixCount}>{Math.min(sameSearchCount, 5)}</span>}
+                  <img src="/remix.png" alt="Remix Icon" className={styles.remixIcon} />
+                </div>
+              )}
             </div>
           </div>
           <div className={styles.synoSearchBox}>
