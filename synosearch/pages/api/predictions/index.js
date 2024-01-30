@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const prompt = req.body.prompt;
+  const { prompt, tokens, temperature, model } = req.body; // Add 'tokens' and 'temperature' here
 
   // Check if the input is too long
   if (prompt.length > 230) {
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
         },
         query: {
-          model: "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef",
+          model: req.body.model,
           messages: [
             {
               role: "system",
@@ -33,6 +33,8 @@ export default async function handler(req, res) {
               content: req.body.prompt,
             }
           ],
+          temperature: req.body.temperature,
+          max_tokens: req.body.tokens,
         },
       },
       {

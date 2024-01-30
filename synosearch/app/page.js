@@ -17,7 +17,7 @@ export default function Page() {
   const [autoOpenSearch, setAutoOpenSearch] = useState(false);
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
-  const [selectedSearchEngine, setSelectedSearchEngine] = useState("SynoSearch");
+  const [selectedSearchEngine, setSelectedSearchEngine] = useState("SynoSearchWide");
   const [synoSearchStatus, setSynoSearchStatus] = useState('idle');
   const [synoSearchOpen , setSynoSearchOpen] = useState(false);
   const [searchString, setSearchString] = useState("");
@@ -50,7 +50,7 @@ export default function Page() {
   }, [autoOpenSearch]);
 
   const handleViewChange = (e) => {
-    setIsWideView(e.target.searchEngine.value === "SynoSearch");
+    setIsWideView(e.target.searchEngine.value === "SynoSearchWide");
   };
 
   const handleInputChange = (e) => {
@@ -66,8 +66,11 @@ export default function Page() {
     query = typeof query === 'string' ? query.replaceAll(" ", "+") : "";
   
     switch (engine) {
-      case "SynoSearch":
-        base_url = "https://www.synosearch.com/results.html?q=";
+      case "SynoSearchWide":
+        base_url = "https://www.synosearch.com/wideresults.html?q=";
+        break;
+      case "SynoSearchScholar":
+        base_url = "https://www.synosearch.com/scholarresults.html?q=";
         break;
       case "google":
         base_url = "https://www.google.com/search?q=";
@@ -119,8 +122,9 @@ export default function Page() {
       },
       body: JSON.stringify({
         prompt: currentSearchQuery,
+        model: "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef", // Use the SynoSearch model
         temperature: 0.7 + 0.1 * Math.min(sameSearchCount, 5), // Adjust temperature based on sameSearchCount, capped at 5
-        max_tokens: 30,
+        tokens: 20,
       }),
     });
   
@@ -144,13 +148,13 @@ export default function Page() {
         setSynoSearchStatus('generated');
   
         // Set isWideView state here, after the SynoSearch generation is complete
-        if (selectedEngine === "SynoSearch") {
+        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
           setIsWideView(true);
         } else {
           setIsWideView(false);
         }
   
-        if (selectedEngine === "SynoSearch") {
+        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
           // Load SynoSearch in an <object> tag
           const objectElement = document.getElementById('synoSearchObject');
           if (objectElement) {
@@ -218,7 +222,7 @@ export default function Page() {
             )}
           </div>
           <div className={isWideView ? styles.wideViewToolsForm : styles.toolsForm}>
-            {selectedSearchEngine !== "SynoSearch" && (
+          {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && (
               <label className={styles.autoOpenSearchLabel} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
                 Auto-Open Search:
                 <input 
@@ -231,7 +235,8 @@ export default function Page() {
               </label>
             )}
             <select name="searchEngine" className={styles.customSelector} onChange={handleSearchEngineChange}>
-              <option value="SynoSearch">SynoSearch:Wide</option>
+              <option value="SynoSearchWide">SynoSearch:Wide</option>
+              <option value="SynoSearchScholar">SynoSearch:Scholar</option>
               <option value="google">Google</option>
               <option value="googleScholar">Google Scholar</option>
               <option value="bing">Bing</option>
