@@ -11,21 +11,17 @@
             border: 1px solid gray;
             margin: 10px;
             padding: 10px;
-            font-size: 21;
+            font-size: 21px;
         }
         #openAlexSearchResults a {
             color: black;
             text-decoration: none;
         }
         #openAlexSearchResults .title {
-            font-size: 20px;
-        }
-        #openAlexSearchResults .url {
-            color: green;
-            font-size: 15;
+            font-size: 18px;
         }
         #openAlexSearchResults .info {
-            font-size: 15;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -48,8 +44,7 @@
                     data.results.forEach(result => {
                         var resultDiv = document.createElement('div');
                         resultDiv.innerHTML = `
-                            <h2 class="title"><a href="${result.doi}">${result.display_name}</a></h2>
-                            <p class="url">${result.doi}</p>
+                            <h2 class="title"><a href="${result.doi}" target="_blank">${result.display_name}</a></h2>
                             <p class="info">Keywords: ${result.keywords.map(keyword => keyword.keyword).join(', ')}</p>
                             <p class="info">Cited by: ${result.cited_by_count}</p>
                             <p class="info">Publication Date: ${new Date(result.publication_date).toLocaleDateString()}</p>
