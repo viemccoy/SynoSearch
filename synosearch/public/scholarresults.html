@@ -1,9 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Search Results</title>
-  <script async src="https://cse.google.com/cse.js?cx=f393df130c177470c"></script>
+    <title>OpenAlex Search Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="description" content="Search smarter, not harder.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16">
+    <style>
+        /* Add your CSS here */
+    </style>
 </head>
 <body>
-  <div class="gcse-searchresults-only"></div>
+    <div id="openAlexSearchResults">
+        <!-- Search results from OpenAlex API will be inserted here -->
+    </div>
+    <button id="prevPage">Previous</button>
+    <button id="nextPage">Next</button>
+    <script>
+        var currentPage = 1;
+        var query = new URLSearchParams(window.location.search).get('q');
+
+        function fetchResults(page) {
+            fetch(`https://api.openalex.org/works?search=${query}&page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    var resultsDiv = document.getElementById('openAlexSearchResults');
+                    resultsDiv.innerHTML = '';
+                    data.results.forEach(result => {
+                        var resultDiv = document.createElement('div');
+                        resultDiv.innerHTML = `<h2><a href="${result.id}">${result.title}</a></h2>`;
+                        resultsDiv.appendChild(resultDiv);
+                    });
+                });
+        }
+
+        document.getElementById('prevPage').addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                fetchResults(currentPage);
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', function() {
+            currentPage++;
+            fetchResults(currentPage);
+        });
+
+        fetchResults(currentPage);
+    </script>
 </body>
+</html>
