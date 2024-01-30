@@ -9,20 +9,20 @@
     <style>
         #openAlexSearchResults div {
             border: 1px solid gray;
-            margin: 1px;
+            margin: 10px;
             padding: 10px;
         }
         #openAlexSearchResults a {
             color: black;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 14px;
         }
         #openAlexSearchResults .url {
             color: green;
-            font-size: 10px;
+            font-size: 12px;
         }
-        #openAlexSearchResults .abstract {
-            font-size: 10px;
+        #openAlexSearchResults .info {
+            font-size: 12px;
         }
     </style>
 </head>
@@ -37,7 +37,7 @@
         var query = new URLSearchParams(window.location.search).get('q');
 
         function fetchResults(page) {
-            fetch(`https://api.openalex.org/works?search=${query}&page=${page}`)
+            fetch(`https://api.openalex.org/works?search=${query}&page=${page}&select=id,doi,display_name,keywords,cited_by_count,publication_date`)
                 .then(response => response.json())
                 .then(data => {
                     var resultsDiv = document.getElementById('openAlexSearchResults');
@@ -45,9 +45,11 @@
                     data.results.forEach(result => {
                         var resultDiv = document.createElement('div');
                         resultDiv.innerHTML = `
-                            <h2><a href="${result.id}">${result.title}</a></h2>
-                            <p class="url">${result.id}</p>
-                            <p class="abstract">${result.abstract}</p>
+                            <h2><a href="${result.doi}">${result.display_name}</a></h2>
+                            <p class="url">${result.doi}</p>
+                            <p class="info">Keywords: ${result.keywords.join(', ')}</p>
+                            <p class="info">Cited by: ${result.cited_by_count}</p>
+                            <p class="info">Publication Date: ${new Date(result.publication_date).toLocaleDateString()}</p>
                         `;
                         resultsDiv.appendChild(resultDiv);
                     });
