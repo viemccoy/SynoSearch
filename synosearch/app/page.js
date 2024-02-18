@@ -190,12 +190,24 @@ export default function Page() {
     }
   };
 
-return (
-  <RootLayout isDarkMode={isDarkMode}>
-    <div className={`${isWideView ? styles.wideViewContainer : styles.container} ${isDarkMode ? 'dark-mode' : ''}`}>
-      <Head>
-        <title>SynoSearch</title>
-      </Head>
+  return (
+    <RootLayout isDarkMode={isDarkMode}>
+      <div className={`${isWideView ? styles.wideViewContainer : styles.container} ${isDarkMode ? 'dark-mode' : ''}`}>
+        <Head>
+          <title>SynoSearch</title>
+          <script dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var theme = localStorage.getItem('isDarkMode') || 'false';
+                if (theme === 'true') {
+                  document.documentElement.className = 'dark-mode';
+                } else {
+                  document.documentElement.className = 'light-mode';
+                }
+              })();
+            `,
+          }} />
+        </Head>
 
       <h1 className={`${isWideView ? styles.wideViewTitle : styles.title} ${isDarkMode ? 'dark-mode' : ''}`}>
         <a href="/" className={`${styles.titleLink} ${isDarkMode ? 'dark-mode' : ''}`}>SynoSearch</a>
