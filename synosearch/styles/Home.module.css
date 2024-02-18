@@ -237,10 +237,6 @@
   cursor: pointer;
 }
 
-.tabContent {
-  /* Add styles for the tab content */
-}
-
 .wideViewContainer {
   display: flex;
   flex-direction: row;
@@ -289,29 +285,34 @@
 }
 
 .remixIconContainer {
-  position: absolute; /* Add this line */
-  top: 82%; /* Add this line */
-  left: 53.5%; /* Add this line */
-  transform: translate(-50%, -50%); /* Add this line */
+  position: absolute;
+  top: 82%;
+  left: 77%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.7rem;
   z-index: 100;
   pointer-events: none;
+  background: url("/remix.png") no-repeat center center;
+  background-size: cover;
+  width: 50%;
+  height: 50%;
 }
 
 .remixIcon {
   font-size: 2rem;
+  
+}
+
+:global(.dark) .remixIconContainer {
+  background: url("/remix_light.png") no-repeat center center;
+  background-size: cover;
 }
 
 .remixCount {
-  margin-right: 1rem;
-}
-
-.remixIcon {
-  width: 20px; /* Adjust as needed */
-  height: 20px; /* Adjust as needed */
+  margin-right: 2rem; /* Adjust as needed */
 }
 /* Add :global(.dark) before each class that has a dark mode variant */
 
