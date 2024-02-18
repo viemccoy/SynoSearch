@@ -2,7 +2,7 @@ import styles from '../styles/Home.module.css';
 import React, { useEffect, useState } from 'react';
 
 
-export default function InfoModal({ isInfoOpen, setInfoOpen }) {
+export default function InfoModal({ isInfoOpen, setInfoOpen, isDarkMode, toggleDarkMode }) {
   const [activeTab, setActiveTab] = useState(0);
 
   if (!isInfoOpen) {
@@ -25,6 +25,20 @@ export default function InfoModal({ isInfoOpen, setInfoOpen }) {
       </div>
       <div className={styles.tabContent}>
         {activeTab === 0 && <div>SynoSearch is the first AI-powered top-down semantic search designed by Vie McCoy to make search engines useful again.</div>}
+        {activeTab === 0 && (
+        <button
+          className={styles.infoSettingsButton}
+          onClick={toggleDarkMode}
+          style={{ position: 'absolute', bottom: '10px', left: '10px' }}
+        >
+          {/* Icon changes based on the current theme */}
+          {isDarkMode ? (
+            <img src="/sun.svg" alt="Light Mode" className={styles.infoSettingsImage} />
+          ) : (
+            <img src="/moon.svg" alt="Dark Mode" className={styles.infoSettingsImage} />
+          )}
+        </button>
+      )}
         {activeTab === 1 && <div>Content for Tab 2</div>}
         {activeTab === 2 && <div>Content for Tab 3</div>}
         {activeTab === 3 && <div>Content for Tab 4</div>}

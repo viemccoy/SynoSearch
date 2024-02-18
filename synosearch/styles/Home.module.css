@@ -211,6 +211,10 @@
   right: 0;
   padding: 0.5rem;
   cursor: pointer;
+  color: #000000; /* White text for close button */
+  background-color: #ffffff;
+  border: 1px solid #000;
+
 }
 
 .tabs {
@@ -298,4 +302,232 @@
 .remixIcon {
   width: 20px; /* Adjust as needed */
   height: 20px; /* Adjust as needed */
+}
+/* Add :global(.dark-mode) before each class that has a dark mode variant */
+
+:global(.dark-mode) .formControls {
+  font-size: 1.3rem;
+  border: 1px solid #FFF;
+  border-radius: 0.25rem;
+  font-family: 'Lora', serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:global(.dark-mode) .container {
+  background-color: transparent; /* Transparent background for dark mode */
+}
+
+:global(.dark-mode) .title {
+  color: #ffffff; /* White text for dark mode */
+}
+
+:global(.dark-mode) .tagline {
+  color: #c0c0c0; /* Lighter text for dark mode */
+}
+
+:global(.dark-mode) .form {
+  background-color: transparent; /* Transparent background for dark mode */
+}
+
+:global(.dark-mode) .form input {
+  background-color: #000000; /* Darker background for search box */
+  color: #ffffff; /* White text for input */
+  border-color: #ffffff; /* White border for input */
+}
+
+:global(.dark-mode) .formControls {
+  border-color: #ffffff; /* White border for controls */
+}
+
+:global(.dark-mode) .fullscreen {
+  background-color: transparent; /* Transparent background for dark mode */
+}
+
+:global(.dark-mode) .body {
+  background-color: #000000; /* Dark background for body */
+}
+
+:global(.dark-mode) .formContainer {
+  background-color: transparent; /* Transparent background for dark mode */
+}
+
+:global(.dark-mode) .inputGroup {
+  border-color: #ffffff; /* White border for input group */
+}
+
+:global(.dark-mode) .btnContainer {
+  border-color: #ffffff; /* White border for button container */
+}
+
+:global(.dark-mode) .btn {
+  color: #ffffff; /* White text for buttons */
+  background-color: #000000; /* Darker background for buttons */
+}
+
+:global(.dark-mode) .btn:hover {
+  background-color: #000000; /* Even darker background on hover for buttons */
+}
+
+:global(.dark-mode) .synoSearchBox {
+  background-color: #000000; /* Darker background for search box */
+  color: #ffffff; /* White text for search box */
+  border-color: #ffffff; /* White border for search box */
+}
+
+:global(.dark-mode) .titleLink {
+  color: #ffffff; /* Light blue color for links in dark mode */
+}
+
+:global(.dark-mode) .toolsForm {
+  background-color: #000000; /* Dark background for tools form */
+}
+
+:global(.dark-mode) .autoOpenSearchLabel {
+  color: #c0c0c0; /* Lighter text for labels in dark mode */
+}
+
+:global(.dark-mode) .openInNewTabLink {
+  color: #9ab; /* Light blue color for links in dark mode */
+}
+
+:global(.dark-mode) .infoSettingsButton {
+  background-color: #000000; /* Darker background for settings button */
+}
+
+:global(.dark-mode) .infoModal {
+  background-color: #000000; /* Darker background for modal */
+  color: #ffffff; /* White text for modal */
+  border-color: #ffffff; /* White border for modal */
+}
+
+:global(.dark-mode) .tabs {
+  background-color: #000000; /* Dark background for tabs */
+}
+
+:global(.dark-mode) .tabButton {
+  color: #ffffff; /* White text for tab buttons */
+  background-color: #000000; /* Darker background for tab buttons */
+}
+
+:global(.dark-mode) .tabContent {
+  color: #ffffff; /* White text for tab content */
+  background-color: #000000; /* Darker background for tab content */
+}
+
+:global(.dark-mode) .wideViewContainer {
+  background-color: #000000; /* Dark background for wide view container */
+}
+
+:global(.dark-mode) .wideViewTitle {
+  color: #ffffff; /* White text for wide view title */
+}
+
+:global(.dark-mode) .wideViewForm {
+  background-color: #000000; /* Dark background for wide view form */
+}
+
+:global(.dark-mode) .wideViewToolsForm {
+  background-color: #000000; /* Dark background for wide view tools form */
+}
+
+:global(.dark-mode) .synoSearchObject {
+  background-color: #000000; /* Darker background for search object */
+  border-color: #ffffff; /* White border for search object */
+}
+
+:global(.dark-mode) .remixCount {
+  color: #ffffff; /* White text for remix count */
+}
+
+body.local-body:global(.dark-mode) {
+  background-color: #000000; /* Dark background for body */
+  color: #ffffff; /* White text color for body */
+}
+
+.local-link:global(.dark-mode) {
+  color: #9ab; /* Light blue color for links in dark mode */
+}
+
+.local-input:global(.dark-mode), .local-button:global(.dark-mode), .local-select:global(.dark-mode), .local-textarea:global(.dark-mode) {
+  background-color: #000000; /* Darker background for form elements */
+  color: #ffffff; /* White text for form elements */
+  border-color: #ffffff; /* White border for form elements */
+}
+
+.local-input:global(.dark-mode):hover, .local-button:global(.dark-mode):hover, .local-select:global(.dark-mode):hover, .local-textarea:global(.dark-mode):hover {
+  background-color: #000000; /* Even darker background on hover for form elements */
+}
+
+.local-input:global(.dark-mode):active, .local-button:global(.dark-mode):active, .local-select:global(.dark-mode):active, .local-textarea:global(.dark-mode):active {
+  background-color: #000000; /* Even darker background on active for form elements */
+}
+
+.local-input:global(.dark-mode):focus, .local-button:global(.dark-mode):focus, .local-select:global(.dark-mode):focus, .local-textarea:global(.dark-mode):focus {
+  border-color: #9ab; /* Light blue border for focused form elements */
+  outline-color: #9ab; /* Light blue outline for focused form elements */
+}
+
+:global(.dark-mode) .autoOpenSearchLabel {
+  color: #c0c0c0; /* Lighter text for labels in dark mode */
+}
+
+:global(.dark-mode) .openInNewTabLink {
+  color: #9ab; /* Light blue color for links in dark mode */
+}
+
+:global(.dark-mode) .infoSettingsButton {
+  background-color: #000000; /* Darker background for settings button */
+}
+
+:global(.dark-mode) .infoModal {
+  background-color: #000000; /* Darker background for modal */
+  color: #ffffff; /* White text for modal */
+  border-color: #ffffff; /* White border for modal */
+}
+
+:global(.dark-mode) .closeButton {
+  color: #ffffff; /* White text for close button */
+  background-color: #000000;
+  border-color: #ffffff; /* White border for modal */
+}
+
+:global(.dark-mode) .tabs {
+  /* No color mentioned, but if there's a default background, invert it */
+  background-color: #000000; /* Dark background for tabs */
+}
+
+:global(.dark-mode) .tabButton {
+  color: #ffffff; /* White text for tab buttons */
+  background-color: #000000; /* Darker background for tab buttons */
+}
+
+:global(.dark-mode) .formContainer {
+  /* No color mentioned, but if there's a default background, invert it */
+  background-color: transparent; /* Transparent background for dark mode */
+}
+
+:global(.dark-mode) .inputGroup {
+  border-color: #ffffff; /* White border for input group */
+}
+
+:global(.dark-mode) .btnContainer {
+  border-color: #ffffff; /* White border for button container */
+}
+
+:global(.dark-mode) .titleLink {
+  color: #ffffff; /* Light blue color for links in dark mode */
+}
+
+:global(.dark-mode) .toolsForm {
+  /* No color mentioned, but if there's a default background, invert it */
+  background-color: #000000; /* Dark background for tools form */
+}
+
+:global(.dark-mode) .fullscreen {
+  position: fixed;
+  width: 100%;
+  align-items: center; /* Center the elements horizontally */
+  border-left: 1px solid #000;
 }

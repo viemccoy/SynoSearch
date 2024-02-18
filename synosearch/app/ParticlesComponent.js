@@ -4,7 +4,7 @@ import { loadLinksPreset } from "@tsparticles/preset-links";
 import styles from "../styles/Home.module.css";
 
 
-const ParticlesComponent = () => {
+const ParticlesComponent = ({ isDarkMode }) => {
   const [init, setInit] = useState(false);
 
   const calculateParticleDensity = () => {
@@ -44,7 +44,7 @@ const ParticlesComponent = () => {
       options={{
         background: {
           color: {
-            value: "#ffffff", // Set the background color to white
+            value: isDarkMode ? "#000000" : "#ffffff",
           },
         },
         particles: {
@@ -55,10 +55,10 @@ const ParticlesComponent = () => {
             },
           },
           color: {
-            value: "#000000", // Set the particles color to black
+            value: isDarkMode ? "#ffffff" : "#000000",
           },
           links: {
-            color: "#000000", // Set the links color to black
+            color: isDarkMode ? "#ffffff" : "#000000",
           },
           shape: {
             type: "circle",
@@ -68,6 +68,6 @@ const ParticlesComponent = () => {
       }}
     />
   );
-};
+}
 
 export default React.memo(ParticlesComponent);

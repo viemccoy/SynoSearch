@@ -24,11 +24,11 @@ export default function ThemeSwitch() {
   )
 
   if (resolvedTheme === 'dark') {
-    return <FiSun onClick={() => setTheme('light')} />
+    return <img src="/sun.svg" onClick={() => setIsDarkMode(false)} />
   }
-
+  
   if (resolvedTheme === 'light') {
-    return <FiMoon onClick={() => setTheme('dark')} />
+    return <img src="/moon.svg" onClick={() => setIsDarkMode(true)} />
   }
 
 }
