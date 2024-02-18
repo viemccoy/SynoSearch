@@ -44,7 +44,7 @@ export default function Page() {
       // Load SynoSearch in an <object> tag
       const objectElement = document.getElementById('synoSearchObject');
       if (objectElement) {
-        objectElement.data = generateSearchLink(selectedSearchEngine, searchString);
+        objectElement.data = generateSearchLink(selectedSearchEngine, searchString, isDarkMode);
       }
     }
   }, [isWideView, selectedSearchEngine, searchString]);
@@ -95,7 +95,7 @@ export default function Page() {
 
   const handleOpenInNewTab = (e) => {
     e.preventDefault();
-    const searchLink = generateSearchLink(selectedSearchEngine, searchString);
+    const searchLink = generateSearchLink(selectedSearchEngine, searchString, isDarkMode);
     window.open(searchLink, "_blank");
   };
 
@@ -146,7 +146,7 @@ export default function Page() {
       if (outputString) {
         const newSearchString = Array.isArray(outputString) ? outputString.join("") : outputString;
         setSearchString(newSearchString);
-        const searchLink = generateSearchLink(selectedEngine, newSearchString);
+        const searchLink = generateSearchLink(selectedSearchEngine, searchString, isDarkMode);
   
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
