@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import ParticlesComponent from './ParticlesComponent';
 import { Analytics } from '@vercel/analytics/react';
+import { Providers } from './providers';
+import { useTheme } from 'next-themes'; // Import useTheme
+import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
 
-const RootLayout = ({ children, isDarkMode }) => {
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark-mode');
-    } else {
-      document.documentElement.classList.remove('dark-mode');
-    }
-  }, [isDarkMode]);
+function RootLayout({ children }) {
+  const { theme } = useTheme();
 
   const childrenWithProps = React.Children.map(children, child => {
-    // Checking isValidElement is the safe way and avoids a typescript error too.
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { isDarkMode: isDarkMode });
+      return React.cloneElement(child);
     }
     return child;
   });
 
   return (
     <>
+    <Providers>
+    <ThemeContext.Provider value={theme}>
       <Analytics />
-      <ParticlesComponent isDarkMode={isDarkMode} />
-      {childrenWithProps}
+      <ParticlesComponent/>
+        {childrenWithProps}
+    </ThemeContext.Provider>
+    </Providers>
     </>
   );
 };

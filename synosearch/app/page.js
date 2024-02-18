@@ -1,14 +1,15 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import RootLayout from './RootLayout'; // Adjust the path according to your project structure
 import Cookies from 'js-cookie';
 import InfoModal from './InfoModal';
 import ThemeSwitch from './ThemeSwitch';
-
-
+import { useTheme } from 'next-themes';
+import { Providers } from './providers';
+import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -25,20 +26,7 @@ export default function Page() {
   const [isWideView, setIsWideView] = useState(false);
   const [lastSearchQuery, setLastSearchQuery] = useState("");
   const [sameSearchCount, setSameSearchCount] = useState(0);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    const isDarkModeCookie = Cookies.get('isDarkMode');
-    if (isDarkModeCookie !== undefined) {
-      setIsDarkMode(isDarkModeCookie === 'true');
-    }
-  }, []);
-
-  const toggleDarkMode = () => {
-    const newIsDarkMode = !isDarkMode;
-    setIsDarkMode(newIsDarkMode);
-    Cookies.set('isDarkMode', newIsDarkMode.toString(), { expires: 365 }); // Cookie will expire after 1 year
-  };
+  const { theme, setTheme } = useTheme(); // Get the current theme and setTheme function
 
   // This useEffect hook runs when the component mounts
   useEffect(() => {
@@ -53,7 +41,7 @@ export default function Page() {
       // Load SynoSearch in an <object> tag
       const objectElement = document.getElementById('synoSearchObject');
       if (objectElement) {
-        objectElement.data = generateSearchLink(selectedSearchEngine, searchString, isDarkMode);
+        objectElement.data = generateSearchLink(selectedSearchEngine, searchString);
       }
     }
   }, [isWideView, selectedSearchEngine, searchString]);
@@ -73,7 +61,7 @@ export default function Page() {
     }
   };
 
-  const generateSearchLink = (engine, query, isDarkMode) => {
+  const generateSearchLink = (engine, query) => {
     let base_url;
     
     // Ensure query is a string and is not null or undefined
@@ -81,10 +69,10 @@ export default function Page() {
   
     switch (engine) {
       case "SynoSearchWide":
-        base_url = isDarkMode ? "https://www.synosearch.com/wideresults_dark.html?q=" : "https://www.synosearch.com/wideresults.html?q=";
+        base_url = theme === 'dark' ? "https://www.synosearch.com/wideresults_dark.html?q=" : "https://www.synosearch.com/wideresults.html?q=";
         break;
       case "SynoSearchScholar":
-        base_url = isDarkMode ? "https://www.synosearch.com/scholarresults_dark.html?q=" : "https://www.synosearch.com/scholarresults.html?q=";
+        base_url = theme === 'dark' ? "https://www.synosearch.com/scholarresults_dark.html?q=" : "https://www.synosearch.com/scholarresults.html?q=";
         break;
       case "google":
         base_url = "https://www.google.com/search?q=";
@@ -104,7 +92,7 @@ export default function Page() {
 
   const handleOpenInNewTab = (e) => {
     e.preventDefault();
-    const searchLink = generateSearchLink(selectedSearchEngine, searchString, isDarkMode);
+    const searchLink = generateSearchLink(selectedSearchEngine, searchString);
     window.open(searchLink, "_blank");
   };
 
@@ -155,7 +143,7 @@ export default function Page() {
       if (outputString) {
         const newSearchString = Array.isArray(outputString) ? outputString.join("") : outputString;
         setSearchString(newSearchString);
-        const searchLink = generateSearchLink(selectedSearchEngine, searchString, isDarkMode);
+        const searchLink = generateSearchLink(selectedSearchEngine, searchString);
   
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
@@ -191,50 +179,37 @@ export default function Page() {
   };
 
   return (
-    <RootLayout isDarkMode={isDarkMode}>
-      <div className={`${isWideView ? styles.wideViewContainer : styles.container} ${isDarkMode ? 'dark-mode' : ''}`}>
+    <Providers>
+        <RootLayout>
+      <div className={`${isWideView ? styles.wideViewContainer : styles.container}`}>
         <Head>
           <title>SynoSearch</title>
-          <script dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var theme = localStorage.getItem('isDarkMode') || 'false';
-                if (theme === 'true') {
-                  document.documentElement.className = 'dark-mode';
-                } else {
-                  document.documentElement.className = 'light-mode';
-                }
-              })();
-            `,
-          }} />
         </Head>
-
-      <h1 className={`${isWideView ? styles.wideViewTitle : styles.title} ${isDarkMode ? 'dark-mode' : ''}`}>
-        <a href="/" className={`${styles.titleLink} ${isDarkMode ? 'dark-mode' : ''}`}>SynoSearch</a>
+  
+      <h1 className={`${isWideView ? styles.wideViewTitle : styles.title} `}>
+        <a href="/" className={`${styles.titleLink} `}>SynoSearch</a>
       </h1>
-      <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} ${isDarkMode ? 'dark-mode' : ''}`} onSubmit={handleSubmit}>
-        <div className={`${styles.inputGroup} ${isDarkMode ? 'dark-mode' : ''}`}>
+      <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} `} onSubmit={(e) => handleSubmit(e)}>        <div className={`${styles.inputGroup} `}>
           <input 
             type="text" 
             name="prompt" 
             placeholder="Enter a question" 
-            className={`${styles.promptInput} ${isDarkMode ? 'dark-mode' : ''}`} 
+            className={`${styles.promptInput} `} 
             maxLength="200"
             onChange={handleInputChange} // Reset sameSearchCount when user starts editing
           />
-          <div className={`${styles.btnContainer} ${isDarkMode ? 'dark-mode' : ''}`}>
-            <button type="submit" className={`${styles.btn} ${isDarkMode ? 'dark-mode' : ''}`}>
+          <div className={`${styles.btnContainer} `}>
+            <button type="submit" className={`${styles.btn} `}>
               Go
             </button>
             {sameSearchCount >= 1 && (
-              <div className={`${styles.remixIconContainer} ${isDarkMode ? 'dark-mode' : ''}`}>
-                {sameSearchCount > 1 && <span className={`${styles.remixCount} ${isDarkMode ? 'dark-mode' : ''}`}>{Math.min(sameSearchCount, 5)}</span>}
-                <img src={isDarkMode ? "/remix_light.png" : "/remix.png"} alt="Remix Icon" className={`${styles.remixIcon} ${isDarkMode ? 'dark-mode' : ''}`} />
+              <div className={`${styles.remixIconContainer} `}>
+                {sameSearchCount > 1 && <span className={`${styles.remixCount} `}>{Math.min(sameSearchCount, 5)}</span>}
               </div>
             )}
           </div>
         </div>
-        <div className={`${styles.synoSearchBox} ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`${styles.synoSearchBox} `}>
           {synoSearchStatus === 'idle' && 'Input query above'}
           {synoSearchStatus === 'generating' && 'Generating SynoSearch...'}
           {synoSearchStatus === 'generated' && (
@@ -243,23 +218,23 @@ export default function Page() {
             </div>
           )}
           {synoSearchStatus === 'generated' && synoSearchOpen && (
-            <div className={`${isWideView ? styles.wideViewSynoSearchBox : ''} ${isDarkMode ? 'dark-mode' : ''}`}>{searchString}</div>
+            <div className={`${isWideView ? styles.wideViewSynoSearchBox : ''} `}>{searchString}</div>
           )}
         </div>
-        <div className={`${isWideView ? styles.wideViewToolsForm : styles.toolsForm} ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`${isWideView ? styles.wideViewToolsForm : styles.toolsForm} `}>
         {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && (
-            <label className={`${styles.autoOpenSearchLabel} ${isDarkMode ? 'dark-mode' : ''}`} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
+            <label className={`${styles.autoOpenSearchLabel} `} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
               Auto-Open Search:
               <input 
                 type="checkbox" 
                 checked={autoOpenSearch} 
                 onChange={() => setAutoOpenSearch(prevState => !prevState)}
                 style={{ marginRight: '10px', marginLeft: '10px' }}
-                className={`${styles.checkboxHover} ${isDarkMode ? 'dark-mode' : ''}`}
+                className={`${styles.checkboxHover} `}
               />
             </label>
           )}
-          <select name="searchEngine" className={`${styles.customSelector} ${isDarkMode ? 'dark-mode' : ''}`} onChange={handleSearchEngineChange}>
+          <select name="searchEngine" className={`${styles.customSelector} `} onChange={handleSearchEngineChange}>
             <option value="SynoSearchWide">SynoSearch:Wide</option>
             <option value="SynoSearchScholar">SynoSearch:Scholar</option>
             <option value="google">Google</option>
@@ -272,26 +247,26 @@ export default function Page() {
               onClick={handleOpenInNewTab}
               target="_blank" 
               rel="noopener noreferrer" 
-              className={`${styles.openInNewTabLink} ${isDarkMode ? 'dark-mode' : ''}`}
+              className={`${styles.openInNewTabLink} `}
               >
                 Open In New Tab
               </a>
             )}
           </div>
           <button 
-            className={`${styles.infoSettingsButton} ${isDarkMode ? 'dark-mode' : ''}`} 
+            className={`${styles.infoSettingsButton} `} 
             onClick={(e) => {
               e.preventDefault();
               setInfoOpen(true);
             }}
           >
-            <img src={isDarkMode ? "/infosettings_light.png" : "/infosettings.png"} alt="Info Settings" className={styles.infoSettingsImage} />
           </button>
         </form>
-        <ThemeSwitch setIsDarkMode={setIsDarkMode} />
+        <ThemeSwitch/>
       </div>
-      {isWideView && <object id="synoSearchObject" type="text/html" className={`${styles.synoSearchObject} ${isDarkMode ? 'dark-mode' : ''}`}></object>}
-      <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}/>
+      {isWideView && <object id="synoSearchObject" type="text/html" className={`${styles.synoSearchObject} `}></object>}
+      <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
     </RootLayout>
+  </Providers>
   );
 }

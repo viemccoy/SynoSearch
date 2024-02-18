@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadLinksPreset } from "@tsparticles/preset-links";
 import styles from "../styles/Home.module.css";
+import { useTheme } from 'next-themes';
 
 
-const ParticlesComponent = ({ isDarkMode }) => {
+const ParticlesComponent = () => {
   const [init, setInit] = useState(false);
+  const { theme } = useTheme();
 
   const calculateParticleDensity = () => {
     if (typeof window !== 'undefined') {
@@ -44,21 +46,21 @@ const ParticlesComponent = ({ isDarkMode }) => {
       options={{
         background: {
           color: {
-            value: isDarkMode ? "#000000" : "#ffffff",
+            value: theme === 'dark' ? "#000000" : "#ffffff",
           },
         },
         particles: {
           number: {
             density: {
               enable: true,
-              value_area: calculateParticleDensity(), // Adjust this value to increase or decrease the particle density
+              value_area: calculateParticleDensity(),
             },
           },
           color: {
-            value: isDarkMode ? "#ffffff" : "#000000",
+            value: theme === 'dark' ? "#ffffff" : "#000000",
           },
           links: {
-            color: isDarkMode ? "#ffffff" : "#000000",
+            color: theme === 'dark' ? "#ffffff" : "#000000",
           },
           shape: {
             type: "circle",
