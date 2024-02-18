@@ -3,11 +3,23 @@
 <head>
   <title>Search Results</title>
   <script async src="https://cse.google.com/cse.js?cx=86c9a287624184343"></script>
-  <style>
+  <style id="backgroundStyle">
     body {
-      background-color: #000000; /* Black background */
+      background-color: #000000; /* Default to white background */
+    }
+    .gsc-results .gsc-webResult {
+      background-color: #000000 !important; /* Force black background */
     }
   </style>
+  <script>
+    // This script runs immediately when the page is loaded
+    (function() {
+      var isDarkMode = document.cookie.replace(/(?:(?:^|.*;\s*)isDarkMode\s*\=\s*([^;]*).*$)|^.*$/, "$1") === 'true';
+      if (isDarkMode) {
+        document.getElementById('backgroundStyle').innerHTML = 'body { background-color: #000000; } .gsc-results .gsc-webResult { background-color: #000000 !important; }'; // Set to black background
+      }
+    })();
+  </script>
 </head>
 <body>
   <div class="gcse-searchresults-only"></div>
