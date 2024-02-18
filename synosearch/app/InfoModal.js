@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes'; // Import the useTheme hook
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
 
 
-export default function InfoModal({ isInfoOpen, setInfoOpen }) {
+export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRedditSearch }) {
   
   const [activeTab, setActiveTab] = useState(0);
   const { theme, setTheme } = useTheme(); // Get the current theme and setTheme function
@@ -35,7 +35,15 @@ export default function InfoModal({ isInfoOpen, setInfoOpen }) {
         ))}
       </div>
       <div className={styles.tabContent}>
+        {activeTab === 0 && <h1>About SynoSearch</h1>}
         {activeTab === 0 && <div>SynoSearch is the first AI-powered top-down semantic search designed by Vie McCoy to make search engines useful again.</div>}
+        {activeTab === 0 && <h1>SynoSettings</h1>}
+        {activeTab === 0 && (
+        <label>
+        Reddit Mode (Only Searches Reddit):
+          <input type="checkbox" checked={redditSearch} onChange={() => setRedditSearch(prevState => !prevState)} />
+        </label>
+        ) }
         {activeTab === 0 && (
           <button
           className={`${styles.infoSettingsButton} ${styles.darkModeButton}`}

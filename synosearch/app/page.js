@@ -27,7 +27,14 @@ export default function Page() {
   const [lastSearchQuery, setLastSearchQuery] = useState("");
   const [sameSearchCount, setSameSearchCount] = useState(0);
   const { theme, setTheme } = useTheme(); // Get the current theme and setTheme function
+  const [redditSearch, setRedditSearch] = useState(false);
 
+  useEffect(() => {
+    const reddit = Cookies.get('redditSearch');
+    if (reddit !== undefined) {
+      setRedditSearch(reddit === 'true');
+    }
+  }, []);
   // This useEffect hook runs when the component mounts
   useEffect(() => {
     const autoOpen = Cookies.get('autoOpenSearch');
@@ -86,7 +93,10 @@ export default function Page() {
       default:
         base_url = "https://www.google.com/search?q=";
     }
-  
+    if (redditSearch) {
+      query += " insite:reddit";
+    }
+    
     return base_url + query;
   };
 
@@ -265,7 +275,7 @@ export default function Page() {
         <ThemeSwitch/>
       </div>
       {isWideView && <object id="synoSearchObject" type="text/html" className={`${styles.synoSearchObject} `}></object>}
-      <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} />
+      <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} redditSearch={redditSearch} setRedditSearch={setRedditSearch} />
     </RootLayout>
   </Providers>
   );
