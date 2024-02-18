@@ -27,8 +27,17 @@ export default function Page() {
   const [sameSearchCount, setSameSearchCount] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  useEffect(() => {
+    const isDarkModeCookie = Cookies.get('isDarkMode');
+    if (isDarkModeCookie !== undefined) {
+      setIsDarkMode(isDarkModeCookie === 'true');
+    }
+  }, []);
+
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    const newIsDarkMode = !isDarkMode;
+    setIsDarkMode(newIsDarkMode);
+    Cookies.set('isDarkMode', newIsDarkMode.toString(), { expires: 365 }); // Cookie will expire after 1 year
   };
 
   // This useEffect hook runs when the component mounts
