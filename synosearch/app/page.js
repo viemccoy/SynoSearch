@@ -217,7 +217,7 @@ return (
             {sameSearchCount >= 1 && (
               <div className={`${styles.remixIconContainer} ${isDarkMode ? 'dark-mode' : ''}`}>
                 {sameSearchCount > 1 && <span className={`${styles.remixCount} ${isDarkMode ? 'dark-mode' : ''}`}>{Math.min(sameSearchCount, 5)}</span>}
-                <img src="/remix.png" alt="Remix Icon" className={`${styles.remixIcon} ${isDarkMode ? 'dark-mode' : ''}`} />
+                <img src={isDarkMode ? "/remix_light.png" : "/remix.png"} alt="Remix Icon" className={`${styles.remixIcon} ${isDarkMode ? 'dark-mode' : ''}`} />
               </div>
             )}
           </div>
