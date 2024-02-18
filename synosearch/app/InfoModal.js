@@ -24,7 +24,7 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
     <div className={styles.infoModal}>
       <button className={styles.closeButton} onClick={() => setInfoOpen(false)}>X</button>
       <div className={styles.tabs}>
-        {['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4', 'Tab 5'].map((tab, index) => (
+        {['About + SynoSettings', 'Advanced Models', 'SynoSearch:Premium', 'Feature Requests', 'Account'].map((tab, index) => (
           <button
             key={index}
             className={styles.tabButton}
@@ -61,10 +61,10 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
             )}
           </button>
       )}
-        {activeTab === 1 && <div>Content for Tab 2</div>}
-        {activeTab === 2 && <div>Content for Tab 3</div>}
-        {activeTab === 3 && <div>Content for Tab 4</div>}
-        {activeTab === 4 && <div>Content for Tab 5</div>}
+        {activeTab === 1 && <div>New models coming soon.</div>}
+        {activeTab === 2 && <div>Premium features coming soon.</div>}
+        {activeTab === 3 && <div>Feature requests + Feedback coming soon.</div>}
+        {activeTab === 4 && <div>Persistent accounts coming soon.</div>}
       </div>
     </div>
     </ThemeContext.Provider>
