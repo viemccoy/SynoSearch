@@ -63,7 +63,7 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
             )}
           </button>
       )}
-        {activeTab === 1 && <div>Field specific models coming soon.</div>}
+        {activeTab === 1 && <div>New models coming soon.</div>}
         {activeTab === 2 && <div>Premium features coming soon.</div>}
         {activeTab === 3 && <h1>Feature Requests</h1>}
         {activeTab === 3 && <a href="https://forms.gle/abvYHwkbpFnuAQQVA">Feature Request Form</a>}
