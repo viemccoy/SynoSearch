@@ -36,7 +36,9 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
       </div>
       <div className={styles.tabContent}>
         {activeTab === 0 && <h1>About SynoSearch</h1>}
-        {activeTab === 0 && <div>SynoSearch is the first AI-powered top-down semantic search designed by Vie McCoy to make search engines useful again.</div>}
+        {activeTab === 0 && <div>Designed to make search engines useful again, SynoSearch is the first AI-powered top-down semantic search.
+          Most useful when aiding in the creative literature review process, SynoSearch doesn't ask you to change your habits. There's no chat, just a subtle AI-powered search improvement.
+          SynoSearch is the ultimate research tool, and helps you to get better results with less searches.</div>}
         {activeTab === 0 && <h1>SynoSettings</h1>}
         {activeTab === 0 && (
         <label>
@@ -63,7 +65,10 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
       )}
         {activeTab === 1 && <div>New models coming soon.</div>}
         {activeTab === 2 && <div>Premium features coming soon.</div>}
-        {activeTab === 3 && <div>Feature requests + Feedback coming soon.</div>}
+        {activeTab === 3 && <h1>Feature Requests</h1>}
+        {activeTab === 3 && <a href="https://forms.gle/abvYHwkbpFnuAQQVA">Feature Request Form</a>}
+        {activeTab === 3 && <h1>Bug Reports</h1>}
+        {activeTab === 3 && <a href="https://forms.gle/TuZaoS2ggWb8kGec8">Bug Report Form</a>}
         {activeTab === 4 && <div>Persistent accounts coming soon.</div>}
       </div>
     </div>
