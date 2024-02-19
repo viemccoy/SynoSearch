@@ -200,14 +200,15 @@ export default function Page() {
         <a href="/" className={`${styles.titleLink} `}>SynoSearch</a>
       </h1>
       <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} `} onSubmit={(e) => handleSubmit(e)}>        <div className={`${styles.inputGroup} `}>
-          <input 
-            type="text" 
-            name="prompt" 
-            placeholder="Enter a question" 
-            className={`${styles.promptInput} `} 
-            maxLength="200"
-            onChange={handleInputChange} // Reset sameSearchCount when user starts editing
-          />
+        <input 
+          type="text" 
+          name="prompt" 
+          placeholder="Enter a question" 
+          className={`${styles.promptInput} `} 
+          maxLength="200"
+          onChange={handleInputChange} // Reset sameSearchCount when user starts editing
+          autoFocus 
+        />
           <div className={`${styles.btnContainer} `}>
             <button type="submit" className={`${styles.btn} `}>
               Go
