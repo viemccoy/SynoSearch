@@ -41,39 +41,27 @@
         let allResults = [];
         let currentPage = 1;
     
-        const fetchResults = () => {
+        const getResults = async () => {
             const url = '/api/search'; 
-            const options = {
-                method: 'POST',
-                headers: {
-                    accept: 'application/json',
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    useAutoprompt: false,
-                    numResults: 50, // Fetch 50 results at once
-                })
+            const data = {
+                query: query,
+                useAutoprompt: false,
+                numResults: 50, // Fetch 50 results at once
             };
-    
-            fetch(url, options)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error(`Server responded with status: ${res.status}`);
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    if (!data.results) {
-                        console.error('No results in response data');
-                        return;
-                    }
-                    allResults = data.results; // Store all results
-                    displayResults(); // Display the first page of results
-                })
-                .catch(err => console.error('error:' + err));
+
+            try {
+                const results = await search(data);
+                if (!results) {
+                    console.error('No results in response data');
+                    return;
+                }
+                allResults = results; // Store all results
+                displayResults(); // Display the first page of results
+            } catch (err) {
+                console.error('error:' + err);
+            }
         };
-    
+        
         const displayResults = () => {
             const resultsDiv = document.getElementById('openAlexSearchResults');
             resultsDiv.innerHTML = ''; // Clear previous results
