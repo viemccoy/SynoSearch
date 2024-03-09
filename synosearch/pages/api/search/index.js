@@ -1,5 +1,5 @@
 // Import the necessary modules
-import fetch from 'node-fetch';
+import Exa from 'exa-js';
 
 // Define the handler for your API route
 export default async function handler(req, res) {
@@ -14,34 +14,15 @@ export default async function handler(req, res) {
     // Extract the necessary parameters from the request body
     const { query, numResults } = req.body; // Removed 'page'
 
-    // Define the URL for the external API
-    const apiUrl = 'https://api.exa.ai/search';
-
     // Get the API key from the environment variables
     const apiKey = process.env.EXA_API_KEY;
 
-    // Define the options for the fetch request
-    const options = {
-        method: 'POST',
-        headers: {
-            accept: 'application/json',
-            'content-type': 'application/json',
-            'x-api-key': apiKey,
-        },
-        body: JSON.stringify({
-            query,
-            useAutoprompt: false, // Hardcoded to always be false
-            numResults,
-        }),
-    };
+    // Initialize the Exa instance
+    const exa = new Exa(apiKey);
 
-    // Make the fetch request
+    // Make the search request
     try {
-        const apiResponse = await fetch(apiUrl, options);
-        if (!apiResponse.ok) {
-            throw new Error(`API responded with status ${apiResponse.status}`);
-        }
-        const data = await apiResponse.json();
+        const data = await exa.search(query, { numResults });
         res.status(200).json(data);
         return;
     } catch (error) {
