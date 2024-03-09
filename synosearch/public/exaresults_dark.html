@@ -36,16 +36,14 @@
     <button id="prevPage">Previous</button>
     <button id="nextPage">Next</button>
     <script>
-        // Assuming the use of an environment variable is not directly possible in client-side JavaScript,
-        // you should ensure the API key is securely included in your application's server-side environment and appropriately handled.
         const fetchResults = (page) => {
-            const url = 'https://api.exa.ai/search';
+            // This URL now points to your server-side endpoint instead of the external API
+            const url = '/api/search'; 
             const options = {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',
                     'content-type': 'application/json',
-                    'x-api-key': `${process.env.EXA_API_KEY}` // Replace 'sdfdsfsdf' with your actual API key or handle it securely
                 },
                 body: JSON.stringify({
                     query: query, // Use the query from the URLSearchParams
