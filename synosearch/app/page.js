@@ -143,7 +143,7 @@ export default function Page() {
       body: JSON.stringify({
         prompt: currentSearchQuery,
         sysprompt: sysprompt,
-        model: "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef", // Use the SynoSearch model
+        model: model, // Use the SynoSearch model
         temperature: 0.7 + 0.1 * Math.min(sameSearchCount, 5), // Adjust temperature based on sameSearchCount, capped at 5
         tokens: 20,
       }),
