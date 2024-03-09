@@ -37,7 +37,6 @@
     <button id="nextPage">Next</button>
     <script>
         const fetchResults = (page) => {
-            // This URL now points to your server-side endpoint instead of the external API
             const url = '/api/search'; 
             const options = {
                 method: 'POST',
@@ -46,10 +45,10 @@
                     'content-type': 'application/json',
                 },
                 body: JSON.stringify({
-                    query: query, // Use the query from the URLSearchParams
+                    query: query,
                     useAutoprompt: false,
-                    numResults: 10, // Assuming you want to fetch 10 results at a time
-                    page: page // Pass the current page for pagination
+                    numResults: 10,
+                    page: page
                 })
             };
     
@@ -58,14 +57,19 @@
                 .then(data => {
                     const resultsDiv = document.getElementById('openAlexSearchResults');
                     resultsDiv.innerHTML = ''; // Clear previous results
-                    // Assuming the response structure is similar; adjust according to the actual response
                     data.results.forEach(result => {
                         const resultDiv = document.createElement('div');
+                        // Check if title is not null, otherwise use a placeholder or hide
+                        const title = result.title ? result.title : "No title available";
+                        // Format the publishedDate, or show 'Unknown' if not available
+                        const publishedDate = result.publishedDate ? new Date(result.publishedDate).toLocaleDateString() : "Unknown";
+                        // Check if author is not null, otherwise use 'Anonymous' or another placeholder
+                        const author = result.author ? result.author : "Anonymous";
                         resultDiv.innerHTML = `
-                            <h2 class="title"><a href="${result.doi}" target="_blank">${result.display_name}</a></h2>
-                            <p class="info">Keywords: ${result.keywords.map(keyword => keyword.keyword).join(', ')}</p>
-                            <p class="info">Cited by: ${result.cited_by_count}</p>
-                            <p class="info">Publication Date: ${new Date(result.publication_date).toLocaleDateString()}</p>
+                            <h2 class="title"><a href="${result.url}" target="_blank">${title}</a></h2>
+                            <p class="info">Author: ${author}</p>
+                            <p class="info">Published Date: ${publishedDate}</p>
+                            <p class="info">Score: ${result.score.toFixed(3)}</p>
                         `;
                         resultsDiv.appendChild(resultDiv);
                     });
