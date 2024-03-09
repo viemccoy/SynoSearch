@@ -2,11 +2,11 @@ export default async function handler(req, res) {
   const { prompt, sysprompt, tokens, temperature, model } = req.body; // Add 'tokens' and 'temperature' here
 
   // Check if the input is too long
-  if (prompt.length > 230) {
-    res.statusCode = 400;
-    res.end(JSON.stringify({ detail: 'Input is too long' }));
-    return;
-  }
+  //if (prompt.length > 230) {
+    //res.statusCode = 400;
+    //res.end(JSON.stringify({ detail: 'Input is too long' }));
+    //return;
+  //}
   
   const response = await fetch("https://gateway.ai.cloudflare.com/v1/259d9cff4d0f27bf78eb3a6300b4f676/synosearch", {
     method: "POST",
