@@ -38,21 +38,16 @@ export default async function handler(req, res) {
     // Make the fetch request
     try {
         const apiResponse = await fetch(apiUrl, options);
-
-        // Check if the response was successful
         if (!apiResponse.ok) {
-            // If not, throw an error
             throw new Error(`API responded with status ${apiResponse.status}`);
         }
-
-        // Parse the response as JSON
         const data = await apiResponse.json();
-
-        // Send the data back to the client with a 200 status code
         res.status(200).json(data);
     } catch (error) {
-        // If there was an error, log it and return a 500 status code
         console.error('Search API error:', error);
+        if (error.response) {
+            console.error('Response from API:', error.response);
+        }
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
