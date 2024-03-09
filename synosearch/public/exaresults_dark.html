@@ -37,6 +37,7 @@
     <button id="nextPage">Next</button>
     <script>
         const resultsPerPage = 10;
+        var query = new URLSearchParams(window.location.search).get('q');
         let allResults = [];
         let currentPage = 1;
     
