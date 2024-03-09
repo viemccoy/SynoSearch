@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     }
 
     // Extract the necessary parameters from the request body
-    const { query, numResults, page } = req.body;
+    const { query, numResults } = req.body; // Removed 'page'
 
     // Define the URL for the external API
     const apiUrl = 'https://api.exa.ai/search';
@@ -32,7 +32,6 @@ export default async function handler(req, res) {
             query,
             useAutoprompt: false, // Hardcoded to always be false
             numResults,
-            page,
         }),
     };
 
