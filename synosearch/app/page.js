@@ -175,7 +175,7 @@ export default function Page() {
           setIsWideView(false);
         }
   
-        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
+        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
           // Load SynoSearch in an <object> tag
           const objectElement = document.getElementById('synoSearchObject');
           if (objectElement) {
