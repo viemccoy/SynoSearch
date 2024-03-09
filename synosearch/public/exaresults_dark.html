@@ -36,7 +36,11 @@
     <button id="prevPage">Previous</button>
     <button id="nextPage">Next</button>
     <script>
-        const fetchResults = (page) => {
+        const resultsPerPage = 10;
+        let allResults = [];
+        let currentPage = 1;
+    
+        const fetchResults = () => {
             const url = '/api/search'; 
             const options = {
                 method: 'POST',
@@ -47,53 +51,61 @@
                 body: JSON.stringify({
                     query: query,
                     useAutoprompt: false,
-                    numResults: 10,
-                    page: page
+                    numResults: 50, // Fetch 50 results at once
                 })
             };
     
             fetch(url, options)
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`Server responded with status: ${res.status}`);
+                    }
+                    return res.json();
+                })
                 .then(data => {
-                    const resultsDiv = document.getElementById('openAlexSearchResults');
-                    resultsDiv.innerHTML = ''; // Clear previous results
-                    data.results.forEach(result => {
-                        const resultDiv = document.createElement('div');
-                        // Check if title is not null, otherwise use a placeholder or hide
-                        const title = result.title ? result.title : "No title available";
-                        // Format the publishedDate, or show 'Unknown' if not available
-                        const publishedDate = result.publishedDate ? new Date(result.publishedDate).toLocaleDateString() : "Unknown";
-                        // Check if author is not null, otherwise use 'Anonymous' or another placeholder
-                        const author = result.author ? result.author : "Anonymous";
-                        resultDiv.innerHTML = `
-                            <h2 class="title"><a href="${result.url}" target="_blank">${title}</a></h2>
-                            <p class="info">Author: ${author}</p>
-                            <p class="info">Published Date: ${publishedDate}</p>
-                            <p class="info">Score: ${result.score.toFixed(3)}</p>
-                        `;
-                        resultsDiv.appendChild(resultDiv);
-                    });
+                    if (!data.results) {
+                        console.error('No results in response data');
+                        return;
+                    }
+                    allResults = data.results; // Store all results
+                    displayResults(); // Display the first page of results
                 })
                 .catch(err => console.error('error:' + err));
         };
     
-        let currentPage = 1;
-        const query = new URLSearchParams(window.location.search).get('q');
+        const displayResults = () => {
+            const resultsDiv = document.getElementById('openAlexSearchResults');
+            resultsDiv.innerHTML = ''; // Clear previous results
+    
+            // Calculate the range of results for the current page
+            const start = (currentPage - 1) * resultsPerPage;
+            const end = start + resultsPerPage;
+    
+            // Get the results for the current page
+            const pageResults = allResults.slice(start, end);
+    
+            // Display the results
+            pageResults.forEach(result => {
+                // Rest of your code...
+            });
+        };
     
         document.getElementById('prevPage').addEventListener('click', function() {
             if (currentPage > 1) {
                 currentPage--;
-                fetchResults(currentPage);
+                displayResults();
             }
         });
     
         document.getElementById('nextPage').addEventListener('click', function() {
-            currentPage++;
-            fetchResults(currentPage);
+            if (currentPage < Math.ceil(allResults.length / resultsPerPage)) {
+                currentPage++;
+                displayResults();
+            }
         });
     
         // Fetch results for the initial page load
-        fetchResults(currentPage);
+        fetchResults();
     </script>
 </body>
 </html>
