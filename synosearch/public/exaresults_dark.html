@@ -36,45 +36,47 @@
     <button id="prevPage">Previous</button>
     <button id="nextPage">Next</button>
     <script>
-        var currentPage = 1;
-        var query = new URLSearchParams(window.location.search).get('q');
-    
-        function fetchResults(page) {
-            // Prepare the request body
-            var requestBody = {
-                useAutoprompt: false,
-                numResults: 10,
-                query: query, // Assuming you want to pass the query to the API
-                page: page // Assuming the API supports pagination in this manner
-            };
-    
-            // Make the POST request to the Exa AI API
-            fetch('https://api.exa.ai/search', {
+        // Assuming the use of an environment variable is not directly possible in client-side JavaScript,
+        // you should ensure the API key is securely included in your application's server-side environment and appropriately handled.
+        const fetchResults = (page) => {
+            const url = 'https://api.exa.ai/search';
+            const options = {
                 method: 'POST',
                 headers: {
-                    'accept': 'application/json',
+                    accept: 'application/json',
                     'content-type': 'application/json',
-                    'x-api-key': `${process.env.EXA_API_KEY}` // Use the actual API key here
+                    'x-api-key': `${process.env.EXA_API_KEY}` // Replace 'sdfdsfsdf' with your actual API key or handle it securely
                 },
-                body: JSON.stringify(requestBody)
-            })
-            .then(response => response.json())
-            .then(data => {
-                var resultsDiv = document.getElementById('openAlexSearchResults');
-                resultsDiv.innerHTML = '';
-                // Assuming the response structure is similar; adjust according to the actual response
-                data.results.forEach(result => {
-                    var resultDiv = document.createElement('div');
-                    resultDiv.innerHTML = `
-                        <h2 class="title"><a href="${result.doi}" target="_blank">${result.display_name}</a></h2>
-                        <p class="info">Keywords: ${result.keywords.map(keyword => keyword.keyword).join(', ')}</p>
-                        <p class="info">Cited by: ${result.cited_by_count}</p>
-                        <p class="info">Publication Date: ${new Date(result.publication_date).toLocaleDateString()}</p>
-                    `;
-                    resultsDiv.appendChild(resultDiv);
-                });
-            });
-        }
+                body: JSON.stringify({
+                    query: query, // Use the query from the URLSearchParams
+                    useAutoprompt: false,
+                    numResults: 10, // Assuming you want to fetch 10 results at a time
+                    page: page // Pass the current page for pagination
+                })
+            };
+    
+            fetch(url, options)
+                .then(res => res.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById('openAlexSearchResults');
+                    resultsDiv.innerHTML = ''; // Clear previous results
+                    // Assuming the response structure is similar; adjust according to the actual response
+                    data.results.forEach(result => {
+                        const resultDiv = document.createElement('div');
+                        resultDiv.innerHTML = `
+                            <h2 class="title"><a href="${result.doi}" target="_blank">${result.display_name}</a></h2>
+                            <p class="info">Keywords: ${result.keywords.map(keyword => keyword.keyword).join(', ')}</p>
+                            <p class="info">Cited by: ${result.cited_by_count}</p>
+                            <p class="info">Publication Date: ${new Date(result.publication_date).toLocaleDateString()}</p>
+                        `;
+                        resultsDiv.appendChild(resultDiv);
+                    });
+                })
+                .catch(err => console.error('error:' + err));
+        };
+    
+        let currentPage = 1;
+        const query = new URLSearchParams(window.location.search).get('q');
     
         document.getElementById('prevPage').addEventListener('click', function() {
             if (currentPage > 1) {
@@ -88,6 +90,7 @@
             fetchResults(currentPage);
         });
     
+        // Fetch results for the initial page load
         fetchResults(currentPage);
     </script>
 </body>
