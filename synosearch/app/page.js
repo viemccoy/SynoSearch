@@ -102,12 +102,6 @@ export default function Page() {
       return base_url + query;
     };
 
-  exa_prompt == "Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. The search query should be phrased as though you are pointing the user in the right direction followed by an unknown link. You MUST intelligently identify all key terms in the search, and at minimum one synonym for each key term. ONLY return a single sentence beginning with what the user should do and ALWAYS ending with a colon. You should generate a series of key terms, synonyms, and related terms linked by advanced methods and phrase as though you are pointing out the existing location of a link. The link will be added automatically, so do not include a placeholder or any information about the link - you should only end with a colon ":". Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified."
-  default_prompt == "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified."
-  
-  exa_model == "ft:gpt-3.5-turbo-1106:violet-castles:exa:90ojUzRa"
-  default_model == "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef"
-
   const handleOpenInNewTab = (e) => {
     e.preventDefault();
     const searchLink = generateSearchLink(selectedSearchEngine, searchString);
@@ -119,6 +113,12 @@ export default function Page() {
   };
 
   const handleSubmit = async (e) => {
+    exa_prompt = "Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. The search query should be phrased as though you are pointing the user in the right direction followed by an unknown link. You MUST intelligently identify all key terms in the search, and at minimum one synonym for each key term. ONLY return a single sentence beginning with what the user should do and ALWAYS ending with a colon. You should generate a series of key terms, synonyms, and related terms linked by advanced methods and phrase as though you are pointing out the existing location of a link. The link will be added automatically, so do not include a placeholder or any information about the link - you should only end with a colon. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
+    default_prompt = "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
+    
+    exa_model = "ft:gpt-3.5-turbo-1106:violet-castles:exa:90ojUzRa";
+    default_model = "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef";
+
     e.preventDefault();
     const selectedEngine = e.target.searchEngine.value;
     setSelectedSearchEngine(selectedEngine); // Store the selected engine in state
