@@ -170,14 +170,14 @@ export default function Page() {
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
   
-        // Set isWideView state here, after the SynoSearch generation is complete
-        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
+         // Adjusted condition to include SynoSearch:Exa
+        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
           setIsWideView(true);
         } else {
           setIsWideView(false);
         }
-  
-        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
+
+        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
           // Load SynoSearch in an <object> tag
           const objectElement = document.getElementById('synoSearchObject');
           if (objectElement) {
@@ -245,7 +245,7 @@ export default function Page() {
           )}
         </div>
         <div className={`${isWideView ? styles.wideViewToolsForm : styles.toolsForm} `}>
-        {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && (
+        {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && selectedSearchEngine !== "SynoSearchExa" && (
             <label className={`${styles.autoOpenSearchLabel} `} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
               Auto-Open Search:
               <input 
@@ -260,7 +260,7 @@ export default function Page() {
           <select name="searchEngine" className={`${styles.customSelector} `} onChange={handleSearchEngineChange}>
             <option value="SynoSearchWide">SynoSearch:Wide</option>
             <option value="SynoSearchExa">Synosearch:Exa</option>
-            <option value="SynoSearchScholar">:SynoSearch:Scholar</option>
+            <option value="SynoSearchScholar">SynoSearch:Scholar</option>
             <option value="google">Google</option>
             <option value="googleScholar">Google Scholar</option>
             <option value="bing">Bing</option>
