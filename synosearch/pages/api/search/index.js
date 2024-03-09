@@ -47,7 +47,8 @@ export default async function handler(req, res) {
         console.error('Search API error:', error);
         if (error.response) {
             console.error('Response from API:', error.response);
+            res.status(500).json({ message: error.message }); // Return the actual error message
+        } else {
+            res.status(500).json({ message: 'Internal Server Error' });
         }
-        res.status(500).json({ message: 'Internal Server Error' });
     }
-}
