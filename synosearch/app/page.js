@@ -81,9 +81,6 @@ export default function Page() {
       case "SynoSearchScholar":
         base_url = theme === 'dark' ? "https://www.synosearch.com/scholarresults_dark.html?q=" : "https://www.synosearch.com/scholarresults.html?q=";
         break;
-      case "SynoSearchExa":
-        base_url = theme === 'dark' ? "https://www.synosearch.com/exaresults_dark.html?q=" : "https://www.synosearch.com/scholarresults.html?q=";
-        break;
       case "google":
         base_url = "https://www.google.com/search?q=";
         break;
@@ -95,12 +92,13 @@ export default function Page() {
         break;
       default:
         base_url = "https://www.google.com/search?q=";
-      }
-      if (redditSearch) {
-        query += " insite:reddit";
-      }
-      return base_url + query;
-    };
+    }
+    if (redditSearch) {
+      query += " insite:reddit";
+    }
+    
+    return base_url + query;
+  };
 
   const handleOpenInNewTab = (e) => {
     e.preventDefault();
@@ -113,12 +111,6 @@ export default function Page() {
   };
 
   const handleSubmit = async (e) => {
-    exa_prompt = "Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. The search query should be phrased as though you are pointing the user in the right direction followed by an unknown link. You MUST intelligently identify all key terms in the search, and at minimum one synonym for each key term. ONLY return a single sentence beginning with what the user should do and ALWAYS ending with a colon. You should generate a series of key terms, synonyms, and related terms linked by advanced methods and phrase as though you are pointing out the existing location of a link. The link will be added automatically, so do not include a placeholder or any information about the link - you should only end with a colon. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
-    default_prompt = "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
-    
-    exa_model = "ft:gpt-3.5-turbo-1106:violet-castles:exa:90ojUzRa";
-    default_model = "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef";
-
     e.preventDefault();
     const selectedEngine = e.target.searchEngine.value;
     setSelectedSearchEngine(selectedEngine); // Store the selected engine in state
@@ -134,9 +126,6 @@ export default function Page() {
       setLastSearchQuery(currentSearchQuery);
     }
 
-    const sysprompt = selectedEngine === "SynoSearchExa" ? exa_prompt : default_prompt;
-    const model = selectedEngine === "SynoSearchExa" ? exa_model : default_model;
-
     const response = await fetch("/api/predictions", {
       method: "POST",
       headers: {
@@ -144,8 +133,7 @@ export default function Page() {
       },
       body: JSON.stringify({
         prompt: currentSearchQuery,
-        sysprompt: sysprompt,
-        model: model, // Use the SynoSearch model
+        model: "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef", // Use the SynoSearch model
         temperature: 0.7 + 0.1 * Math.min(sameSearchCount, 5), // Adjust temperature based on sameSearchCount, capped at 5
         tokens: 20,
       }),
@@ -170,14 +158,14 @@ export default function Page() {
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
   
-         // Adjusted condition to include SynoSearch:Exa
-        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
+        // Set isWideView state here, after the SynoSearch generation is complete
+        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
           setIsWideView(true);
         } else {
           setIsWideView(false);
         }
-
-        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
+  
+        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
           // Load SynoSearch in an <object> tag
           const objectElement = document.getElementById('synoSearchObject');
           if (objectElement) {
@@ -212,15 +200,14 @@ export default function Page() {
         <a href="/" className={`${styles.titleLink} `}>SynoSearch</a>
       </h1>
       <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} `} onSubmit={(e) => handleSubmit(e)}>        <div className={`${styles.inputGroup} `}>
-        <input 
-          type="text" 
-          name="prompt" 
-          placeholder="Enter a question" 
-          className={`${styles.promptInput} `} 
-          maxLength="200"
-          onChange={handleInputChange} // Reset sameSearchCount when user starts editing
-          autoFocus 
-        />
+          <input 
+            type="text" 
+            name="prompt" 
+            placeholder="Enter a question" 
+            className={`${styles.promptInput} `} 
+            maxLength="200"
+            onChange={handleInputChange} // Reset sameSearchCount when user starts editing
+          />
           <div className={`${styles.btnContainer} `}>
             <button type="submit" className={`${styles.btn} `}>
               Go
@@ -245,7 +232,7 @@ export default function Page() {
           )}
         </div>
         <div className={`${isWideView ? styles.wideViewToolsForm : styles.toolsForm} `}>
-        {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && selectedSearchEngine !== "SynoSearchExa" && (
+        {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && (
             <label className={`${styles.autoOpenSearchLabel} `} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
               Auto-Open Search:
               <input 
@@ -259,7 +246,6 @@ export default function Page() {
           )}
           <select name="searchEngine" className={`${styles.customSelector} `} onChange={handleSearchEngineChange}>
             <option value="SynoSearchWide">SynoSearch:Wide</option>
-            <option value="SynoSearchExa">Synosearch:Exa</option>
             <option value="SynoSearchScholar">SynoSearch:Scholar</option>
             <option value="google">Google</option>
             <option value="googleScholar">Google Scholar</option>
