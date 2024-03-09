@@ -1,17 +1,26 @@
+// Import the necessary modules
 import fetch from 'node-fetch';
 
+// Define the handler for your API route
 export default async function handler(req, res) {
+    // Check if the request method is POST
     if (req.method !== 'POST') {
+        // If not, set the 'Allow' header to 'POST' and return a 405 status code
         res.setHeader('Allow', ['POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
         return;
     }
 
-    const { query, useAutoprompt, numResults, page } = req.body;
+    // Extract the necessary parameters from the request body
+    const { query, numResults, page } = req.body;
 
+    // Define the URL for the external API
     const apiUrl = 'https://api.exa.ai/search';
-    const apiKey = process.env.EXA_API_KEY; // Ensure your API key is stored in .env.local
 
+    // Get the API key from the environment variables
+    const apiKey = process.env.EXA_API_KEY;
+
+    // Define the options for the fetch request
     const options = {
         method: 'POST',
         headers: {
@@ -21,20 +30,29 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
             query,
-            useAutoprompt,
+            useAutoprompt: false, // Hardcoded to always be false
             numResults,
             page,
         }),
     };
 
+    // Make the fetch request
     try {
         const apiResponse = await fetch(apiUrl, options);
+
+        // Check if the response was successful
         if (!apiResponse.ok) {
+            // If not, throw an error
             throw new Error(`API responded with status ${apiResponse.status}`);
         }
+
+        // Parse the response as JSON
         const data = await apiResponse.json();
+
+        // Send the data back to the client with a 200 status code
         res.status(200).json(data);
     } catch (error) {
+        // If there was an error, log it and return a 500 status code
         console.error('Search API error:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
