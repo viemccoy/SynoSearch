@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenAlex Search Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="description" content="Search smarter, not harder.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16">
+    <style>
+        body {
+            background-color: #000000; /* Dark background for the body */
+            color: #ffffff; /* Light text color */
+        }
+        #openAlexSearchResults div {
+            border: 1px solid #888888; /* Lighter border color */
+            margin: 10px;
+            padding: 5px;
+            font-size: 21px;
+        }
+        #openAlexSearchResults a {
+            color: #ffffff; /* Light blue color for links */
+            text-decoration: none;
+        }
+        #openAlexSearchResults .title {
+            font-size: 18px;
+        }
+        #openAlexSearchResults .info {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="openAlexSearchResults">
+        <!-- Search results from OpenAlex API will be inserted here -->
+    </div>
+    <button id="prevPage">Previous</button>
+    <button id="nextPage">Next</button>
+    <script>
+        var currentPage = 1;
+        var query = new URLSearchParams(window.location.search).get('q');
+
+        function fetchResults(page) {
+            fetch(`https://api.openalex.org/works?search=${query}&page=${page}&select=id,doi,display_name,keywords,cited_by_count,publication_date`)
+                .then(response => response.json())
+                .then(data => {
+                    var resultsDiv = document.getElementById('openAlexSearchResults');
+                    resultsDiv.innerHTML = '';
+                    data.results.forEach(result => {
+                        var resultDiv = document.createElement('div');
+                        resultDiv.innerHTML = `
+                            <h2 class="title"><a href="${result.doi}" target="_blank">${result.display_name}</a></h2>
+                            <p class="info">Keywords: ${result.keywords.map(keyword => keyword.keyword).join(', ')}</p>
+                            <p class="info">Cited by: ${result.cited_by_count}</p>
+                            <p class="info">Publication Date: ${new Date(result.publication_date).toLocaleDateString()}</p>
+                        `;
+                        resultsDiv.appendChild(resultDiv);
+                    });
+                });
+        }
+
+        document.getElementById('prevPage').addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                fetchResults(currentPage);
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', function() {
+            currentPage++;
+            fetchResults(currentPage);
+        });
+
+        fetchResults(currentPage);
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const { prompt, tokens, temperature, model } = req.body; // Add 'tokens' and 'temperature' here
+  const { prompt, sysprompt, tokens, temperature, model } = req.body; // Add 'tokens' and 'temperature' here
 
   // Check if the input is too long
   if (prompt.length > 230) {
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
           messages: [
             {
               role: "system",
-              content: "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.",
+              content: req.body.sysprompt,
             },
             {
               role: "user",
