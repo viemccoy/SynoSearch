@@ -192,7 +192,12 @@ export default function Page() {
             }
           }
   
-          window.open(searchLink, "_blank");
+          // Check if searchLink is not empty before opening the new tab
+          if (searchLink) {
+            window.open(searchLink, "_blank");
+          } else {
+            console.error('No search query provided');
+          }
         }
       }
     }
