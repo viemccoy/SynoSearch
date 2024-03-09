@@ -87,7 +87,14 @@
     
             // Display the results
             pageResults.forEach(result => {
-                // Rest of your code...
+                var resultDiv = document.createElement('div');
+                resultDiv.innerHTML = `
+                    <h2 class="title"><a href="${result.url}" target="_blank">${result.title || 'No title'}</a></h2>
+                    <p class="info">Author: ${result.author || 'No author'}</p>
+                    <p class="info">Published Date: ${result.publishedDate ? new Date(result.publishedDate).toLocaleDateString() : 'No date'}</p>
+                    <p class="info">Score: ${result.score}</p>
+                `;
+                resultsDiv.appendChild(resultDiv);
             });
         };
     
