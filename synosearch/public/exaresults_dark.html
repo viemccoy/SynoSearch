@@ -41,13 +41,19 @@
         let allResults = [];
         let currentPage = 1;
     
-        const fetchResults = () => {
-        fetch('/api/getExaResults')
-            .then(response => response.json())
-            .then(data => {
-                allResults = data.results;
-                displayResults();
-            });
+        const fetchResults = async () => {
+        try {
+            const response = await fetch('/api/getExaResults');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log(data); // Log the data
+            allResults = data.results;
+            displayResults();
+        } catch (error) {
+            console.error('Fetch error: ', error);
+        }
     };
         const displayResults = () => {
             const resultsDiv = document.getElementById('openAlexSearchResults');
