@@ -41,25 +41,37 @@
         let allResults = [];
         let currentPage = 1;
     
-        const getResults = async () => {
+        const fetchResults = () => {
             const url = '/api/search'; 
-            const data = {
-                query: query,
-                useAutoprompt: false,
-                numResults: 50, // Fetch 50 results at once
+            const options = {
+                method: 'POST',
+                headers: {
+                    accept: 'application/json',
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    useAutoprompt: false,
+                    numResults: 50, // Fetch 50 results at once
+                })
             };
 
-            try {
-                const results = await search(data);
-                if (!results) {
-                    console.error('No results in response data');
-                    return;
-                }
-                allResults = results; // Store all results
-                displayResults(); // Display the first page of results
-            } catch (err) {
-                console.error('error:' + err);
-            }
+            fetch(url, options)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`Server responded with status: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (!data.results) {
+                        console.error('No results in response data');
+                        return;
+                    }
+                    allResults = data.results; // Store all results
+                    displayResults(); // Display the first page of results
+                })
+                .catch(err => console.error('error:' + err));
         };
 
         const displayResults = () => {
@@ -101,7 +113,7 @@
         });
     
         // Fetch results for the initial page load
-        getResults();
+        fetchResults();
     </script>
 </body>
 </html>
