@@ -161,7 +161,6 @@ export default function Page() {
       return;
     }
     
-    const exa = new Exa(process.env.EXASEARCH_API_KEY);
     // Use data directly instead of prediction state
     if (data && data.choices && data.choices.length > 0) {
       const outputString = data.choices[0].message.content;
@@ -171,10 +170,14 @@ export default function Page() {
         console.log(newSearchString);
         if (selectedEngine === "SynoSearchExa") {
           try {
-            const exaData = await exa.search(newSearchString, {
-              numResults: 10,
-              useAutoprompt: false,
+            const response = await fetch('/api/exaSearch', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ query: newSearchString }),
             });
+            const exaData = await response.json();
             setExaResults(exaData);
           } catch (err) {
             console.error('Error fetching from Exa API:', err);
