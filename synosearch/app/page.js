@@ -180,17 +180,18 @@ export default function Page() {
             const exaData = await response.json();
             setExaResults(exaData);
             console.log(exaData);
+          
+            // Send exaData to the getExaResults endpoint
+            fetch('/api/getExaResults', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(exaData),
+            });
           } catch (err) {
             console.error('Error fetching from Exa API:', err);
           }
-          fetch('/api/getExaResults', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data.choices[0].message.content.results),
-          });
-        }
   
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
