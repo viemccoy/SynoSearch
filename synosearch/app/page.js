@@ -121,7 +121,7 @@ export default function Page() {
     setSelectedSearchEngine(selectedEngine); // Store the selected engine in state
     const exa_prompt = "Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. The search query should be phrased as though you are pointing the user in the right direction followed by an unknown link. You MUST intelligently identify all key terms in the search, and at minimum one synonym for each key term. ONLY return a single sentence beginning with what the user should do and ALWAYS ending with a colon. You should generate a series of key terms, synonyms, and related terms linked by advanced methods and phrase as though you are pointing out the existing location of a link. The link will be added automatically, so do not include a placeholder or any information about the link - you should only end with a colon. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
     const default_prompt = "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
-
+  
     const exa_model = "ft:gpt-3.5-turbo-1106:violet-castles:exa:90ojUzRa";
     const default_model = "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef";
     // Set SynoSearch status to 'generating'
@@ -137,7 +137,7 @@ export default function Page() {
     const sysprompt = selectedEngine === "SynoSearchExa" ? exa_prompt : default_prompt;
     const model = selectedEngine === "SynoSearchExa" ? exa_model : default_model;
     const tokens = 200;
-
+  
     const response = await fetch("/api/predictions", {
       method: "POST",
       headers: {
@@ -154,24 +154,7 @@ export default function Page() {
   
     const data = await response.json();
     console.log(data);
-
-    if (selectedEngine === "SynoSearchExa") {
-      const exaResponse = await fetch("/api/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: newSearchString,
-          numResults: 10, // Add this line if you want to specify the number of results
-          useAutoprompt: false, // Add this line if you want to use autoprompt
-        }),
-      });
-    
-      const exaData = await exaResponse.json();
-      setExaResults(exaData);
-    }
-    
+  
     if (!response.ok) {
       setError('Error making prediction');
       return;
@@ -183,7 +166,21 @@ export default function Page() {
       if (outputString) {
         const newSearchString = Array.isArray(outputString) ? outputString.join("") : outputString;
         setSearchString(newSearchString);
-        const searchLink = generateSearchLink(selectedSearchEngine, searchString);
+        
+        if (selectedEngine === "SynoSearchExa") {
+          const exaResponse = await fetch("/api/search", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: newSearchString, // Use newSearchString directly
+            }),
+          });
+  
+          const exaData = await exaResponse.json();
+          setExaResults(exaData);
+        }
   
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
@@ -193,26 +190,27 @@ export default function Page() {
           setIsWideView(true);
         } else {
           setIsWideView(false);
+      }
+  
+      if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
+        // Load SynoSearch in an <object> tag
+        const objectElement = document.getElementById('synoSearchObject');
+        if (objectElement) {
+          objectElement.data = generateSearchLink(selectedSearchEngine, newSearchString);
+        }
+      } else if (autoOpenSearch) {
+        // Prompt the user to allow pop-ups
+        if (!localStorage.getItem('popUpPromptShown')) {
+          const allowPopUps = window.confirm("SynoSearch needs to open new tabs to display search results. Please allow pop-ups for this site in your browser settings. Click OK to continue.");
+          if (allowPopUps) {
+            localStorage.setItem('popUpPromptShown', 'true');
+          } else {
+            return;
+          }
         }
   
-        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
-          // Load SynoSearch in an <object> tag
-          const objectElement = document.getElementById('synoSearchObject');
-          if (objectElement) {
-            objectElement.data = searchLink;
-          }
-        } else if (autoOpenSearch) {
-          // Prompt the user to allow pop-ups
-          if (!localStorage.getItem('popUpPromptShown')) {
-            const allowPopUps = window.confirm("SynoSearch needs to open new tabs to display search results. Please allow pop-ups for this site in your browser settings. Click OK to continue.");
-            if (allowPopUps) {
-              localStorage.setItem('popUpPromptShow n', 'true');
-            } else {
-              return;
-            }
-          }
-  
           // Check if searchLink is not empty before opening the new tab
+          const searchLink = generateSearchLink(selectedSearchEngine, newSearchString);
           if (searchLink) {
             window.open(searchLink, "_blank");
           } else {
