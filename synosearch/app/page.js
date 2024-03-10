@@ -162,7 +162,9 @@ export default function Page() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          query: currentSearchQuery,
+          query: newSearchString,
+          numResults: 10, // Add this line if you want to specify the number of results
+          useAutoprompt: false, // Add this line if you want to use autoprompt
         }),
       });
     
