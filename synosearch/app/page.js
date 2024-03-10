@@ -28,6 +28,7 @@ export default function Page() {
   const [sameSearchCount, setSameSearchCount] = useState(0);
   const { theme, setTheme } = useTheme(); // Get the current theme and setTheme function
   const [redditSearch, setRedditSearch] = useState(false);
+  const [exaResults, setExaResults] = useState(null);
 
   useEffect(() => {
     const reddit = Cookies.get('redditSearch');
@@ -68,7 +69,7 @@ export default function Page() {
     }
   };
 
-  const generateSearchLink = (engine, query) => {
+    const generateSearchLink = (engine, query) => {
     let base_url;
     
     // Ensure query is a string and is not null or undefined
@@ -82,7 +83,8 @@ export default function Page() {
         base_url = theme === 'dark' ? "https://www.synosearch.com/scholarresults_dark.html?q=" : "https://www.synosearch.com/scholarresults.html?q=";
         break;
         case "SynoSearchExa":
-          base_url = theme === 'dark' ? "https://www.synosearch.com/exaresults_dark.html?q=" : "https://www.synosearch.com/scholarresults.html?q=";
+          base_url = theme === 'dark' ? "https://www.synosearch.com/exaresults_dark.html?q=" : "https://www.synosearch.com/exaresults.html?q=";
+          base_url += "&exaResults=" + encodeURIComponent(JSON.stringify(exaResults));
           break;
       case "google":
         base_url = "https://www.google.com/search?q=";
@@ -151,8 +153,22 @@ export default function Page() {
     });
   
     const data = await response.json();
-    console.log(data); // Log the response
-  
+    console.log(data);
+
+    if (selectedEngine === "SynoSearchExa") {
+      const exaResponse = await fetch("/api/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: currentSearchQuery,
+        }),
+      });
+    
+      const exaData = await exaResponse.json();
+      setExaResults(exaData);
+    }
     if (!response.ok) {
       setError('Error making prediction');
       return;

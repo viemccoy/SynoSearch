@@ -42,18 +42,9 @@
         let currentPage = 1;
     
         const fetchResults = () => {
-            const url = '/api/search'; 
-            const options = {
-                method: 'POST',
-                headers: {
-                    accept: 'application/json',
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    useAutoprompt: false,
-                    numResults: 50, // Fetch 50 results at once
-                })
+            const urlParams = new URLSearchParams(window.location.search);
+            allResults = JSON.parse(urlParams.get('exaResults'));
+            displayResults(); // Display the first page of results
             };
 
             fetch(url, options)
