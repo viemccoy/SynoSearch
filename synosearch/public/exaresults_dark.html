@@ -43,9 +43,10 @@
     
         const fetchResults = () => {
             const urlParams = new URLSearchParams(window.location.search);
-            allResults = JSON.parse(urlParams.get('exaResults'));
+            const exaResults = JSON.parse(urlParams.get('exaResults'));
+            allResults = exaResults.results; // Assign the value of the "results" key to allResults
             displayResults(); // Display the first page of results
-            };
+        };
 
         const displayResults = () => {
             const resultsDiv = document.getElementById('openAlexSearchResults');
