@@ -47,24 +47,6 @@
             displayResults(); // Display the first page of results
             };
 
-            fetch(url, options)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error(`Server responded with status: ${res.status}`);
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    if (!data.results) {
-                        console.error('No results in response data');
-                        return;
-                    }
-                    allResults = data.results; // Store all results
-                    displayResults(); // Display the first page of results
-                })
-                .catch(err => console.error('error:' + err));
-        };
-
         const displayResults = () => {
             const resultsDiv = document.getElementById('openAlexSearchResults');
             resultsDiv.innerHTML = ''; // Clear previous results
