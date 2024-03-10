@@ -6,7 +6,7 @@ export default async (req, res) => {
   const exa = new Exa(process.env.EXASEARCH_API_KEY);
   try {
     const exaData = await exa.search(query, {
-      numResults: 30,
+      numResults: 10,
       useAutoprompt: false,
     });
     res.json(exaData);
