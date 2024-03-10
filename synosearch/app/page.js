@@ -180,7 +180,7 @@ export default function Page() {
             const exaData = await response.json();
             setExaResults(exaData);
             console.log(exaData);
-          
+        
             // Send exaData to the getExaResults endpoint
             fetch('/api/getExaResults', {
               method: 'POST',
@@ -192,6 +192,7 @@ export default function Page() {
           } catch (err) {
             console.error('Error fetching from Exa API:', err);
           }
+        }; // This is the missing closing bracket
   
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
