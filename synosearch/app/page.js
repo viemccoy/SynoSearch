@@ -176,10 +176,15 @@ export default function Page() {
             body: JSON.stringify({
               query: newSearchString, // Use newSearchString directly
               numResults: 10,
-            useAutoprompt: false,
+              useAutoprompt: false,
             }),
           });
-  
+        
+          if (!exaResponse.ok) {
+            console.error('Error fetching from Exa API');
+            return;
+          }
+        
           const exaData = await exaResponse.json();
           setExaResults(exaData);
         }
