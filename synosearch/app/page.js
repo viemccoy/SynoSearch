@@ -10,6 +10,7 @@ import ThemeSwitch from './ThemeSwitch';
 import { useTheme } from 'next-themes';
 import { Providers } from './providers';
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
+import Exa from 'exa-js';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -168,26 +169,15 @@ export default function Page() {
         setSearchString(newSearchString);
         console.log(newSearchString);
         if (selectedEngine === "SynoSearchExa") {
-          const exaResponse = await fetch("https://api.exa.ai/search", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-api-key": process.env.EXA_API_KEY
-            },
-            body: JSON.stringify({
-              query: newSearchString, // Use newSearchString directly
+          try {
+            const exaData = await exa.search(newSearchString, {
               numResults: 10,
               useAutoprompt: false,
-            }),
-          });
-      
-          if (!exaResponse.ok) {
-            console.error('Error fetching from Exa API');
-            return;
+            });
+            setExaResults(exaData);
+          } catch (err) {
+            console.error('Error fetching from Exa API:', err);
           }
-      
-          const exaData = await exaResponse.json();
-          setExaResults(exaData);
         }
   
         // Set SynoSearch status to 'generated' after the search is completed
