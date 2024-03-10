@@ -45,7 +45,7 @@
         fetch('/api/getExaResults')
             .then(response => response.json())
             .then(data => {
-                allResults = data;
+                allResults = data.results;
                 displayResults();
             });
     };
