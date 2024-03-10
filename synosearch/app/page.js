@@ -160,7 +160,8 @@ export default function Page() {
       setError('Error making prediction');
       return;
     }
-  
+    
+    const exa = new Exa(process.env.EXA_API_KEY);
     // Use data directly instead of prediction state
     if (data && data.choices && data.choices.length > 0) {
       const outputString = data.choices[0].message.content;
