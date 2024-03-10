@@ -168,21 +168,24 @@ export default function Page() {
         setSearchString(newSearchString);
         console.log(newSearchString);
         if (selectedEngine === "SynoSearchExa") {
-          const exaResponse = await fetch("/api/search", {
+          const exaResponse = await fetch("https://api.exa.ai/search", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "x-api-key": process.env.EXA_API_KEY
             },
             body: JSON.stringify({
               query: newSearchString, // Use newSearchString directly
+              numResults: 10,
+              useAutoprompt: false,
             }),
           });
-        
+      
           if (!exaResponse.ok) {
             console.error('Error fetching from Exa API');
             return;
           }
-        
+      
           const exaData = await exaResponse.json();
           setExaResults(exaData);
         }
