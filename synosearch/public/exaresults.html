@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenAlex Search Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="description" content="Search smarter, not harder.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16">
+    <style>
+        #openAlexSearchResults div {
+            border: 1px solid gray;
+            margin: 10px;
+            padding: 5px;
+            font-size: 21px;
+        }
+        #openAlexSearchResults a {
+            color: black;
+            text-decoration: none;
+        }
+        #openAlexSearchResults .title {
+            font-size: 18px;
+        }
+        #openAlexSearchResults .info {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="openAlexSearchResults">
+        <!-- Search results from OpenAlex API will be inserted here -->
+    </div>
+    <!-- <button id="prevPage">Previous</button>
+    <button id="nextPage">Next</button> -->
+    <script>
+        const resultsPerPage = 20;
+        var query = new URLSearchParams(window.location.search).get('q');
+        let allResults = [];
+        let currentPage = 1;
+    
+        const fetchResults = async () => {
+        try {
+            const response = await fetch('/api/getExaResults');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log(data); // Log the data
+            allResults = data.results;
+            displayResults();
+        } catch (error) {
+            console.error('Fetch error: ', error);
+        }
+    };
+        const displayResults = () => {
+            const resultsDiv = document.getElementById('openAlexSearchResults');
+            resultsDiv.innerHTML = ''; // Clear previous results
+    
+            // Calculate the range of results for the current page
+            const start = (currentPage - 1) * resultsPerPage;
+            const end = start + resultsPerPage;
+    
+            // Get the results for the current page
+            const pageResults = allResults.slice(start, end);
+    
+            // Display the results
+            pageResults.forEach(result => {
+                var resultDiv = document.createElement('div');
+                resultDiv.innerHTML = `
+                    <h2 class="title"><a href="${result.url}" target="_blank">${result.title || 'No title'}</a></h2>
+                    <p class="info">Author: ${result.author || 'No author'}</p>
+                    <p class="info">Published Date: ${result.publishedDate ? new Date(result.publishedDate).toLocaleDateString() : 'No date'}</p>
+                    <p class="info">Score: ${result.score}</p>
+                `;
+                resultsDiv.appendChild(resultDiv);
+            });
+        };
+    
+        document.getElementById('prevPage').addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayResults();
+            }
+        });
+    
+        document.getElementById('nextPage').addEventListener('click', function() {
+            if (currentPage < Math.ceil(allResults.length / resultsPerPage)) {
+                currentPage++;
+                displayResults();
+            }
+        });
+    
+        // Fetch results for the initial page load
+        fetchResults();
+    </script>
+    </body>
+</html>
