@@ -179,6 +179,7 @@ export default function Page() {
             });
             const exaData = await response.json();
             setExaResults(exaData);
+            console.log(exaData);
           } catch (err) {
             console.error('Error fetching from Exa API:', err);
           }
