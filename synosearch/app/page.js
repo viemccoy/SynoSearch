@@ -169,6 +169,7 @@ export default function Page() {
       const exaData = await exaResponse.json();
       setExaResults(exaData);
     }
+    
     if (!response.ok) {
       setError('Error making prediction');
       return;
