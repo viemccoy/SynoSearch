@@ -182,17 +182,19 @@ export default function Page() {
             console.log(exaData);
         
             // Send exaData to the getExaResults endpoint
-            fetch('/api/getExaResults', {
+            const responseExa = await fetch('/api/getExaResults', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify(exaData),
             });
+            const exaResults = await responseExa.json();
+            console.log(exaResults);
           } catch (err) {
             console.error('Error fetching from Exa API:', err);
           }
-        }; // This is the missing closing bracket
+        };
   
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
