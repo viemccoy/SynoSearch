@@ -13,8 +13,8 @@ app.post("/api/search", async (req, res) => {
     },
     body: JSON.stringify({
       query: data.query,
-      numResults: data.numResults,
-      useAutoprompt: data.useAutoprompt,
+      numResults: 10,
+      useAutoprompt: false,
     })
   };
 
