@@ -175,6 +175,8 @@ export default function Page() {
             },
             body: JSON.stringify({
               query: newSearchString, // Use newSearchString directly
+              numResults: 10,
+            useAutoprompt: false,
             }),
           });
   
