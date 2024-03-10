@@ -42,11 +42,12 @@
         let currentPage = 1;
     
         const fetchResults = () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const exaResults = JSON.parse(urlParams.get('exaResults'));
-            allResults = exaResults.results; // Assign the value of the "results" key to allResults
-            displayResults(); // Display the first page of results
-        };
+        fetch('/api/getExaResults')
+            .then(response => response.json())
+            .then(data => {
+                allResults = data.results;
+                displayResults();
+            });
 
         const displayResults = () => {
             const resultsDiv = document.getElementById('openAlexSearchResults');
@@ -86,8 +87,8 @@
             }
         });
     
-        // Fetch results for the initial page load
-        fetchResults();
-    </script>
-</body>
+    // Fetch results for the initial page load
+    fetchResults();
+        </script>
+    </body>
 </html>

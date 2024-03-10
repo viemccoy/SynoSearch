@@ -183,6 +183,13 @@ export default function Page() {
           } catch (err) {
             console.error('Error fetching from Exa API:', err);
           }
+          fetch('/api/getExaResults', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(outputString),
+          });
         }
   
         // Set SynoSearch status to 'generated' after the search is completed
