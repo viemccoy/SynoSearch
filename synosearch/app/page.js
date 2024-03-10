@@ -188,7 +188,7 @@ export default function Page() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(outputString),
+            body: JSON.stringify(data.choices[0].message.content.results),
           });
         }
   
