@@ -166,7 +166,7 @@ export default function Page() {
       if (outputString) {
         const newSearchString = Array.isArray(outputString) ? outputString.join("") : outputString;
         setSearchString(newSearchString);
-        
+        console.log(newSearchString);
         if (selectedEngine === "SynoSearchExa") {
           const exaResponse = await fetch("/api/search", {
             method: "POST",
