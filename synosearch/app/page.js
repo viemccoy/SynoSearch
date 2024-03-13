@@ -10,6 +10,7 @@ import ThemeSwitch from './ThemeSwitch';
 import { useTheme } from 'next-themes';
 import { Providers } from './providers';
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
+import Exa from 'exa-js';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -28,6 +29,7 @@ export default function Page() {
   const [sameSearchCount, setSameSearchCount] = useState(0);
   const { theme, setTheme } = useTheme(); // Get the current theme and setTheme function
   const [redditSearch, setRedditSearch] = useState(false);
+  const [exaResults, setExaResults] = useState(null);
 
   useEffect(() => {
     const reddit = Cookies.get('redditSearch');
@@ -68,7 +70,7 @@ export default function Page() {
     }
   };
 
-  const generateSearchLink = (engine, query) => {
+    const generateSearchLink = (engine, query) => {
     let base_url;
     
     // Ensure query is a string and is not null or undefined
@@ -81,6 +83,10 @@ export default function Page() {
       case "SynoSearchScholar":
         base_url = theme === 'dark' ? "https://www.synosearch.com/scholarresults_dark.html?q=" : "https://www.synosearch.com/scholarresults.html?q=";
         break;
+        case "SynoSearchExa":
+          base_url = theme === 'dark' ? "https://www.synosearch.com/exaresults_dark.html?q=" : "https://www.synosearch.com/exaresults.html?q=";
+          base_url += "&exaResults=" + encodeURIComponent(JSON.stringify(exaResults));
+          break;
       case "google":
         base_url = "https://www.google.com/search?q=";
         break;
@@ -96,13 +102,7 @@ export default function Page() {
     if (redditSearch) {
       query += " insite:reddit";
     }
-  
-  exa_prompt == "Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. The search query should be phrased as though you are pointing the user in the right direction followed by an unknown link. You MUST intelligently identify all key terms in the search, and at minimum one synonym for each key term. ONLY return a single sentence beginning with what the user should do and ALWAYS ending with a colon. You should generate a series of key terms, synonyms, and related terms linked by advanced methods and phrase as though you are pointing out the existing location of a link. The link will be added automatically, so do not include a placeholder or any information about the link - you should only end with a colon ":". Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified."
-  default_prompt == "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified."
-  
-  exa_model == ""
-  default_model == "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef"
-
+    
     return base_url + query;
   };
 
@@ -120,7 +120,11 @@ export default function Page() {
     e.preventDefault();
     const selectedEngine = e.target.searchEngine.value;
     setSelectedSearchEngine(selectedEngine); // Store the selected engine in state
+    const exa_prompt = "Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. The search query should be phrased as though you are pointing the user in the right direction followed by an unknown link. You MUST intelligently identify all key terms in the search, and at minimum one synonym for each key term. ONLY return a single sentence beginning with what the user should do and ALWAYS ending with a colon. You should generate a series of key terms, synonyms, and related terms linked by advanced methods and phrase as though you are pointing out the existing location of a link. The link will be added automatically, so do not include a placeholder or any information about the link - you should only end with a colon. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
+    const default_prompt = "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
   
+    const exa_model = "ft:gpt-3.5-turbo-1106:violet-castles:exa:90ojUzRa";
+    const default_model = "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef";
     // Set SynoSearch status to 'generating'
     setSynoSearchStatus('generating');
   
@@ -131,10 +135,10 @@ export default function Page() {
       setSameSearchCount(1); // Set to 1 for a new search
       setLastSearchQuery(currentSearchQuery);
     }
-
     const sysprompt = selectedEngine === "SynoSearchExa" ? exa_prompt : default_prompt;
     const model = selectedEngine === "SynoSearchExa" ? exa_model : default_model;
-
+    const tokens = 200;
+  
     const response = await fetch("/api/predictions", {
       method: "POST",
       headers: {
@@ -143,56 +147,89 @@ export default function Page() {
       body: JSON.stringify({
         prompt: currentSearchQuery,
         sysprompt: sysprompt,
-        model: "ft:gpt-3.5-turbo-1106:violet-castles::8iwHTFef", // Use the SynoSearch model
+        model: model, // Use the SynoSearch model
         temperature: 0.7 + 0.1 * Math.min(sameSearchCount, 5), // Adjust temperature based on sameSearchCount, capped at 5
-        tokens: 20,
+        tokens: tokens,
       }),
     });
   
     const data = await response.json();
-    console.log(data); // Log the response
+    console.log(data);
   
     if (!response.ok) {
       setError('Error making prediction');
       return;
     }
-  
+    
     // Use data directly instead of prediction state
     if (data && data.choices && data.choices.length > 0) {
       const outputString = data.choices[0].message.content;
       if (outputString) {
         const newSearchString = Array.isArray(outputString) ? outputString.join("") : outputString;
         setSearchString(newSearchString);
-        const searchLink = generateSearchLink(selectedSearchEngine, searchString);
+        console.log(newSearchString);
+        if (selectedEngine === "SynoSearchExa") {
+          try {
+            const response = await fetch('/api/exaSearch', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ query: newSearchString }),
+            });
+            const exaData = await response.json();
+            setExaResults(exaData);
+            console.log(exaData);
+        
+            // Send exaData to the getExaResults endpoint
+            const responseExa = await fetch('/api/getExaResults', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(exaData),
+            });
+            const exaResults = await responseExa.json();
+            console.log(exaResults);
+          } catch (err) {
+            console.error('Error fetching from Exa API:', err);
+          }
+        };
   
         // Set SynoSearch status to 'generated' after the search is completed
         setSynoSearchStatus('generated');
   
         // Set isWideView state here, after the SynoSearch generation is complete
-        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
+        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
           setIsWideView(true);
         } else {
           setIsWideView(false);
+      }
+  
+      if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar" || selectedEngine === "SynoSearchExa") {
+        // Load SynoSearch in an <object> tag
+        const objectElement = document.getElementById('synoSearchObject');
+        if (objectElement) {
+          objectElement.data = generateSearchLink(selectedSearchEngine, newSearchString);
+        }
+      } else if (autoOpenSearch) {
+        // Prompt the user to allow pop-ups
+        if (!localStorage.getItem('popUpPromptShown')) {
+          const allowPopUps = window.confirm("SynoSearch needs to open new tabs to display search results. Please allow pop-ups for this site in your browser settings. Click OK to continue.");
+          if (allowPopUps) {
+            localStorage.setItem('popUpPromptShown', 'true');
+          } else {
+            return;
+          }
         }
   
-        if (selectedEngine === "SynoSearchWide" || selectedEngine === "SynoSearchScholar") {
-          // Load SynoSearch in an <object> tag
-          const objectElement = document.getElementById('synoSearchObject');
-          if (objectElement) {
-            objectElement.data = searchLink;
+          // Check if searchLink is not empty before opening the new tab
+          const searchLink = generateSearchLink(selectedSearchEngine, newSearchString);
+          if (searchLink) {
+            window.open(searchLink, "_blank");
+          } else {
+            console.error('No search query provided');
           }
-        } else if (autoOpenSearch) {
-          // Prompt the user to allow pop-ups
-          if (!localStorage.getItem('popUpPromptShown')) {
-            const allowPopUps = window.confirm("SynoSearch needs to open new tabs to display search results. Please allow pop-ups for this site in your browser settings. Click OK to continue.");
-            if (allowPopUps) {
-              localStorage.setItem('popUpPromptShow n', 'true');
-            } else {
-              return;
-            }
-          }
-  
-          window.open(searchLink, "_blank");
         }
       }
     }
@@ -243,7 +280,7 @@ export default function Page() {
           )}
         </div>
         <div className={`${isWideView ? styles.wideViewToolsForm : styles.toolsForm} `}>
-        {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && (
+        {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && selectedSearchEngine !== "SynoSearchExa" && (
             <label className={`${styles.autoOpenSearchLabel} `} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
               Auto-Open Search:
               <input 
@@ -257,8 +294,8 @@ export default function Page() {
           )}
           <select name="searchEngine" className={`${styles.customSelector} `} onChange={handleSearchEngineChange}>
             <option value="SynoSearchWide">SynoSearch:Wide</option>
-            <option value="SynoSearchExa">Synosearch:Exa</option>
-            <option value="SynoSearchScholar">:SynoSearch:Scholar</option>
+            <option value="SynoSearchScholar">SynoSearch:Scholar</option>
+            <option value="SynoSearchExa">SynoSearch:Exa</option>
             <option value="google">Google</option>
             <option value="googleScholar">Google Scholar</option>
             <option value="bing">Bing</option>
