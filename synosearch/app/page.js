@@ -148,11 +148,11 @@ export default function Page() {
       body: JSON.stringify({
         prompt: currentSearchQuery,
         sysprompt: sysprompt,
-        model: model, // Use the SynoSearch model
-        temperature: 0.7 + 0.1 * Math.min(sameSearchCount, 5), // Adjust temperature based on sameSearchCount, capped at 5
+        model: model,
+        temperature: 0.7 + 0.1 * Math.min(sameSearchCount, 5),
         tokens: tokens,
       }),
-    });
+    }).catch(error => console.error('Fetch error: ', error));
   
     const data = await response.json();
     console.log(data);
