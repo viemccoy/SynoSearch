@@ -22,7 +22,7 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
         },
         query: {
-          model: "gpt-3.5-turbo",
+          model: req.body.model,
           messages: [
             {
               role: "system",
