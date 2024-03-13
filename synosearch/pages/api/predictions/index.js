@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         provider: "openai",
         endpoint: "chat/completions",
         headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
         query: {
