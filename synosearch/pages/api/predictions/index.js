@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     return;
   }
   
-  const response = await fetch("https://api.openai.com/v1/completions ", {
+  const response = await fetch("https://gateway.ai.cloudflare.com/v1/259d9cff4d0f27bf78eb3a6300b4f676/synosearch", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         endpoint: "chat/completions",
         headers: {
           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         query: {
           model: req.body.model,
