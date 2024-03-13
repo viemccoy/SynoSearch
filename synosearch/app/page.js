@@ -7,6 +7,7 @@ import RootLayout from './RootLayout'; // Adjust the path according to your proj
 import Cookies from 'js-cookie';
 import InfoModal from './InfoModal';
 import ThemeSwitch from './ThemeSwitch';
+import { OpenAI } from 'ai';
 import { useTheme } from 'next-themes';
 import { Providers } from './providers';
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
@@ -160,7 +161,7 @@ export default function Page() {
       setError('Error making prediction');
       return;
     }
-    
+  
     // Use data directly instead of prediction state
     if (data && data.choices && data.choices.length > 0) {
       const outputString = data.choices[0].message.content;
