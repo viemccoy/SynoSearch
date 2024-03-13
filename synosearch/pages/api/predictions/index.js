@@ -33,7 +33,6 @@ export default async function handler(req, res) {
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);
 
-  // Check if the response is ok
   if (!response.ok) {
     res.statusCode = response.status;
     let text = await response.text();
@@ -41,16 +40,23 @@ export default async function handler(req, res) {
       // Try to parse the response as JSON
       let error = JSON.parse(text);
       res.end(JSON.stringify({ detail: error.detail }));
-    } catch {
+    } catch (e) {
+      console.error(e);
       // If it's not JSON, return it as a string
       res.end(JSON.stringify({ detail: text }));
     }
     return;
   }
 
-  // If the response is ok, parse it as JSON
-  const prediction = await response.json();
-  console.log(prediction); // Log the response
-  res.statusCode = 200;
-  res.end(JSON.stringify(prediction));
+  try {
+    // If the response is ok, parse it as JSON
+    const prediction = await response.json();
+    console.log(prediction); // Log the response
+    res.statusCode = 200;
+    res.end(JSON.stringify(prediction));
+  } catch (e) {
+    console.error(e);
+    res.statusCode = 500;
+    res.end(JSON.stringify({ detail: "Error parsing response" }));
+  }
 }
