@@ -28,7 +28,7 @@ export default async (req, res) => {
         messages: [{
             role: 'system', content: sysprompt},
             {role: 'user', content: prompt
-        }]
+        }],
     });
     const response_text = response.data.choices[0].message.content.trim();
     res.json(response_text);
