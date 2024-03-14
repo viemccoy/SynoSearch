@@ -153,8 +153,7 @@ export default function Page() {
       }),
     });
     
-    console.log(response);
-    const data = await response.json();
+    const data = await response.text(); // Use .text() instead of .json()
     console.log(data);
   
     if (!response.ok) {
