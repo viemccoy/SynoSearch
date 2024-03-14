@@ -12,11 +12,11 @@ export default async (req, res) => {
       }
 
     const openai = new OpenAI({
-        apiKey: "OPENAI_API_KEY", // Replace with your Portkey API key
+        apiKey: `${process.env.OPENAI_API_KEY}`, // Replace with your Portkey API key
         baseURL: PORTKEY_GATEWAY_URL,
         defaultHeaders: createHeaders({
             provider: "openai",
-            apiKey: "PORTKEY_API_KEY"
+            apiKey: `${process.env.PORTKEY_API_KEY}`
         })
     });
 
