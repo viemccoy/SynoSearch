@@ -2,7 +2,10 @@ import OpenAI from 'openai';
 
 const handler = async (req, res) => {
 
-    const openai = new OpenAI(process.env.OPENAI_API_KEY);
+    const openai = new OpenAI({
+        authorization: process.env.OPENAI_API_KEY,
+        organization: 'org-tSplqqO7MBVUMPm7B0VqnKSs',
+      });
 
     console.log('Request body:', req.body);
 
@@ -12,7 +15,6 @@ const handler = async (req, res) => {
             max_tokens: req.body.tokens,
             temperature: req.body.temperature,
             messages: [{role: "system", content: req.body.sysprompt}, {role: "user", content: req.body.prompt}],
-            organization: "org-tSplqqO7MBVUMPm7B0VqnKSs",
         });
         console.log(response);
         res.json(response);
