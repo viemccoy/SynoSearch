@@ -2,7 +2,7 @@ import Portkey from 'portkey-ai';
 import OpenAI from 'openai';
 
 export default async function handler(req, res) {
-  const { prompt, sysprompt, tokens, temperature, model } = req.body; // Add 'tokens' and 'temperature' here
+  const { prompt, sysprompt, model, temperature, tokens } = req.body; // Add 'tokens' and 'temperature' here
 
   // Check if the input is too long
   if (prompt.length > 230) {
