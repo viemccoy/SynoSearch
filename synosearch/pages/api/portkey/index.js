@@ -20,8 +20,8 @@ export default async (req, res) => {
         max_tokens: tokens,
         temperature: temperature,
         messages: [{
-        role: 'system', content: sysprompt,
-        role: 'user', content: prompt,
+            role: 'system', content: sysprompt,
+            role: 'user', content: prompt,
         }]
     });
       res.json(response);
