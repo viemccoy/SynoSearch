@@ -20,3 +20,5 @@ const handler = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch from OpenAI API' });
     }
 };
+
+export default handler;
