@@ -30,8 +30,9 @@ export default async (req, res) => {
             {role: 'user', content: prompt
         }]
     });
-      res.json(response);
-      console.log(response);
+    const response_text = response.data.choices[0].message.content.trim();
+    res.json(response_text);
+    console.log(response_text);
     } catch (err) {
       console.error('Error fetching from OpenAI API:', err);
       res.status(500).json({ error: 'Failed to fetch from OpenAI API' });
