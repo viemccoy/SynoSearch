@@ -16,6 +16,7 @@ export default async (req, res) => {
         temperature: temperature,
         messages: [{role: "system", content: sysprompt}, {role: "user", content: prompt}],
     });
+    console.log(completion);
     res.json(completion);
     } catch (err) {
     console.error('Error fetching from OpenAI API:', err);
