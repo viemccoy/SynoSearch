@@ -139,7 +139,7 @@ export default function Page() {
     const model = selectedEngine === "SynoSearchExa" ? exa_model : default_model;
     const tokens = 200;
   
-    const response = await fetch("/api/predictions", {
+    const response = await fetch("/api/portkey", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
