@@ -134,7 +134,7 @@ export default function Page() {
     } else {
       setSameSearchCount(1); // Set to 1 for a new search
       setLastSearchQuery(currentSearchQuery);
-    }
+    } 
     const sysprompt = selectedEngine === "SynoSearchExa" ? exa_prompt : default_prompt;
     const model = selectedEngine === "SynoSearchExa" ? exa_model : default_model;
     const tokens = 200;

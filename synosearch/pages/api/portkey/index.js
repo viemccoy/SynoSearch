@@ -10,12 +10,13 @@ export default async (req, res) => {
     const openai = new OpenAIApi(configuration);
 
     try {
-    const completion = await openai.createChatCompletion({
+    const response = await openai.createChatCompletion({
         model: model,
         max_tokens: tokens,
         temperature: temperature,
         messages: [{role: "system", content: sysprompt}, {role: "user", content: prompt}],
     });
+    const completion = response.data.choices[0].message.content.trim();
     console.log(completion);
     res.json(completion);
     } catch (err) {
