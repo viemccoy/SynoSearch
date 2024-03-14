@@ -138,7 +138,6 @@ export default function Page() {
     const sysprompt = selectedEngine === "SynoSearchExa" ? exa_prompt : default_prompt;
     const model = selectedEngine === "SynoSearchExa" ? exa_model : default_model;
     const tokens = 200;
-    console.log(currentSearchQuery,sysprompt,model,tokens);
     const response = await fetch("/api/portkey", {
       method: "POST",
       headers: {
@@ -147,7 +146,7 @@ export default function Page() {
       body: JSON.stringify({
         prompt: currentSearchQuery,
         sysprompt: sysprompt,
-        model: model, // Use the SynoSearch model
+        model: "gpt-3.5-turbo", // Use the SynoSearch model
         temperature: 0.7 + 0.1 * Math.min(sameSearchCount, 5), // Adjust temperature based on sameSearchCount, capped at 5
         tokens: tokens,
       }),
