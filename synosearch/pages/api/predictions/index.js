@@ -1,54 +1,29 @@
+import Portkey from 'portkey-ai';
+import OpenAI from 'openai';
+
 export default async function handler(req, res) {
   const { prompt, sysprompt, tokens, temperature, model } = req.body; // Add 'tokens' and 'temperature' here
 
   // Check if the input is too long
-  //if (prompt.length > 230) {
-    //res.statusCode = 400;
-    //res.end(JSON.stringify({ detail: 'Input is too long' }));
-    //return;
-  //}
+  if (prompt.length > 230) {
+    res.statusCode = 400;
+    res.end(JSON.stringify({ detail: 'Input is too long' }));
+    return;
+  }
+
+  const portkey = new Portkey({
+    apiKey: `${process.env.PORTKEY_API_KEY}`, // Replace with your Portkey API key
+    virtualKey: `${process.env.SYNO_API_KEY}`
+  });
   
-  const response = await fetch("https://gateway.ai.cloudflare.com/v1/259d9cff4d0f27bf78eb3a6300b4f676/synosearch", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify([
-      {
-        provider: "openai",
-        endpoint: "chat/completions",
-        headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        query: {
-          model: req.body.model,
-          messages: [
-            {
-              role: "system",
-              content: req.body.sysprompt,
-            },
-            {
-              role: "user",
-              content: req.body.prompt,
-            }
-          ],
-          temperature: req.body.temperature,
-          max_tokens: req.body.tokens,
-        },
-      },
-      {
-        "provider": "huggingface",
-        "endpoint": "meta-llama/Llama-2-70b-chat-hf",
-        "headers": {
-          "Authorization": `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
-          "Content-Type": "application/json",
-         },
-        "query": {
-          "input": "Year=2024. Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. You MUST intelligently identify all key terms in the search, and utilize both * wildcards (formatted as “keyterm*” and at minimum one synonym with OR (formatted as “keyterm OR synonym”) for each key term. Never return a full sentence, only a series of key terms, synonyms, and related terms linked by advanced methods in order to generate the most efficient search. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified. Query follows:" + req.body.prompt,
-        }
-      },
-    ]),
+  const response = await portkey.completions.create({
+    model: req.body.model,
+    max_tokens: req.body.tokens,
+    temperature: req.body.temperature,
+    messages: [{
+      role: 'system', content: req.body.sysprompt,
+      role: 'user', content: req.body.prompt,
+    }]
   });
 
   // Check if the response is ok
