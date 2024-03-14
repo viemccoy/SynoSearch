@@ -31,8 +31,9 @@ export default async (req, res) => {
         }]
     });
       res.json(response);
+      console.log(response);
     } catch (err) {
-      console.error('Error fetching from Portkey API:', err);
-      res.status(500).json({ error: 'Failed to fetch from Portkey API' });
+      console.error('Error fetching from OpenAI API:', err);
+      res.status(500).json({ error: 'Failed to fetch from OpenAI API' });
     }
   };
