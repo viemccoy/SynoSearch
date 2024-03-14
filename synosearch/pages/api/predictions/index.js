@@ -17,12 +17,12 @@ export default async function handler(req, res) {
   });
   
   const response = await portkey.completions.create({
-    model: req.body.model,
-    max_tokens: req.body.tokens,
-    temperature: req.body.temperature,
+    model: model,
+    max_tokens: tokens,
+    temperature: temperature,
     messages: [{
-      role: 'system', content: req.body.sysprompt,
-      role: 'user', content: req.body.prompt,
+      role: 'system', content: sysprompt,
+      role: 'user', content: prompt,
     }]
   });
 
