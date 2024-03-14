@@ -38,7 +38,6 @@ export default async (req, res) => {
       // If it's not JSON, return it as a string
       res.end(JSON.stringify({ detail: text }));
     }
-    return;
   }
 
   // If the response is ok, parse it as JSON
