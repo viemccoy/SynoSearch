@@ -1,6 +1,6 @@
 let exaResults = null;
 
-export default (req, res) => {
+const handler = async (req, res) => {
   if (req.method === 'POST') {
     exaResults = req.body;
     res.status(200).json({ status: 'success' });
@@ -10,3 +10,5 @@ export default (req, res) => {
     res.status(405).json({ error: 'Method not allowed' });
   }
 };
+
+export default handler;

@@ -1,6 +1,6 @@
 import Exa from 'exa-js';
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   const { query } = req.body;
 
   const exa = new Exa(process.env.EXASEARCH_API_KEY);
@@ -15,3 +15,5 @@ export default async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch from Exa API' });
   }
 };
+
+export default handler;

@@ -1,11 +1,10 @@
-export default async (req, res) => {
-    const { Configuration, OpenAIApi } = require("openai");
+const handler = async (req, res) => {
 
-    const configuration = new Configuration({
+    const OpenAIApi = require("openai");
+
+    const openai = new OpenAIApi({
         apiKey: process.env.OPENAI_API_KEY,
     });
-
-    const openai = new OpenAIApi(configuration);
 
     // Log the request body
     console.log('Request body:', req.body);
@@ -29,3 +28,5 @@ export default async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch from OpenAI API' });
     }
 };
+
+export default handler;
