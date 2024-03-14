@@ -138,7 +138,7 @@ export default function Page() {
     const sysprompt = selectedEngine === "SynoSearchExa" ? exa_prompt : default_prompt;
     const model = selectedEngine === "SynoSearchExa" ? exa_model : default_model;
     const tokens = 200;
-  
+    console.log(currentSearchQuery,sysprompt,model,tokens);
     const response = await fetch("/api/portkey", {
       method: "POST",
       headers: {
