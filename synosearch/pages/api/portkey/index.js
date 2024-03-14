@@ -1,4 +1,6 @@
 import Portkey from 'portkey-ai';
+import OpenAI from 'openai'; // We're using the v4 SDK
+import { PORTKEY_GATEWAY_URL, createHeaders } from 'portkey-ai'
 
 export default async (req, res) => {
     const { prompt, sysprompt, model, temperature, tokens } = req.body; // Add 'tokens' and 'temperature' here
@@ -9,13 +11,17 @@ export default async (req, res) => {
         return;
       }
 
-    const portkey = new Portkey({
-        apiKey: `${process.env.PORTKEY_API_KEY}`, // Replace with your Portkey API key
-        virtualKey: `${process.env.SYNO_API_KEY}`
+    const openai = new OpenAI({
+        apiKey: "OPENAI_API_KEY", // Replace with your Portkey API key
+        baseURL: PORTKEY_GATEWAY_URL,
+        defaultHeaders: createHeaders({
+            provider: "openai",
+            apiKey: "PORTKEY_API_KEY"
+        })
     });
 
     try {
-      const response = await portkey.completions.create({
+      const response = await openai.chat.completions.create({
         model: model,
         max_tokens: tokens,
         temperature: temperature,
