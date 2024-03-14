@@ -16,7 +16,7 @@ export default async (req, res) => {
     });
     const completion = response.data.choices[0].message.content.trim();
     console.log(completion);
-    res.json(completion);
+    res.json({ completion: completion });
     } catch (err) {
     console.error('Error fetching from OpenAI API:', err);
     res.status(500).json({ error: 'Failed to fetch from OpenAI API' });

@@ -152,8 +152,8 @@ export default function Page() {
         tokens: tokens,
       }),
     });
-    
-    const data = await response.text(); // Use .text() instead of .json()
+
+    const data = await response.json();
     console.log(data);
   
     if (!response.ok) {
