@@ -8,6 +8,17 @@
   justify-content: center;
 }
 
+@media (max-width: 600px) {
+  .formContainer, .form {
+    margin-top: -100px; /* Adjust the top margin of the form container */
+  }
+
+  .inputGroup {
+    margin-left: 10px; /* Smaller left margin for the input box */
+    margin-right: 10px; /* Smaller right margin for the input box */
+  }
+}
+
 .title {
   font-size: 3rem; /* Adjust if necessary */
   font-family: 'Roboto', serif;
@@ -32,7 +43,7 @@
   .title {
     width: 330px; /* Adjust to the width of your SVG */
     height: 200px; /* Adjust to the height of your SVG */
-    margin-bottom: -120px;
+    margin-bottom: -20px;
     margin-left: auto; /* Center the title horizontally */
     margin-right: auto; /* Center the title horizontally */
   }
