@@ -47,13 +47,6 @@
     margin-left: auto; /* Center the title horizontally */
     margin-right: auto; /* Center the title horizontally */
   }
-  .searchTitle {
-    /* Adjust the size if necessary */
-    background-image: url("/synosmallb.svg"); /* Light mode SVG for mobile */
-    width: 120px; /* Adjust to the width of your SVG */
-    height: 200px; /* Adjust to the height of your SVG */
-    margin-bottom: -3rem;
-  }
 
   :global(.dark) .searchTitle {
     background-image: url("/synosmallw.svg"); /* Dark mode SVG for mobile */
@@ -61,6 +54,15 @@
     height: 200px; /* Adjust to the height of your SVG */
     margin-bottom: -3rem;
   }
+}
+
+.searchTitle {
+  background-image: url("/synosmallb.svg"); /* Light mode SVG for wide view */
+  text-indent: -9999px;
+}
+
+:global(.dark) .searchTitle {
+  background-image: url("/synosmallw.svg"); /* Dark mode SVG for wide view */
 }
 
 .tagline {
@@ -298,11 +300,7 @@
   height: 10%;
 }
 
-.wideViewTitle {
-  margin-top: 0.3rem;
-  font-size: 2rem;
-  font-family: 'Roboto', serif; /* Bring back the 'Roboto' font */
-}
+
 
 .wideViewForm {
   flex-grow: 1;
@@ -484,9 +482,7 @@
   background-color: #000000; /* Dark background for wide view container */
 }
 
-:global(.dark) .wideViewTitle {
-  color: #ffffff; /* White text for wide view title */
-}
+
 
 :global(.dark) .wideViewForm {
   background-color: #000000; /* Dark background for wide view form */
