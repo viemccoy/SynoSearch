@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
 
 .container {
   position: relative;
@@ -9,10 +9,45 @@
 }
 
 .title {
-  font-size: 3rem;
-  font-family: 'Lora', serif;
-  font-weight: 900; /* Make the text even bolder */
+  font-size: 3rem; /* Adjust if necessary */
+  font-family: 'Roboto', serif;
+  font-weight: 900;
   align-items: center;
+  background-image: url("/synowideb.svg"); /* Default light mode SVG */
+  background-repeat: no-repeat;
+  background-size: contain; /* Or 'cover' depending on the desired effect */
+  display: inline-block; /* Or 'block' depending on layout */
+  width: 500px; /* Adjust to the width of your SVG */
+  height: 800px; /* Adjust to the height of your SVG */
+  margin-bottom: -42rem;
+  text-indent: -9999px; /* Hide the text */
+}
+
+:global(.dark) .title {
+  background-image: url("/synowidew.svg"); /* Dark mode SVG */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 600px) {
+  .title {
+    width: 500px; /* Adjust to the width of your SVG */
+    height: 300px; /* Adjust to the height of your SVG */
+    margin-bottom: -160px;
+  }
+  .searchTitle {
+    /* Adjust the size if necessary */
+    background-image: url("/synosmallb.svg"); /* Light mode SVG for mobile */
+    width: 120px; /* Adjust to the width of your SVG */
+    height: 200px; /* Adjust to the height of your SVG */
+    margin-bottom: -3rem;
+  }
+
+  :global(.dark) .searchTitle {
+    background-image: url("/synosmallw.svg"); /* Dark mode SVG for mobile */
+    width: 120px; /* Adjust to the width of your SVG */
+    height: 200px; /* Adjust to the height of your SVG */
+    margin-bottom: -3rem;
+  }
 }
 
 .tagline {
@@ -32,7 +67,7 @@
 .form input {
   width: 100%; /* Make the input box half the width of its container */
   font-size: 1.2rem;
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
   align-items: center;
 }
 
@@ -40,7 +75,7 @@
   font-size: 1.3rem; /* Increase the font size */
   border: 1px solid #000;
   border-radius: 0.25rem;
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
   display: flex;
   align-items: center; /* Vertically align the elements */
   justify-content: space-between; /* Distribute the space evenly between the elements */
@@ -98,7 +133,7 @@
 .btnContainer {
   position: relative; /* Add this line */
   display: flex;
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
   flex-direction: column; /* Stack the elements vertically */
   align-items: center; /* Center the elements horizontally */
 
@@ -111,7 +146,7 @@
   display: flex;
   flex-direction: column; /* Stack the elements vertically */
   align-items: center;
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
   justify-content: center;
   padding: 0.7rem;
   font-size: 1.2rem;
@@ -135,7 +170,7 @@
   text-align: left;
   background: #ffffff;
   font-size: 1rem;
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
 }
 
 .synoSearchBox:hover {
@@ -146,26 +181,31 @@
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  background-image: url("/synowidew.svg"); /* Default light mode SVG */
+}
+
+:global(.dark) .titleLink {
+  background-image: url("/synowideb.svg"); /* Dark mode SVG */
 }
 
 .toolsForm {
   display: flex;
   justify-content: center; /* Horizontally center the elements */
   align-items: center; /* Vertically center the elements */
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
   margin-bottom: 1.5rem;
 }
 
 
 .autoOpenSearchLabel {
   white-space: nowrap;
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
   margin-Right: 20px;
   
 }
 
 .openInNewTabLink {
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
   margin-Left: 10px;
   text-decoration: underline;
   color: #000;
@@ -248,7 +288,7 @@
 .wideViewTitle {
   margin-top: 0.3rem;
   font-size: 2rem;
-  font-family: 'Lora', serif; /* Bring back the 'Lora' font */
+  font-family: 'Roboto', serif; /* Bring back the 'Roboto' font */
 }
 
 .wideViewForm {
@@ -320,7 +360,7 @@
   font-size: 1.3rem;
   border: 1px solid #FFF;
   border-radius: 0.25rem;
-  font-family: 'Lora', serif;
+  font-family: 'Roboto', serif;
   display: flex;
   align-items: center;
   justify-content: space-between;

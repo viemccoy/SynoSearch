@@ -239,7 +239,9 @@ export default function Page() {
         <RootLayout>
       <div className={`${isWideView ? styles.wideViewContainer : styles.container}`}>
         <Head>
-          <title>SynoSearch</title>
+        <h1 className={isWideView ? `${styles.searchTitle}` : `${styles.title}`}>
+          <a href="/" className={`${styles.titleLink}`}>SynoSearch</a>
+        </h1>
         </Head>
   
       <h1 className={`${isWideView ? styles.wideViewTitle : styles.title} `}>
