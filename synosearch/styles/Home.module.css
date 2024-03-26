@@ -30,8 +30,8 @@
 /* Adjustments for smaller screens */
 @media (max-width: 600px) {
   .title {
-    width: 500px; /* Adjust to the width of your SVG */
-    height: 300px; /* Adjust to the height of your SVG */
+    width: 300px; /* Adjust to the width of your SVG */
+    height: 200px; /* Adjust to the height of your SVG */
     margin-bottom: -160px;
   }
   .searchTitle {
