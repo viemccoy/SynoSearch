@@ -11,6 +11,8 @@ import { useTheme } from 'next-themes';
 import { Providers } from './providers';
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
 import Exa from 'exa-js';
+import SynoSearchModal from './SynoSearchModal'; // Adjust path as necessary
+
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -31,6 +33,20 @@ export default function Page() {
   const [redditSearch, setRedditSearch] = useState(false);
   const [exaResults, setExaResults] = useState(null);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [isSynoSearchModalOpen, setIsSynoSearchModalOpen] = useState(false);
+
+
+  useEffect(() => {
+    const updateWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', updateWidth);
+    updateWidth(); // Initial setting
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
   
   useEffect(() => {
     // Set the initial value based on the window's width
@@ -254,16 +270,11 @@ export default function Page() {
   return (
     <Providers>
         <RootLayout>
-      <div className={`${isWideView ? styles.wideViewContainer : styles.container}`}>
-        <Head>
-          <h1 className={`${isMobileView ? styles.mobileTitle : (isWideView ? styles.searchTitle : styles.title)}`}>
-            <a href="/" className={`${styles.titleLink}`}>SynoSearch</a>
+        <div className={`${isWideView ? (windowWidth < 1200 ? styles.mobileContainer : styles.wideViewContainer) : styles.container}`}>
+        <a href="/" className={styles.titleLink}>
+          <h1 className={`${isWideView && windowWidth < 1200 ? styles.mobileTitle : (isWideView ? styles.wideViewTitle : styles.title)}`}>
           </h1>
-        </Head>
-  
-      <h1 className={`${isWideView ? styles.wideViewTitle : styles.title} `}>
-        <a href="/" className={`${styles.titleLink} `}>SynoSearch</a>
-      </h1>
+        </a>
       <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} `} onSubmit={(e) => handleSubmit(e)}>        <div className={`${styles.inputGroup} `}>
         <input 
           type="text" 
@@ -285,18 +296,6 @@ export default function Page() {
             )}
           </div>
         </div>
-        <div className={`${styles.synoSearchBox} `}>
-          {synoSearchStatus === 'idle' && 'Input query above'}
-          {synoSearchStatus === 'generating' && 'Generating SynoSearch...'}
-          {synoSearchStatus === 'generated' && (
-            <div onClick={() => setSynoSearchOpen(prevState => !prevState)}>
-              {synoSearchOpen ? '▼' : '►'} Show SynoSearch
-            </div>
-          )}
-          {synoSearchStatus === 'generated' && synoSearchOpen && (
-            <div className={`${isWideView ? styles.wideViewSynoSearchBox : ''} `}>{searchString}</div>
-          )}
-        </div>
         <div className={`${isWideView ? styles.wideViewToolsForm : styles.toolsForm} `}>
         {selectedSearchEngine !== "SynoSearchWide" && selectedSearchEngine !== "SynoSearchScholar" && selectedSearchEngine !== "SynoSearchExa" && (
             <label className={`${styles.autoOpenSearchLabel} `} style={{ display: 'flex', alignItems: 'right', marginRight: '10px' }}>
@@ -310,6 +309,7 @@ export default function Page() {
               />
             </label>
           )}
+        <div className={styles.selectorAndButtonContainer}>
           <select name="searchEngine" className={`${styles.customSelector} `} onChange={handleSearchEngineChange}>
             <option value="SynoSearchWide">SynoSearch:Wide</option>
             <option value="SynoSearchScholar">SynoSearch:Scholar</option>
@@ -318,17 +318,24 @@ export default function Page() {
             <option value="googleScholar">Google Scholar</option>
             <option value="bing">Bing</option>
           </select>
-          {synoSearchStatus === 'generated' && !autoOpenSearch && (
+          <button onClick={(e) => {
+            e.preventDefault();
+            setIsSynoSearchModalOpen(true);
+          }} className={styles.synoSearchButton}>
+            Show SynoSearch
+          </button>
+        </div>
+        {!isWideView && synoSearchStatus === 'generated' && !autoOpenSearch && (
             <a 
               href="#" 
               onClick={handleOpenInNewTab}
               target="_blank" 
               rel="noopener noreferrer" 
-              className={`${styles.openInNewTabLink} `}
-              >
-                Open In New Tab
-              </a>
-            )}
+              className={`${styles.openInNewTabLink}`}
+            >
+              Open In New Tab
+            </a>
+          )}
           </div>
           <button 
             className={`${styles.infoSettingsButton} `} 
@@ -342,6 +349,11 @@ export default function Page() {
         <ThemeSwitch/>
       </div>
       {isWideView && <object id="synoSearchObject" type="text/html" className={`${styles.synoSearchObject} `}></object>}
+      <SynoSearchModal
+        isOpen={isSynoSearchModalOpen}
+        onClose={() => setIsSynoSearchModalOpen(false)}
+        content={<div></div>}
+      />
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} redditSearch={redditSearch} setRedditSearch={setRedditSearch} />
     </RootLayout>
   </Providers>
