@@ -635,3 +635,69 @@ body.local-body:global(.dark) {
 .darkModeButton::before {
   display: none;
 }
+
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* Ensure it's above other content */
+}
+
+.modalContent {
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  z-index: 1000;
+  padding: 50px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+  max-width: 500px; /* Adjust based on your content's needs */
+  width: 90%; /* Responsive width */
+  position: relative; /* For positioning the close button */
+  color: #000;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #f5f5f5; /* Light grey background */
+  border: 1px solid #ddd; /* Light grey border */
+  border-radius: 0.5px; /* Rounded corners */
+}
+
+:global(.dark) .modalContent {
+  background: #333; /* Darker background for dark mode */
+  color: #fff; /* Light text color for dark mode */
+  border: 1px solid #777; /* Darker border for dark mode */
+  /* Keep the rest of the properties the same unless you want to adjust them for dark mode */
+  border-radius: 0.25rem;
+  padding: 50px;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); /* Adjust shadow color for dark mode */
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+}
+
+:global(.dark) .closeButton {
+  background-color: #555; /* Darker background for the close button in dark mode */
+  color: #ddd; /* Lighter text color for better visibility in dark mode */
+  border: 1px solid #888; /* Adjust border color for dark mode */
+  /* Keep the rest of the properties the same */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}

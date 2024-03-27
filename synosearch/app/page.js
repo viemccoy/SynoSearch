@@ -353,7 +353,7 @@ export default function Page() {
       <SynoSearchModal
         isOpen={isSynoSearchModalOpen}
         onClose={() => setIsSynoSearchModalOpen(false)}
-        content={<div></div>}
+        content={searchString} // Ensure this variable holds the generated SynoSearch content
       />
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} redditSearch={redditSearch} setRedditSearch={setRedditSearch} />
     </RootLayout>
