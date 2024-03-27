@@ -319,12 +319,14 @@ export default function Page() {
             <option value="googleScholar">Google Scholar</option>
             <option value="bing">Bing</option>
           </select>
-          <button onClick={(e) => {
-            e.preventDefault();
-            setIsSynoSearchModalOpen(true);
-          }} className={styles.synoSearchButton}>
-            Show SynoSearch
-          </button>
+          {searchString && (
+            <button onClick={(e) => {
+              e.preventDefault();
+              setIsSynoSearchModalOpen(true);
+            }} className={styles.synoSearchButton}>
+              Show SynoSearch
+            </button>
+          )}
         </div>
         {!isWideView && synoSearchStatus === 'generated' && !autoOpenSearch && (
             <a 
