@@ -8,55 +8,6 @@
   justify-content: center;
 }
 
-@media (max-width: 900px) {
-  .container {
-    transform: scale(0.9); /* Adjust the scale value as needed */
-    transform-origin: center top; /* Ensures the scaling is centered */
-  }
-}
-
-@media (max-width: 800px) {
-  .container {
-    transform: scale(0.8); /* Adjust the scale value as needed */
-    transform-origin: center top; /* Ensures the scaling is centered */
-  }
-}
-
-@media (max-width: 700px) {
-  .container {
-    transform: scale(0.7); /* Adjust the scale value as needed */
-    transform-origin: center top; /* Ensures the scaling is centered */
-  }
-}
-
-@media (max-width: 600px) {
-  .container {
-    transform: scale(0.6); /* Adjust the scale value as needed */
-    transform-origin: center top; /* Ensures the scaling is centered */
-  }
-}
-
-@media (max-width: 500px) {
-  .container {
-    transform: scale(0.5); /* Adjust the scale value as needed */
-    transform-origin: center top; /* Ensures the scaling is centered */
-  }
-}
-
-@media (max-width: 400px) {
-  .container {
-    transform: scale(0.4); /* Adjust the scale value as needed */
-    transform-origin: center top; /* Ensures the scaling is centered */
-  }
-}
-
-@media (max-width: 300px) {
-  .container {
-    transform: scale(0.3); /* Adjust the scale value as needed */
-    transform-origin: center top; /* Ensures the scaling is centered */
-  }
-}
-
 .title {
   font-size: 3rem; /* Adjust if necessary */
   font-family: 'Roboto', serif;
@@ -70,7 +21,56 @@
   height: 800px; /* Adjust to the height of your SVG */
   margin-bottom: -42rem;
   text-indent: -9999px; /* Hide the text */
+  display: flex;
+  justify-content: center;
+  align-items: stretch; /* Make the children fill the container vertically */
 }
+
+.inputGroup {
+  display: flex;
+  justify-content: center;
+  align-items: stretch; /* Make the children fill the container vertically */
+  border: 1.3px solid #000;
+  border-radius: 0.1rem;
+  width: 60%; /* Adjust this to your preference */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem; /* Add a margin at the bottom */
+}
+
+@media (max-width: 800px) {
+  .inputGroup {
+    width: 80%;
+  }
+}
+
+@media (max-width: 600px) {
+    .inputGroup {
+      width: 95%;
+    }
+}
+
+
+@media (max-width: 520px) {
+  .container {
+    transform: scale(0.5);
+    width: 200%;
+    margin-left: -50%; 
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    transform: scale(0.3);
+    width: 350%;  
+    margin-left: -125%; 
+  }
+}
+
+
+
+
+
 
 :global(.dark) .title {
   background-image: url("/synowidew.svg"); /* Dark mode SVG */
@@ -109,6 +109,7 @@
     transform: scale(0.9); /* Adjust the scale value as needed */
     margin-right: -70px;
     transform-origin: left; /* Ensures the scaling is centered */
+    margin-top: -40px;
   }
 }
 
@@ -117,6 +118,7 @@
     transform: scale(0.8); /* Adjust the scale value as needed */
     margin-right: -125px;
     transform-origin: left; /* Ensures the scaling is centered */
+    margin-top: -45px;
   }
 }
 
@@ -125,6 +127,7 @@
     transform: scale(0.7); /* Adjust the scale value as needed */
     margin-right: -160px;
     transform-origin: left; /* Ensures the scaling is centered */
+    margin-top: -45px;
   }
 }
 
@@ -133,6 +136,7 @@
     transform: scale(0.6); /* Adjust the scale value as needed */
     margin-right: -250px;
     transform-origin: left; /* Ensures the scaling is centered */
+    margin-top: -45px;
   }
 }
 
@@ -141,6 +145,7 @@
     transform: scale(0.5); /* Adjust the scale value as needed */
     margin-right: -300px;
     transform-origin: left; /* Ensures the scaling is centered */
+    margin-top: -45px;
   }
 }
 
@@ -214,17 +219,7 @@
   align-items: center;
 }
 
-.inputGroup {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch; /* Make the children fill the container vertically */
-  border: 1.3px solid #000;
-  border-radius: 0.1rem;
-  width: 60%; /* Adjust this to your preference */
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5rem; /* Add a margin at the bottom */
-}
+
 
 .inputGroupWide {
   display: flex;
