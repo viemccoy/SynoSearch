@@ -66,6 +66,46 @@
   margin-bottom: 10px;
 }
 
+@media (max-width: 600px) {
+  .mobileContainer {
+    transform: scale(0.9); /* Adjust the scale value as needed */
+    margin-right: -70px;
+    transform-origin: left; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 500px) {
+  .mobileContainer {
+    transform: scale(0.8); /* Adjust the scale value as needed */
+    margin-right: -125px;
+    transform-origin: left; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 400px) {
+  .mobileContainer {
+    transform: scale(0.7); /* Adjust the scale value as needed */
+    margin-right: -160px;
+    transform-origin: left; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 350px) {
+  .mobileContainer {
+    transform: scale(0.6); /* Adjust the scale value as needed */
+    margin-right: -250px;
+    transform-origin: left; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 300px) {
+  .mobileContainer {
+    transform: scale(0.5); /* Adjust the scale value as needed */
+    margin-right: -300px;
+    transform-origin: left; /* Ensures the scaling is centered */
+  }
+}
+
 :global(.dark) .mobileTitle {
   background-image: url("/synosmallw.svg"); /* Dark mode SVG for mobile */
 }
