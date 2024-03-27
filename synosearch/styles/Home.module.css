@@ -343,6 +343,7 @@
 }
 .infoSettingsButton {
   background-color: #ffffff; /* Set the background color to white */
+  margin-bottom: 20px;
   /* Other styles as needed */
 }
 .infoSettingsButton::before {
