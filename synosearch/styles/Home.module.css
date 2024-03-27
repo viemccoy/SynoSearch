@@ -2,7 +2,7 @@
 
 .container {
   position: relative;
-  margin-top: 16rem;
+  margin-top: 10rem;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -47,21 +47,14 @@
     margin-left: auto; /* Center the title horizontally */
     margin-right: auto; /* Center the title horizontally */
   }
-
-  :global(.dark) .searchTitle {
-    background-image: url("/synosmallw.svg"); /* Dark mode SVG for mobile */
-    width: 120px; /* Adjust to the width of your SVG */
-    height: 200px; /* Adjust to the height of your SVG */
-    margin-bottom: -3rem;
-  }
 }
 
-.searchTitle {
+.mobileTitle {
   background-image: url("/synosmallb.svg"); /* Light mode SVG for wide view */
   text-indent: -9999px;
 }
 
-:global(.dark) .searchTitle {
+:global(.dark) .mobileTitle {
   background-image: url("/synosmallw.svg"); /* Dark mode SVG for wide view */
 }
 

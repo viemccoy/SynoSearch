@@ -30,6 +30,23 @@ export default function Page() {
   const { theme, setTheme } = useTheme(); // Get the current theme and setTheme function
   const [redditSearch, setRedditSearch] = useState(false);
   const [exaResults, setExaResults] = useState(null);
+  const [isMobileView, setIsMobileView] = useState(false);
+  
+  useEffect(() => {
+    // Set the initial value based on the window's width
+    setIsMobileView(window.innerWidth <= 600);
+
+    // Define a function to update the state on window resize
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 600);
+    };
+
+    // Add the event listener for resize
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // The empty array ensures this effect runs only once after the initial render
 
   useEffect(() => {
     const reddit = Cookies.get('redditSearch');
@@ -239,9 +256,9 @@ export default function Page() {
         <RootLayout>
       <div className={`${isWideView ? styles.wideViewContainer : styles.container}`}>
         <Head>
-        <h1 className={isWideView ? `${styles.searchTitle}` : `${styles.title}`}>
-          <a href="/" className={`${styles.titleLink}`}>SynoSearch</a>
-        </h1>
+          <h1 className={`${isMobileView ? styles.mobileTitle : (isWideView ? styles.searchTitle : styles.title)}`}>
+            <a href="/" className={`${styles.titleLink}`}>SynoSearch</a>
+          </h1>
         </Head>
   
       <h1 className={`${isWideView ? styles.wideViewTitle : styles.title} `}>
