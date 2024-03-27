@@ -8,14 +8,52 @@
   justify-content: center;
 }
 
-@media (max-width: 600px) {
-  .formContainer, .form {
-    margin-top: -100px; /* Adjust the top margin of the form container */
+@media (max-width: 900px) {
+  .container {
+    transform: scale(0.9); /* Adjust the scale value as needed */
+    transform-origin: center top; /* Ensures the scaling is centered */
   }
+}
 
-  .inputGroup {
-    margin-left: 10px; /* Smaller left margin for the input box */
-    margin-right: 10px; /* Smaller right margin for the input box */
+@media (max-width: 800px) {
+  .container {
+    transform: scale(0.8); /* Adjust the scale value as needed */
+    transform-origin: center top; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    transform: scale(0.7); /* Adjust the scale value as needed */
+    transform-origin: center top; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    transform: scale(0.6); /* Adjust the scale value as needed */
+    transform-origin: center top; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    transform: scale(0.5); /* Adjust the scale value as needed */
+    transform-origin: center top; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    transform: scale(0.4); /* Adjust the scale value as needed */
+    transform-origin: center top; /* Ensures the scaling is centered */
+  }
+}
+
+@media (max-width: 300px) {
+  .container {
+    transform: scale(0.3); /* Adjust the scale value as needed */
+    transform-origin: center top; /* Ensures the scaling is centered */
   }
 }
 
@@ -345,6 +383,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+
 
 .tabButton {
   flex: 1;
