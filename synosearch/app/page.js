@@ -276,7 +276,7 @@ export default function Page() {
           </h1>
         </a>
       <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} `} onSubmit={(e) => handleSubmit(e)}>        
-      <div className={{`${styles.form} ${isWideView ? styles.inputGroupWide : styles.inputGroup} `}>
+      <div className={`${isWideView ? styles.inputGroupWide : styles.inputGroup} `}>
         <input 
           type="text" 
           name="prompt" 
