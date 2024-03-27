@@ -275,7 +275,8 @@ export default function Page() {
           <h1 className={`${isWideView && windowWidth < 1200 ? styles.mobileTitle : (isWideView ? styles.wideViewTitle : styles.title)}`}>
           </h1>
         </a>
-      <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} `} onSubmit={(e) => handleSubmit(e)}>        <div className={`${styles.inputGroup} `}>
+      <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} `} onSubmit={(e) => handleSubmit(e)}>        
+      <div className={{`${styles.form} ${isWideView ? styles.inputGroupWide : styles.inputGroup} `}>
         <input 
           type="text" 
           name="prompt" 

@@ -146,8 +146,17 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1.5rem; /* Add a margin at the bottom */
-  
-  
+}
+
+.inputGroupWide {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Make the children fill the container vertically */
+  border: 1.3px solid #000;
+  border-radius: 0.1rem;
+  width: 60%; /* Adjust this to your preference */
+  margin-right: auto;
+  margin-bottom: 1.5rem; /* Add a margin at the bottom */
 }
 
 .btnContainer {
