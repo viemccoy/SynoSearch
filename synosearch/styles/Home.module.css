@@ -53,17 +53,17 @@
 
 @media (max-width: 520px) {
   .container {
-    transform: scale(0.5);
-    width: 200%;
-    margin-left: -50%; 
+    transform: scale(0.7);
+    width: 150%;
+    margin-left: -25%; 
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 360px) {
   .container {
-    transform: scale(0.3);
-    width: 350%;  
-    margin-left: -125%; 
+    transform: scale(0.55);
+    width: 200%;  
+    margin-left: -50%; 
   }
 }
 
@@ -136,7 +136,7 @@
     transform: scale(0.6); /* Adjust the scale value as needed */
     margin-right: -250px;
     transform-origin: left; /* Ensures the scaling is centered */
-    margin-top: -45px;
+    margin-top: -60px;
   }
 }
 
@@ -145,7 +145,7 @@
     transform: scale(0.5); /* Adjust the scale value as needed */
     margin-right: -300px;
     transform-origin: left; /* Ensures the scaling is centered */
-    margin-top: -45px;
+    margin-top: -70px;
   }
 }
 
