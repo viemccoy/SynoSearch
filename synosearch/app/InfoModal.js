@@ -44,7 +44,7 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
         {activeTab === 0 && <div>SynoSearch:Scholar uses the standard SynoSearch model and delivers scholarly results from OpenAlex.</div>}
         {activeTab === 0 && <div>SynoSearch:Exa uses the SynoSearch custom auto-prompter model and delivers scholarly results from Exa AI.</div>}
         {activeTab === 0 && <div>Google, Google Scholar, and Bing all use the standard SynoSearch model and open in new tabs respectively.</div>}
-=        {activeTab === 0 && <h1>SynoSettings</h1>}
+        {activeTab === 0 && <h1>SynoSettings</h1>}
         {activeTab === 0 && (
         <label>
         Reddit Mode (Only Searches Reddit):
