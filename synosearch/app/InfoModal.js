@@ -22,9 +22,9 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
   return (
     <ThemeContext.Provider value={theme}>
     <div className={styles.infoModal}>
-      <button className={styles.closeButton} onClick={() => setInfoOpen(false)}>X</button>
+      <button className={styles.closeButton} onClick={() => setInfoOpen(false)}>Close</button>
       <div className={styles.tabs}>
-        {['About + SynoSettings', 'Advanced Models', 'SynoSearch:Premium', 'Feature Requests', 'Account'].map((tab, index) => (
+        {['InfoSettings', 'Account'].map((tab, index) => (
           <button
             key={index}
             className={styles.tabButton}
@@ -39,7 +39,12 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
         {activeTab === 0 && <div>Designed to make search engines useful again, SynoSearch is the first AI-powered top-down semantic search.
           Most useful when aiding in the creative literature review process, SynoSearch doesn't ask you to change your habits. There's no chat, just a subtle AI-powered search improvement.
           SynoSearch is the ultimate research tool, and helps you to get better results with less searches.</div>}
-        {activeTab === 0 && <h1>SynoSettings</h1>}
+        {activeTab === 0 && <h1>Model and Engine Information</h1>}
+        {activeTab === 0 && <div>SynoSearch:Wide uses the standard SynoSearch model and delivers same-page results from Google.</div>}
+        {activeTab === 0 && <div>SynoSearch:Scholar uses the standard SynoSearch model and delivers scholarly results from OpenAlex.</div>}
+        {activeTab === 0 && <div>SynoSearch:Exa uses the SynoSearch custom auto-prompter model and delivers scholarly results from Exa AI.</div>}
+        {activeTab === 0 && <div>Google, Google Scholar, and Bing all use the standard SynoSearch model and open in new tabs respectively.</div>}
+=        {activeTab === 0 && <h1>SynoSettings</h1>}
         {activeTab === 0 && (
         <label>
         Reddit Mode (Only Searches Reddit):
@@ -63,13 +68,10 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
             )}
           </button>
       )}
-        {activeTab === 1 && <div>New models coming soon.</div>}
-        {activeTab === 2 && <div>Premium features coming soon.</div>}
-        {activeTab === 3 && <h1>Feature Requests</h1>}
-        {activeTab === 3 && <a href="https://forms.gle/abvYHwkbpFnuAQQVA">Feature Request Form</a>}
-        {activeTab === 3 && <h1>Bug Reports</h1>}
-        {activeTab === 3 && <a href="https://forms.gle/TuZaoS2ggWb8kGec8">Bug Report Form</a>}
-        {activeTab === 4 && <div>Persistent accounts coming soon.</div>}
+        {activeTab === 1 && <h1>Feature Requests</h1>}
+        {activeTab === 1 && <a href="https://forms.gle/abvYHwkbpFnuAQQVA">Feature Request Form</a>}
+        {activeTab === 1 && <h1>Bug Reports</h1>}
+        {activeTab === 1 && <a href="https://forms.gle/TuZaoS2ggWb8kGec8">Bug Report Form</a>}
       </div>
     </div>
     </ThemeContext.Provider>
