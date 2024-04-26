@@ -43,27 +43,33 @@
   border-radius: 0.25rem;
   background-color: #fff; /* Set the background color to white */
   position: absolute;
-  top: 8%;
+  top: 85px;
   left: 0.5%;
   width: 99%;
   height: 89%;
+}
+
+@media (max-width: 1200px) {
+  .inputGroup {
+    width: 80%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .inputGroup {
+    width: 80%;
+  }
 }
 
 @media (max-width: 800px) {
   .inputGroup {
     width: 80%;
   }
-  .synoSearchObject {
-    top: 10%;
-  }
 }
 
 @media (max-width: 600px) {
     .inputGroup {
       width: 95%;
-    }
-    .synoSearchObject {
-      top: 10%;
     }
 }
 
@@ -74,9 +80,6 @@
     width: 150%;
     margin-left: -25%; 
   }
-  .synoSearchObject {
-    top: 10%;
-  }
 }
 
 @media (max-width: 360px) {
@@ -84,9 +87,6 @@
     transform: scale(0.55);
     width: 200%;  
     margin-left: -50%; 
-  }
-  .synoSearchObject {
-    top: 10%;
   }
 }
 
