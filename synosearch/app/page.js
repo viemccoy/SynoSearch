@@ -22,10 +22,12 @@ export default function Page() {
   const [init, setInit] = useState(false);
   const [autoOpenSearch, setAutoOpenSearch] = useState(false);
   const [remainingSearches, setRemainingSearches] = useState(() => {
-    const savedSearches = localStorage.getItem('remainingSearches');
-    return savedSearches !== null ? Number(savedSearches) : 50;
+    if (typeof window !== 'undefined') {
+      const savedSearches = localStorage.getItem('remainingSearches');
+      return savedSearches !== null ? Number(savedSearches) : 50;
+    }
+    return 50;
   });
-  
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
   const [selectedSearchEngine, setSelectedSearchEngine] = useState("SynoSearchWide");
