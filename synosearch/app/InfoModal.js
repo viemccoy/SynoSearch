@@ -2,16 +2,45 @@ import styles from '../styles/Home.module.css';
 import React, { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes'; // Import the useTheme hook
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
+import UserContext from '../contexts/UserContext';
+import { supabase } from '../supabaseClient'; // Import your Supabase client
+
 
 
 export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRedditSearch }) {
   
+  const { user, setUser } = useContext(UserContext);
   const [activeTab, setActiveTab] = useState(0);
   const { theme, setTheme } = useTheme(); // Get the current theme and setTheme function
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     console.log(`Theme changed to ${theme}`);
   }, [theme]);
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
+    const { data, error } = await supabase.auth.signIn({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      console.error('Error signing in:', error);
+      return;
+    }
+
+    // After signing in, update the user's account information
+    const { data: userInfo, error: userError } = await supabase.auth.getUserIdentities();
+    if (userError) {
+      console.error('Error getting user info:', userError);
+      return;
+    }
+
+    setUser(userInfo);
+  };
 
   
 
@@ -68,6 +97,26 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
             )}
           </button>
       )}
+      {activeTab === 1 && user && (
+      <div>
+        <h2>Welcome, {user.username}!</h2>
+        <p>Your subscription level: {user.subscriptionLevel}</p>
+      </div>
+    )}
+    {activeTab === 1 && !user && <a href="https://pro.synosearch.com">No account? Get one here!</a>}
+    {activeTab === 1 && !user && (
+      <form onSubmit={handleSignIn}>
+        <label>
+          Email:
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+        </label>
+        <label>
+          Password:
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+        </label>
+        <button type="submit">Sign In</button>
+      </form>
+    )}
         {activeTab === 1 && <h1>Feature Requests</h1>}
         {activeTab === 1 && <a href="https://forms.gle/abvYHwkbpFnuAQQVA">Feature Request Form</a>}
         {activeTab === 1 && <h1>Bug Reports</h1>}

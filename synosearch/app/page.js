@@ -8,11 +8,14 @@ import Cookies from 'js-cookie';
 import InfoModal from './InfoModal';
 import ThemeSwitch from './ThemeSwitch';
 import { useTheme } from 'next-themes';
+import UserContext from '../contexts/UserContext';
 import { Providers } from './providers';
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
 import Exa from 'exa-js';
 import SynoSearchModal from './SynoSearchModal'; // Adjust path as necessary
+import { createClient } from '@supabase/supabase-js'
 
+const supabase = createClient(process.env.supabase_url, process.env.anon_key)
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -35,6 +38,8 @@ export default function Page() {
   const [isMobileView, setIsMobileView] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [isSynoSearchModalOpen, setIsSynoSearchModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
 
 
   useEffect(() => {
@@ -315,9 +320,6 @@ export default function Page() {
             <option value="SynoSearchWide">SynoSearch:Wide</option>
             <option value="SynoSearchScholar">SynoSearch:Scholar</option>
             <option value="SynoSearchExa">SynoSearch:Exa</option>
-            <option value="google">Google</option>
-            <option value="googleScholar">Google Scholar</option>
-            <option value="bing">Bing</option>
           </select>
           {searchString && (
             <button onClick={(e) => {
@@ -357,7 +359,9 @@ export default function Page() {
         onClose={() => setIsSynoSearchModalOpen(false)}
         content={searchString} // Ensure this variable holds the generated SynoSearch content
       />
+      <UserContext.Provider value={{ user, setUser }}>
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} redditSearch={redditSearch} setRedditSearch={setRedditSearch} />
+      </UserContext.Provider>
     </RootLayout>
   </Providers>
   );
