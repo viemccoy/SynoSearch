@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes'; // Import the useTheme hook
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
 import UserContext from '../contexts/UserContext';
-import { supabase } from '../supabaseClient'; // Import your Supabase client
 
 
 
