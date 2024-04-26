@@ -9,7 +9,7 @@ import { createClient } from '@supabase/supabase-js'
 
 export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRedditSearch }) {
   
-  const supabase = createClient("https://troxpvtrnpdtflghedri.supabase.co", process.env.anon_key)
+  const supabase = createClient("https://troxpvtrnpdtflghedri.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRyb3hwdnRybnBkdGZsZ2hlZHJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQwOTQ2NzUsImV4cCI6MjAyOTY3MDY3NX0.1YMQdcKlpc9i23ISDVbtKIttZcF_rl-I37dtmCTy32I")
   const { user, setUser, subscriptionLevel, setSubscriptionLevel } = useContext(UserContext);
 
   const [activeTab, setActiveTab] = useState(0);
