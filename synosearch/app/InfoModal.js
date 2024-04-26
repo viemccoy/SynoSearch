@@ -209,6 +209,7 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
             )}
           </button>
       )}
+      {activeTab === 1 && <h1>Account Settings</h1>}
       {activeTab === 1 && user && (
         <div>
           <h2>Welcome, {user}!</h2>
