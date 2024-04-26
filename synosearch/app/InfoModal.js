@@ -1,5 +1,6 @@
 import styles from '../styles/Home.module.css';
 import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useTheme } from 'next-themes'; // Import the useTheme hook
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
 import UserContext from '../contexts/UserContext';
