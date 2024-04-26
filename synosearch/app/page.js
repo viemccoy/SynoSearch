@@ -39,7 +39,8 @@ export default function Page() {
   const [isMobileView, setIsMobileView] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [isSynoSearchModalOpen, setIsSynoSearchModalOpen] = useState(false);
-  const { user, subscriptionLevel } = useContext(UserContext);
+  const [user, setUser] = useState(null);
+  const [subscriptionLevel, setSubscriptionLevel] = useState(null);
   
 
 
@@ -361,7 +362,7 @@ export default function Page() {
         onClose={() => setIsSynoSearchModalOpen(false)}
         content={searchString} // Ensure this variable holds the generated SynoSearch content
       />
-    <UserContext.Provider value={{ user }}> {/* Add supabase here */}
+    <UserContext.Provider value={{ user, setUser, subscriptionLevel, setSubscriptionLevel }}>
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} redditSearch={redditSearch} setRedditSearch={setRedditSearch} />
       </UserContext.Provider>
     </RootLayout>
