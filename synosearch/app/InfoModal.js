@@ -218,6 +218,7 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
         </div>
       )}
     {activeTab === 1 && !user && <a href="https://pro.synosearch.com">No account? Get one here!</a>}
+    {activeTab === 1 && <a></a>}
     {activeTab === 1 && !user && (
       <form onSubmit={handleSignIn}>
         <label>
