@@ -15,13 +15,14 @@ import Exa from 'exa-js';
 import SynoSearchModal from './SynoSearchModal'; // Adjust path as necessary
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(process.env.supabase_url, process.env.anon_key)
+
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default function Page() {
   const [init, setInit] = useState(false);
   const [autoOpenSearch, setAutoOpenSearch] = useState(false);
+  
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
   const [selectedSearchEngine, setSelectedSearchEngine] = useState("SynoSearchWide");
@@ -38,7 +39,8 @@ export default function Page() {
   const [isMobileView, setIsMobileView] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [isSynoSearchModalOpen, setIsSynoSearchModalOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const { user, subscriptionLevel } = useContext(UserContext);
+  
 
 
 
@@ -359,7 +361,7 @@ export default function Page() {
         onClose={() => setIsSynoSearchModalOpen(false)}
         content={searchString} // Ensure this variable holds the generated SynoSearch content
       />
-      <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user }}> {/* Add supabase here */}
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} redditSearch={redditSearch} setRedditSearch={setRedditSearch} />
       </UserContext.Provider>
     </RootLayout>

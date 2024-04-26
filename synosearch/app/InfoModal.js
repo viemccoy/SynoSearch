@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes'; // Import the useTheme hook
 import { ThemeContext } from './ThemeContext'; // Adjust the path according to your project structure
 import UserContext from '../contexts/UserContext';
+import { createClient } from '@supabase/supabase-js'
 
 
 
 export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRedditSearch }) {
   
-  const { user, setUser } = useContext(UserContext);
+  const supabase = createClient(process.env.supabase_url, process.env.anon_key)
+  const { user, setUser, subscriptionLevel, setSubscriptionLevel } = useContext(UserContext);
+
   const [activeTab, setActiveTab] = useState(0);
   const { theme, setTheme } = useTheme(); // Get the current theme and setTheme function
   const [email, setEmail] = useState('');
@@ -20,25 +23,26 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
-    const { data, error } = await supabase.auth.signIn({
+  
+    const { error } = await supabase.auth.signIn({
       email: email,
       password: password,
     });
-
+  
     if (error) {
       console.error('Error signing in:', error);
       return;
     }
-
+  
     // After signing in, update the user's account information
     const { data: userInfo, error: userError } = await supabase.auth.getUserIdentities();
     if (userError) {
       console.error('Error getting user info:', userError);
       return;
     }
-
+  
     setUser(userInfo);
+    setSubscriptionLevel(userInfo.subscriptionLevel); // Update the subscription level
   };
 
   
