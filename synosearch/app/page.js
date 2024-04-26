@@ -14,14 +14,17 @@ import { ThemeContext } from './ThemeContext'; // Adjust the path according to y
 import Exa from 'exa-js';
 import SynoSearchModal from './SynoSearchModal'; // Adjust path as necessary
 import { createClient } from '@supabase/supabase-js'
-
-
+import UpgradeModal from './UpgradeModal';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default function Page() {
   const [init, setInit] = useState(false);
   const [autoOpenSearch, setAutoOpenSearch] = useState(false);
+  const [remainingSearches, setRemainingSearches] = useState(() => {
+    const savedSearches = localStorage.getItem('remainingSearches');
+    return savedSearches !== null ? Number(savedSearches) : 50;
+  });
   
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
@@ -41,9 +44,16 @@ export default function Page() {
   const [isSynoSearchModalOpen, setIsSynoSearchModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [subscriptionLevel, setSubscriptionLevel] = useState(null);
-  
+  const [isUpgradeOpen, setUpgradeOpen] = useState(false);
+  useEffect(() => {
+    localStorage.setItem('remainingSearches', remainingSearches);
+  }, [remainingSearches]);
 
-
+  useEffect(() => {
+    if (user === null) {
+      setSubscriptionLevel('free');
+    }
+  }, [user]);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -95,6 +105,12 @@ export default function Page() {
       }
     }
   }, [isWideView, selectedSearchEngine, searchString]);
+
+  useEffect(() => {
+    if (remainingSearches === 0 && subscriptionLevel === 'free') {
+      setUpgradeOpen(true);
+    }
+  }, [remainingSearches, subscriptionLevel]);
 
   // This useEffect hook runs when autoOpenSearch state changes
   useEffect(() => {
@@ -159,6 +175,10 @@ export default function Page() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (subscriptionLevel === 'free' && remainingSearches === 0) {
+      setUpgradeOpen(true);
+      return;
+    }
     const selectedEngine = e.target.searchEngine.value;
     setSelectedSearchEngine(selectedEngine); // Store the selected engine in state
     const exa_prompt = "Rephrase user search query into an efficient, properly formatted, higher information search query using advanced techniques. The search query should be phrased as though you are pointing the user in the right direction followed by an unknown link. You MUST intelligently identify all key terms in the search, and at minimum one synonym for each key term. ONLY return a single sentence beginning with what the user should do and ALWAYS ending with a colon. You should generate a series of key terms, synonyms, and related terms linked by advanced methods and phrase as though you are pointing out the existing location of a link. The link will be added automatically, so do not include a placeholder or any information about the link - you should only end with a colon. Focus on rare or unknown synonyms for depth and breadth of results. Only filter by location if specified.";
@@ -199,6 +219,10 @@ export default function Page() {
     if (!response.ok) {
       setError('Error making prediction');
       return;
+    }
+
+    if (response.ok && subscriptionLevel === 'free') {
+      setRemainingSearches(prevSearches => prevSearches > 0 ? prevSearches - 1 : 0);
     }
     
     // Use data directly instead of prediction state
@@ -285,15 +309,15 @@ export default function Page() {
         </a>
       <form className={`${styles.form} ${isWideView ? styles.wideViewForm : styles.formContainer} `} onSubmit={(e) => handleSubmit(e)}>        
       <div className={`${isWideView ? styles.inputGroupWide : styles.inputGroup} `}>
-        <input 
-          type="text" 
-          name="prompt" 
-          placeholder="Enter a question" 
-          className={`${styles.promptInput} `} 
-          maxLength="200"
-          onChange={handleInputChange} // Reset sameSearchCount when user starts editing
-          autoFocus 
-        />
+      <input 
+        type="text" 
+        name="prompt" 
+        placeholder={subscriptionLevel === 'free' ? `Enter a question - ${remainingSearches}/50 free searches remaining` : 'Enter a question'} 
+        className={`${styles.promptInput} `} 
+        maxLength="200"
+        onChange={handleInputChange} // Reset sameSearchCount when user starts editing
+        autoFocus 
+      />
           <div className={`${styles.btnContainer} `}>
             <button type="submit" className={`${styles.btn} `}>
               Go
@@ -364,6 +388,7 @@ export default function Page() {
       />
     <UserContext.Provider value={{ user, setUser, subscriptionLevel, setSubscriptionLevel }}>
       <InfoModal isInfoOpen={isInfoOpen} setInfoOpen={setInfoOpen} redditSearch={redditSearch} setRedditSearch={setRedditSearch} />
+      <UpgradeModal isUpgradeOpen={isUpgradeOpen} setUpgradeOpen={setUpgradeOpen} />
       </UserContext.Provider>
     </RootLayout>
   </Providers>
