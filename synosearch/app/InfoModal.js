@@ -187,28 +187,31 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
         {activeTab === 0 && <div>Google, Google Scholar, and Bing all use the standard SynoSearch model and open in new tabs respectively.</div>}
         {activeTab === 0 && <h1>SynoSettings</h1>}
         {activeTab === 0 && (
-        <label>
-        Reddit Mode (Only Searches Reddit):
-          <input type="checkbox" checked={redditSearch} onChange={() => setRedditSearch(prevState => !prevState)} />
-        </label>
-        ) }
+          <div>
+            <label>
+              Reddit Mode (Only Searches Reddit):
+              <input type="checkbox" checked={redditSearch} onChange={() => setRedditSearch(prevState => !prevState)} />
+            </label>
+          </div>
+        )}
         {activeTab === 0 && (
-          <button
-          className={`${styles.infoSettingsButton} ${styles.darkModeButton}`}
-          onClick={() => {
-            const newTheme = theme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);  // Use setTheme prop instead of useTheme().setTheme
-          }}
-          style={{ position: 'absolute', bottom: '10px', left: '10px' }}
-        >
-            {/* Icon changes based on the current theme */}
-            {theme === 'dark' ? (
-              <img src="/sun.svg" alt="Light Mode" className={styles.infoSettingsImage} />
-            ) : (
-              <img src="/moon.svg" alt="Dark Mode" className={styles.infoSettingsImage} />
-            )}
-          </button>
-      )}
+          <div>
+            <button
+              className={`${styles.infoSettingsButton} ${styles.darkModeButton}`}
+              onClick={() => {
+                const newTheme = theme === 'dark' ? 'light' : 'dark';
+                setTheme(newTheme);
+              }}
+              style={{ position: 'relative', bottom: '0px', left: '0px', top: '20px' }}
+            >
+              {theme === 'dark' ? (
+                <img src="/sun.svg" alt="Light Mode" className={styles.infoSettingsImage} />
+              ) : (
+                <img src="/moon.svg" alt="Dark Mode" className={styles.infoSettingsImage} />
+              )}
+            </button>
+          </div>
+        )}
       {activeTab === 1 && <h1>Account Settings</h1>}
       {activeTab === 1 && user && (
         <div>
