@@ -224,14 +224,18 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
     {activeTab === 1 && <a></a>}
     {activeTab === 1 && !user && (
       <form onSubmit={handleSignIn}>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-        </label>
-        <label>
-          Password:
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-        </label>
+        <div>
+          <label>
+            Email:
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+          </label>
+        </div>
+        <div>
+          <label>
+            Password:
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+          </label>
+        </div>
         <button type="submit">Sign In</button>
       </form>
     )}
