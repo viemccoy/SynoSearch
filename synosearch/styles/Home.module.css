@@ -385,8 +385,15 @@
   border-radius: 0.25rem;
   padding: 1rem;
   z-index: 1000;
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 100vh; /* Set maximum height to viewport height */
 }
-
+@media (max-width: 600px) {
+  .infoModal {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+}
 .closeButton {
   position: absolute;
   top: 0;
