@@ -181,10 +181,9 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
           Most useful when aiding in the creative literature review process, SynoSearch doesn't ask you to change your habits. There's no chat, just a subtle AI-powered search improvement.
           SynoSearch is the ultimate research tool, and helps you to get better results with less searches.</div>}
         {activeTab === 0 && <h1>Model and Engine Information</h1>}
-        {activeTab === 0 && <div>SynoSearch:Wide uses the standard SynoSearch model and delivers same-page results from Google.</div>}
+        {activeTab === 0 && <div>SynoSearch:Wide uses the standard SynoSearch model and delivers results from Google.</div>}
         {activeTab === 0 && <div>SynoSearch:Scholar uses the standard SynoSearch model and delivers scholarly results from OpenAlex.</div>}
         {activeTab === 0 && <div>SynoSearch:Exa uses the SynoSearch custom auto-prompter model and delivers scholarly results from Exa AI.</div>}
-        {activeTab === 0 && <div>Google, Google Scholar, and Bing all use the standard SynoSearch model and open in new tabs respectively.</div>}
         {activeTab === 0 && <h1>SynoSettings</h1>}
         {activeTab === 0 && (
           <div>
