@@ -183,7 +183,6 @@ export default function InfoModal({ isInfoOpen, setInfoOpen, redditSearch, setRe
         {activeTab === 0 && <h1>Model and Engine Information</h1>}
         {activeTab === 0 && <div>SynoSearch:Wide uses the standard SynoSearch model and delivers results from Google.</div>}
         {activeTab === 0 && <div>SynoSearch:Scholar uses the standard SynoSearch model and delivers scholarly results from OpenAlex.</div>}
-        {activeTab === 0 && <div>SynoSearch:Exa uses the SynoSearch custom auto-prompter model and delivers scholarly results from Exa AI.</div>}
         {activeTab === 0 && <h1>SynoSettings</h1>}
         {activeTab === 0 && (
           <div>

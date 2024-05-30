@@ -348,7 +348,6 @@ export default function Page() {
           <select name="searchEngine" className={`${styles.customSelector} `} onChange={handleSearchEngineChange}>
             <option value="SynoSearchWide">SynoSearch:Wide</option>
             <option value="SynoSearchScholar">SynoSearch:Scholar</option>
-            <option value="SynoSearchExa">SynoSearch:Exa</option>
           </select>
           {searchString && (
             <button onClick={(e) => {
